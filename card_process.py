@@ -66,7 +66,7 @@ def init_card_deck(random_control:bool=None):
     card_deck = []
     deck_index = 0
     if random_control == True:
-        card_type_number = [random.randint(5,10),random.randint(3,5),random.randint(1,5)]
+        card_type_number = [random.randint(9,15),random.randint(3,5),random.randint(3,5)]
     else:
         card_type_number = params.card_type_number
     
