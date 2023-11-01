@@ -27,7 +27,7 @@ def set_enemy(enemy):
     enemy.magic = enemy.max_magic
     return enemy
 
-def set_player(main_role,choose,add_value):
+def set_player(main_role,choose,add_value,new_card=None):
     if choose == 'hp':
         main_role.max_hp += add_value
         main_role.money += random.randint(50,100)
@@ -50,7 +50,7 @@ def set_player(main_role,choose,add_value):
         main_role.money += params.add_pass_money
         logging.info(main_role.name+'放棄選擇 ， 獲得錢幣 +200 !')
     else:
-        logging.info(main_role.name+' 選擇特殊卡 !')
+        logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name)
     main_role.hp = main_role.max_hp
     main_role.magic = main_role.max_magic
     return main_role
@@ -96,7 +96,7 @@ def game_(win,font_list,GAME_CONTROL):
         player_money_text = font_list[0].render("Money: "+str(main_role.money), True, YELLOW)
         player_value_text = font_list[0].render("Damage: "+str(main_role.damage_buff)+'\nDef: '
                                         +str(main_role.defense_buff)+'\nHeal: '+str(main_role.heal_buff), True, PURPLE)
-        win.blit(player_hp_text, (75, 140))
+        win.blit(player_hp_text, (80, 140))
         win.blit(player_de_text, (170, 140))
         win.blit(player_mp_text, (240, 140))
         win.blit(player_money_text, (755, 500))
@@ -107,7 +107,7 @@ def game_(win,font_list,GAME_CONTROL):
         enemy_mp_text = font_list[0].render("MP: "+str(enemy.magic), True, BLACK)
         enemy_value_text = font_list[0].render("Damage: "+str(enemy.damage_buff)+'\nDef: '
                                         +str(enemy.defense_buff)+'\nHeal: '+str(enemy.heal_buff), True, PURPLE)
-        win.blit(enemy_hp_text, (580, 140))
+        win.blit(enemy_hp_text, (585, 140))
         win.blit(enemy_de_text, (685, 140))
         win.blit(enemy_mp_text, (750, 140))
         win.blit(enemy_value_text, (780, 200))
@@ -181,6 +181,9 @@ def game_(win,font_list,GAME_CONTROL):
                             case 'turtle':
                                 main_role.buff.append({'turtle':[main_card.lasting,1]})
                                 check_person_buff(main_role,enemy,'turtle')
+                            case 'keep_heal':
+                                main_role.buff.append({'keep_heal':[main_card.lasting,1]})
+                                check_person_buff(main_role,enemy,'keep_heal')
                         logging.info(main_role.name+' 打出 '+main_card.name+' '+str(max(main_card.do_to_other+main_role.damage_buff,main_card.do_for_self+main_role.defense_buff))+' | '
                                 +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
                                 +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' de_b '+str(main_role.defense_buff)+' Buff '+str(main_role.buff)+'\n'
@@ -243,6 +246,9 @@ def game_(win,font_list,GAME_CONTROL):
                                 case 'turtle':
                                     enemy.buff.append({'turtle':[card.lasting,1]})
                                     check_person_buff(enemy,main_role,'turtle')
+                                case 'keep_heal':
+                                    enemy.buff.append({'keep_heal':[card.lasting,1]})
+                                    check_person_buff(enemy,main_role,'keep_heal')
                             logging.info(enemy.name+' 打出 '+card.name+' '+str(max(card.do_to_other+enemy.damage_buff,card.do_for_self))+' | '
                                         +'剩餘卡牌:'+str(len(enemy_remain_deck))+' | 用過卡牌:'+str(len(enemy_used_cards))+' \n'
                                         +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' Mp '+str(main_role.magic)+' Buff '+str(main_role.buff)+'\n'
@@ -276,11 +282,12 @@ def game_(win,font_list,GAME_CONTROL):
             enemy_used_cards = []
 
             enemy = set_enemy(enemy)
-            main_role = set_player(main_role,chose_buff,add_value)
+            main_role = set_player(main_role,chose_buff,add_value,new_card)
             GAME_CONTROL = True
         else:
             over_text = font_list[1].render("Game Over", True, RED)
-            win.blit(over_text, (280, 300))
-            time.sleep(1)
+            win.blit(over_text, (300, 300))
+            pygame.display.update()
+            time.sleep(3)
             running = False
         pygame.display.flip()

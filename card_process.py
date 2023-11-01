@@ -54,7 +54,7 @@ def init_card_deck(random_control:bool=None):
     card_deck = []
     deck_index = 0
     if random_control == True:
-        card_type_number = [random.randint(2,10),random.randint(2,5),random.randint(1,5)]
+        card_type_number = [random.randint(5,10),random.randint(3,5),random.randint(1,5)]
     else:
         card_type_number = params.card_type_number
     
@@ -92,9 +92,19 @@ def check_person_buff(person,enemy,card_type=None):
                                 person.defense_buff-=2
                                 person.heal_buff-=2
                                 person.buff.pop(i)
+                        case 'keep_heal':
+                            person.hp+=(person.heal_buff)*2
+                            buff['keep_heal'][0]-=1
+                            if buff['keep_heal'][0] == 0:
+                                person.buff.pop(i)    
                 else:
-                    if buff[card_type][1] > 0:
-                        person.defense_buff+=2
-                        person.heal_buff+=2
-                        buff[card_type][1]-=1    
+                    if card_type == 'turtle':
+                        if buff[card_type][1] > 0:
+                            person.defense_buff+=2
+                            person.heal_buff+=2
+                            buff[card_type][1]-=1
+                    if card_type == 'keep_heal':
+                        if buff[card_type][1] > 0:
+                            person.hp+=(person.heal_buff)*2
+                            buff[card_type][1]-=1
     return person

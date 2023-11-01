@@ -25,12 +25,13 @@ def choose_normal(win,font_list,rounds):
     options = [add_hp,add_value]
     out_option = []
     chose_option = []
+    out_card = []
     if rounds % 5 == 0:
         new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
     else:
         new_card_deck = random.choices(normal_deck,k=3)
     options.extend(new_card_deck)
-    out_option = random.choices(options,weights=[0.45,0.1,0.15,0.15,0.15],k=3)
+    out_option = random.choices(options,weights=[0.4,0.15,0.15,0.15,0.15],k=3)
         
     while choosing:
         win.blit(bg.bg_big, bg.rect)
@@ -69,6 +70,7 @@ def choose_normal(win,font_list,rounds):
                 card_text2 = font_list[0].render(op.special, True, BLACK)
                 win.blit(card_text2, (start_x[i]-20, 400))
                 chose_option.append('card')
+                out_card.append(op)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -88,11 +90,11 @@ def choose_normal(win,font_list,rounds):
                         value = add_value
                     case 'card':
                         if pos[0] >= 50 and pos[0] <= 250:
-                            chose_card = new_card_deck[0]
+                            chose_card = out_card[0]
                         elif pos[0] >= 350 and pos[0] <= 550:
-                            chose_card = new_card_deck[1]
+                            chose_card = out_card[1]
                         else:
-                            chose_card = new_card_deck[2]
+                            chose_card = out_card[2]
                 choosing = False
         pygame.display.flip()
     return choose_buff,value,chose_card

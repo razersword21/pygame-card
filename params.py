@@ -16,7 +16,8 @@ class Special_card():
     normal_deck = [Vampire_card,magic_card,drop_card,fire_card,return_card,knife_card,turtle_card] # 
 
     guard_card = Card(-1,'神聖之盾','guard',2,0,2,0,'獲得自身防禦增強\n 2倍的盾')
-    high_level_deck = [guard_card]
+    keep_heal = Card(-1,"回春",'keep_heal',2,0,2,2,'持續回自身治癒增強\n  *2的血量\n  2回合')
+    high_level_deck = [guard_card,keep_heal]
 
 class params():
     
@@ -26,4 +27,4 @@ class params():
     add_pass_money = 200
     card_name_list = ['攻擊','防禦','治癒']
     card_type_list = ['attack','defense','heal']
-    card_type_number = [5,3,0]
+    card_type_number = [5,0,0]
