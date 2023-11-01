@@ -16,8 +16,9 @@ def main():
     pygame.init()
     pygame.display.set_caption('無限地牢')  # 遊戲標題
     win = pygame.display.set_mode((900, 600))  # 窗口尺寸
-    hp_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 32)
-    
+    base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 32)
+    title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 74)
+    all_font = [base_font,title_font]
     intro = Intro(900, 600)
     show_intro = True
     while show_intro:
@@ -25,11 +26,11 @@ def main():
 
         start_btn = pygame.Rect(350, 555, 70, 30) 
         pygame.draw.rect(win, WHITE , start_btn)
-        btn_text = hp_font.render("Start", True, RED)
+        btn_text = base_font.render("Start", True, RED)
         win.blit(btn_text, (355, 560))
         quit_btn = pygame.Rect(450, 555, 70, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
-        quit_text = hp_font.render("Quit", True, WHITE)
+        quit_text = base_font.render("Quit", True, WHITE)
         win.blit(quit_text, (455, 560))
         
         for event in pygame.event.get():
@@ -40,7 +41,7 @@ def main():
                 pos = pygame.mouse.get_pos()
                 if start_btn.collidepoint(pos):
                     GAME_CONTROL = True
-                    game_(win,hp_font,GAME_CONTROL)
+                    game_(win,all_font,GAME_CONTROL)
                 if quit_btn.collidepoint(pos):
                     pygame.quit()
                     sys.exit()

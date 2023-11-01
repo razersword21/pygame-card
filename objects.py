@@ -6,6 +6,7 @@ WHITE = (255,255,255)
 BLACK = (0,0,0)
 GREEN = (0,255,0)
 PURPLE = (116,0,179)
+YELLOW = (255,255,0)
 
 class Intro(pygame.sprite.Sprite):
   def __init__(self,x,y):
@@ -112,3 +113,8 @@ class Card(pygame.sprite.Sprite):
             win.blit(card_number_text,(statr_x+20+next_card+5,540+5))
             card_last_text = FONT.render('Absorb: '+str(self.do_to_other), True, BLUE)
             win.blit(card_last_text,(statr_x+20+next_card+5,580+5))
+          
+          case 'little_knife'|'knife':
+            card_number_text = FONT.render(self.special, True, RED)
+            win.blit(card_number_text,(statr_x+10+next_card+5,530+5))
+          
