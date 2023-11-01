@@ -90,32 +90,32 @@ class Card(pygame.sprite.Sprite):
       
     def draw(self,win,bgcolor,color,index,FONT,statr_x=100):
         next_card = index*100
-        pygame.draw.rect(win,bgcolor,(statr_x+next_card, 450, 110, 150))
-        pygame.draw.rect(win,color,(statr_x+next_card+5, 450+5, 100, 140)) 
+        pygame.draw.rect(win,bgcolor,(statr_x+next_card, 400, 110, 150))
+        pygame.draw.rect(win,color,(statr_x+next_card+5, 400+5, 100, 140)) 
         card_name_text = FONT.render(str(self.name), True, BLACK)
-        win.blit(card_name_text,(statr_x+20+next_card+5,480+5))
+        win.blit(card_name_text,(statr_x+20+next_card+5,430+5))
         card_cost_text = FONT.render('Cost '+str(self.cost), True, BLACK)
-        win.blit(card_cost_text,(statr_x+20+next_card+5,510+5))
+        win.blit(card_cost_text,(statr_x+20+next_card+5,460+5))
         match self.type:
           case 'attack':
             card_number_text = FONT.render(str(self.do_to_other), True, RED)
-            win.blit(card_number_text,(statr_x+45+next_card+5,540+5))
+            win.blit(card_number_text,(statr_x+45+next_card+5,490+5))
           case 'defense'|'heal':
             card_number_text = FONT.render(str(self.do_for_self), True, GREEN)
-            win.blit(card_number_text,(statr_x+45+next_card+5,540+5))
+            win.blit(card_number_text,(statr_x+45+next_card+5,490+5))
           case 'fire':
             card_number_text = FONT.render(str(self.do_to_other), True, RED)
-            win.blit(card_number_text,(statr_x+45+next_card+5,540+5))
+            win.blit(card_number_text,(statr_x+45+next_card+5,490+5))
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
-            win.blit(card_last_text,(statr_x+20+next_card+5,580+5))
+            win.blit(card_last_text,(statr_x+20+next_card+5,530+5))
           case 'vampire'|'absorb':
             card_number_text = FONT.render('吸: '+str(self.do_to_other), True, PURPLE)
-            win.blit(card_number_text,(statr_x+10+next_card+5,540+5))
+            win.blit(card_number_text,(statr_x+10+next_card+5,490+5))
             card_last_text = FONT.render('Get: '+str(self.do_to_other), True, BLUE)
-            win.blit(card_last_text,(statr_x+10+next_card+5,560+5))
+            win.blit(card_last_text,(statr_x+10+next_card+5,510+5))
           case 'little_knife'|'knife':
             card_number_text = FONT.render(self.special, True, RED)
-            win.blit(card_number_text,(statr_x+10+next_card+5,530+5))
+            win.blit(card_number_text,(statr_x+10+next_card+5,480+5))
           case 'turtle':
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
-            win.blit(card_last_text,(statr_x+20+next_card+5,540+5))
+            win.blit(card_last_text,(statr_x+20+next_card+5,490+5))

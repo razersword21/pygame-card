@@ -3,24 +3,24 @@ import random
 from objects import *
 from card_process import *
 from params import *
+from shop import *
 
 special_deck = Special_card()
 normal_deck = special_deck.normal_deck
 high_level_deck = special_deck.high_level_deck
-param = params
 
-def choose_normal(win,font_list,rounds):
+def choose_(win,font_list,rounds,person):
     bg = BG(900, 600)
     choose_buff = ''
     choosing = True
     value,add_hp = 0,0
     chose_card = None
     if rounds % 5 != 0:
-        add_hp = param.add_hp
-        add_value = param.add_value
+        add_hp = params.add_hp
+        add_value = params.add_value
     else:
-        add_hp = param.add_hp*2
-        add_value = param.add_value*2       
+        add_hp = params.add_hp*2
+        add_value = params.add_value*2       
     
     options = [add_hp,add_value]
     out_option = []
@@ -37,6 +37,10 @@ def choose_normal(win,font_list,rounds):
         win.blit(bg.bg_big, bg.rect)
         menu_text = font_list[1].render("--選擇獎勵--", True, BLACK)
         win.blit(menu_text, (280, 100))
+        shop_btn1 = pygame.Rect(790, 555, 70, 30)
+        pygame.draw.rect(win, YELLOW , shop_btn1)
+        shop_text = font_list[0].render("Shop", True, BLACK)
+        win.blit(shop_text, (795, 560))
 
         choose_btn1 = pygame.Rect(50, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn1)
@@ -96,5 +100,8 @@ def choose_normal(win,font_list,rounds):
                         else:
                             chose_card = out_card[2]
                 choosing = False
+                if shop_btn1.collidepoint(pos):
+                    person = shop(win,font_list,person)
+                    choosing = True
         pygame.display.flip()
-    return choose_buff,value,chose_card
+    return choose_buff,value,chose_card,person

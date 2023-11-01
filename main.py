@@ -25,8 +25,8 @@ def main():
         win.blit(intro.bg_big, intro.rect)
 
         start_btn = pygame.Rect(350, 555, 70, 30) 
-        pygame.draw.rect(win, WHITE , start_btn)
-        btn_text = base_font.render("Start", True, RED)
+        pygame.draw.rect(win, RED , start_btn)
+        btn_text = base_font.render("Start", True, BLACK)
         win.blit(btn_text, (355, 560))
         quit_btn = pygame.Rect(450, 555, 70, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)

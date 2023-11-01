@@ -263,7 +263,7 @@ def game_(win,font_list,GAME_CONTROL):
         elif not GAME_CONTROL and enemy.hp == 0:
             logging.warn('********* Next Round *********')
             rounds += 1
-            chose_buff,add_value,new_card = choose_normal(win,font_list,rounds)
+            chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role)
             if new_card != None:
                 new_card.index = len(init_main_card_deck)
                 init_main_card_deck.append(new_card)
