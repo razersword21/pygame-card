@@ -1,4 +1,4 @@
-# 卡牌遊戲
+# 卡牌遊戲 [beta]
 
 挑戰能到達第幾Rounds
 
@@ -7,3 +7,7 @@ pip install -r requirements.txt
 
 python main.py
 ```
+
+### 遊戲說明
+每次擊敗敵人，可以從隨機3項加成選其中一個，當然敵人也會隨機增強
+商店可購買能力值加成
