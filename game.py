@@ -8,21 +8,20 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def set_enemy(enemy):
-    x = random.randint(0,3)
-    match x:
-        case 0:
-            enemy.max_hp += params.add_hp
-            logging.info(enemy.name+' 對於 hp 增強了!')
-        case 1:
-            enemy.damage_buff += params.add_value
-            logging.info(enemy.name+' 對於 damage 增強了!')
-        case 2:
-            enemy.defense_buff += params.add_value
-            enemy.heal_buff += params.add_value
-            logging.info(enemy.name+' 對於 defense & heal 增強了!')
-        case 3:
-            enemy.max_magic += params.add_value
-            logging.info(enemy.name+' 對於 magic 增強了!')
+    x = random.randint(0,100)
+    if x <= 35:
+        enemy.max_hp += params.add_hp
+        logging.info(enemy.name+' 對於 hp 增強了!')
+    if x > 45 and x < 55:
+        enemy.damage_buff += params.add_value
+        logging.info(enemy.name+' 對於 damage 增強了!')
+    if x >= 55:
+        enemy.defense_buff += params.add_value
+        enemy.heal_buff += params.add_value
+        logging.info(enemy.name+' 對於 defense & heal 增強了!')
+    if x > 35 and x < 45:
+        enemy.max_magic += params.add_value
+        logging.info(enemy.name+' 對於 magic 增強了!')
     enemy.hp = enemy.max_hp
     enemy.magic = enemy.max_magic
     return enemy
@@ -33,15 +32,21 @@ def set_player(main_role,choose,add_value):
         main_role.money += random.randint(50,100)
         logging.info(main_role.name+' 對於 Hp 增強了!')
     elif choose == 'all':
-        main_role.damage_buff += add_value
-        main_role.defense_buff += add_value
-        main_role.heal_buff += add_value
+        y = random.randint(0,2)
+        match y:
+            case 0:
+                main_role.damage_buff += add_value
+                choose = 'damage'
+            case 1:
+                main_role.defense_buff += add_value
+                choose = 'defense'
+            case 2:
+                main_role.heal_buff += add_value
+                choose = 'heal'
         main_role.money += random.randint(50,100)
-        choose = '全屬性'
-        logging.info(main_role.name+' 對於 全屬性 增強了!')
+        logging.info(main_role.name+' 對於 '+choose+' 屬性增強了!')
     elif choose == '':
         main_role.money += params.add_pass_money
-        choose = '錢幣'
         logging.info(main_role.name+'放棄選擇 ， 獲得錢幣 +200 !')
     else:
         logging.info(main_role.name+' 選擇特殊卡 !')
@@ -88,7 +93,7 @@ def game_(win,font_list,GAME_CONTROL):
         player_de_text = font_list[0].render("Def: "+str(main_role.de), True, BLUE)
         player_mp_text = font_list[0].render("MP: "+str(main_role.magic), True, BLACK)
         player_money_text = font_list[0].render("Money: "+str(main_role.money), True, YELLOW)
-        player_value_text = font_list[0].render("Buff:\nDamage: "+str(main_role.damage_buff)+'\nDef: '
+        player_value_text = font_list[0].render("Damage: "+str(main_role.damage_buff)+'\nDef: '
                                         +str(main_role.defense_buff)+'\nHeal: '+str(main_role.heal_buff), True, PURPLE)
         win.blit(player_hp_text, (75, 140))
         win.blit(player_de_text, (170, 140))
@@ -99,7 +104,7 @@ def game_(win,font_list,GAME_CONTROL):
         enemy_hp_text = font_list[0].render("HP: "+str(enemy.hp)+"|"+str(enemy.max_hp), True, RED)
         enemy_de_text = font_list[0].render("Def: "+str(enemy.de), True, BLUE)
         enemy_mp_text = font_list[0].render("MP: "+str(enemy.magic), True, BLACK)
-        enemy_value_text = font_list[0].render("Buff:\nDamage: "+str(enemy.damage_buff)+'\nDef: '
+        enemy_value_text = font_list[0].render("Damage: "+str(enemy.damage_buff)+'\nDef: '
                                         +str(enemy.defense_buff)+'\nHeal: '+str(enemy.heal_buff), True, PURPLE)
         win.blit(enemy_hp_text, (580, 140))
         win.blit(enemy_de_text, (685, 140))
@@ -173,12 +178,12 @@ def game_(win,font_list,GAME_CONTROL):
                                 new_drop = [little_knife,little_knife]
                                 current_cards.extend(new_drop)
                             case 'turtle':
-                                main_role.buff.append({'turtle':[card.lasting,1]})
+                                main_role.buff.append({'turtle':[main_card.lasting,1]})
                                 check_person_buff(main_role,enemy,'turtle')
                         logging.info(main_role.name+' 打出 '+main_card.name+' '+str(max(main_card.do_to_other+main_role.damage_buff,main_card.do_for_self+main_role.defense_buff))+' | '
                                 +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
-                                +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' Mp '+str(main_role.magic)+' Buff '+str(main_role.buff)+'\n'
-                                +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' Mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
+                                +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' de_b '+str(main_role.defense_buff)+' Buff '+str(main_role.buff)+'\n'
+                                +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' de_b '+str(enemy.defense_buff)+' Buff '+str(enemy.buff))
         if GAME_CONTROL:
             if player_turn:
                 for i in range(len(current_cards)):
@@ -188,7 +193,7 @@ def game_(win,font_list,GAME_CONTROL):
                 current_card_index = 0
                 if test == 0:
                     test = 1
-                    logging.info('--Player Turn--')
+                    logging.info('---------------Player Turn---------------')
             else:
                 # 玩家剩餘牌<5從用過的牌拉回
                 if len(main_remain_deck) < main_role.every_drop:
@@ -202,7 +207,7 @@ def game_(win,font_list,GAME_CONTROL):
                 
                 if test == 1:
                     check_person_buff(enemy,main_role)
-                    logging.info('--Enemy Turn--')
+                    logging.info('---------------Enemy Turn---------------')
                     test = 0
                 
                 if enemy.magic > 0:
@@ -221,13 +226,13 @@ def game_(win,font_list,GAME_CONTROL):
                             match card.type:
                                 case 'attack'|'fire'|'vampire'|'absorb':
                                     main_role,enemy = card_effect(main_role,card,enemy)
-                                    if enemy.hp <= 0:
-                                        enemy.hp = 0
+                                    if main_role.hp <= 0:
+                                        main_role.hp = 0
                                         GAME_CONTROL = False
                                 case 'defense'|'heal'|'guard':
                                     enemy,main_role = card_effect(enemy,card,main_role)
-                                    if main_role.hp > params.init_max_hp:
-                                        main_role.hp = params.init_max_hp
+                                    if enemy.hp > params.init_max_hp:
+                                        enemy.hp = params.init_max_hp
                                 case 'return'|'drop':
                                     pass    
                                 case 'knife':
@@ -235,7 +240,7 @@ def game_(win,font_list,GAME_CONTROL):
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)
                                 case 'turtle':
-                                    main_role.buff.append({'turtle':[card.lasting,1]})
+                                    enemy.buff.append({'turtle':[card.lasting,1]})
                                     check_person_buff(enemy,main_role,'turtle')
                             logging.info(enemy.name+' 打出 '+card.name+' '+str(max(card.do_to_other+enemy.damage_buff,card.do_for_self))+' | '
                                         +'剩餘卡牌:'+str(len(enemy_remain_deck))+' | 用過卡牌:'+str(len(enemy_used_cards))+' \n'
@@ -249,7 +254,7 @@ def game_(win,font_list,GAME_CONTROL):
                     check_person_buff(main_role,enemy)
 
         elif not GAME_CONTROL and enemy.hp == 0:
-            logging.warn('Next Round!')
+            logging.warn('********* Next Round *********')
             rounds += 1
             chose_buff,add_value,new_card = choose_normal(win,font_list,rounds)
             if new_card != None:
@@ -261,9 +266,9 @@ def game_(win,font_list,GAME_CONTROL):
             current_cards = random.sample(main_remain_deck,main_role.every_drop)
             
             init_enemy_card_deck = init_card_deck(True)
-            if rounds % 5 != 0:
+            if rounds % 3 != 0:
                 new_add_enemy_card.append(random.choice(enemy_normal_deck))
-            else:
+            if rounds % 10 != 0:
                 new_add_enemy_card.append(random.choice(enemy_high_level_deck))
             enemy_remain_deck = init_enemy_card_deck.copy()
             enemy_remain_deck = enemy_remain_deck+new_add_enemy_card

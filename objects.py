@@ -109,12 +109,13 @@ class Card(pygame.sprite.Sprite):
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
             win.blit(card_last_text,(statr_x+20+next_card+5,580+5))
           case 'vampire'|'absorb':
-            card_number_text = FONT.render('Damage: '+str(self.do_to_other), True, PURPLE)
-            win.blit(card_number_text,(statr_x+20+next_card+5,540+5))
-            card_last_text = FONT.render('Absorb: '+str(self.do_to_other), True, BLUE)
-            win.blit(card_last_text,(statr_x+20+next_card+5,580+5))
-          
+            card_number_text = FONT.render('吸: '+str(self.do_to_other), True, PURPLE)
+            win.blit(card_number_text,(statr_x+5+next_card+5,540+5))
+            card_last_text = FONT.render('Get: '+str(self.do_to_other), True, BLUE)
+            win.blit(card_last_text,(statr_x+5+next_card+5,580+5))
           case 'little_knife'|'knife':
             card_number_text = FONT.render(self.special, True, RED)
             win.blit(card_number_text,(statr_x+10+next_card+5,530+5))
-          
+          case 'turtle':
+            card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
+            win.blit(card_last_text,(statr_x+20+next_card+5,540+5))
