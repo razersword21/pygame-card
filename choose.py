@@ -66,7 +66,7 @@ def choose_normal(win,font_list,rounds):
                 card_text1 = font_list[0].render(op.name, True, BLACK)
                 win.blit(card_text1, (start_x[i], 340))
                 card_text2 = font_list[0].render(op.special, True, BLACK)
-                win.blit(card_text2, (start_x[i]-40, 400))
+                win.blit(card_text2, (start_x[i]-20, 400))
                 chose_option.append('card')
 
         for event in pygame.event.get():
