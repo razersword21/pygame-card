@@ -60,6 +60,7 @@ def set_player(main_role,choose,add_value,new_card=None):
 def game_(win,font_list,GAME_CONTROL):
     bg = BG(900, 600)
     rounds = 0
+    clock = pygame.time.Clock()
     
     chose_buff = []
     enemy = Enemy(params.init_max_hp,params.init_max_de,params.init_max_magic)
@@ -115,31 +116,22 @@ def game_(win,font_list,GAME_CONTROL):
         win.blit(enemy_value_text, (780, 200))
 
         next_turn_btn = pygame.Rect(750, 555, 110, 30) 
-        next_turn_down_btn = pygame.Rect(750, 555, 110, 30) 
-        if next_turn_btn_press_down:
-            pygame.draw.rect(win, RED , next_turn_btn)
-        else:
-            pygame.draw.rect(win, BLUE , next_turn_down_btn)
+        pygame.draw.rect(win, RED , next_turn_btn)
 
-        btn_text = font_list[0].render("Next Turn", True, WHITE)
+        btn_text = font_list[0].render("Next Turn", True, BLACK)
         win.blit(btn_text, (755, 560))
         quit_btn = pygame.Rect(820, 20, 65, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = font_list[0].render("Quit", True, WHITE)
         win.blit(quit_text, (825, 20))
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONUP:
-                next_turn_btn_press_down = True
-            if event.type == pygame.MOUSEBUTTONDOWN:
+                sys.exit()          
+            if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if next_turn_btn.collidepoint(pos):
                     player_turn = False
-                    next_turn_btn_press_down = False
-                    main_role.magic = main_role.max_magic
                 if quit_btn.collidepoint(pos):
                     running = False
                 
@@ -261,9 +253,19 @@ def game_(win,font_list,GAME_CONTROL):
                                         +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' Mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
                         else:
                             logging.info("Enemy not use current card, drop new one.")
+                        # enemy_action = (enemy.name+' 打出 '+card.name+' '+str(max(card.do_to_other+enemy.damage_buff,card.do_for_self))+
+                        #                 ' | '+'剩餘卡牌:'+str(len(enemy_remain_deck))+' | 用過卡牌:'+str(len(enemy_used_cards))+' \n'
+                        #                 +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' Mp '+
+                        #                 str(main_role.magic)+' Buff '+str(main_role.buff)+'\n'+enemy.name+' 狀態: Hp '+str(enemy.hp)+
+                        #                 ' De '+str(enemy.de)+' Mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
+                        # quit_text = font_list[0].render(enemy_action, True, WHITE)
+                        # win.blit(quit_text, (150, 650))
+                        # pygame.display.update()
+                        # time.sleep(2)
                 else:
                     player_turn = True
                     enemy.magic = enemy.max_magic
+                    main_role.magic = main_role.max_magic
                     check_person_buff(main_role,enemy)
 
         elif not GAME_CONTROL and enemy.hp == 0:
@@ -279,7 +281,7 @@ def game_(win,font_list,GAME_CONTROL):
             current_cards = random.sample(main_remain_deck,main_role.every_drop)
             
             init_enemy_card_deck = init_card_deck(True)
-            if rounds % 3 != 0:
+            if rounds % 5 != 0:
                 new_add_enemy_card.append(random.choice(enemy_normal_deck))
             if rounds % 10 != 0:
                 new_add_enemy_card.append(random.choice(enemy_high_level_deck))
@@ -296,5 +298,6 @@ def game_(win,font_list,GAME_CONTROL):
             pygame.display.update()
             time.sleep(3)
             running = False
-            logging.warn('你打到 Round: '+rounds)
+            logging.warn('你打到 Round: '+str(rounds))
         pygame.display.flip()
+        clock.tick(40)

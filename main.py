@@ -16,8 +16,9 @@ def main():
     pygame.init()
     pygame.display.set_caption('無限地牢')  # 遊戲標題
     win = pygame.display.set_mode((900, 600))  # 窗口尺寸
+    
     base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 32)
-    title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 74)
+    title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 80)
     all_font = [base_font,title_font]
     intro = Intro(900, 600)
     show_intro = True

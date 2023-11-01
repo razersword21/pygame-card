@@ -36,7 +36,7 @@ def shop(win,font_list,person):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 shop_activate = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if (person.money - 300) >= 0: 
                     person.money -= 300

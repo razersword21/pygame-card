@@ -19,7 +19,6 @@ class Special_card():
 
     guard_card = Card(-1,'神聖之盾','guard',2,0,2,0,'獲得自身防禦增強\n 2倍的盾')
     keep_heal = Card(-1,"回春",'keep_heal',2,0,2,2,'持續回自身治癒增強\n  *2的血量\n  2回合')
-    
     high_level_deck = [guard_card,keep_heal]
 
 class params():

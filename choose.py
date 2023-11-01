@@ -79,7 +79,7 @@ def choose_(win,font_list,rounds,person):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 choosing = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if choose_btn1.collidepoint(pos):
                     choose_buff = chose_option[0]
