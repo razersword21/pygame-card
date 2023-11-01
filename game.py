@@ -1,5 +1,6 @@
 import pygame,sys
 import random
+import time
 from objects import *
 from card_process import *
 from choose import *
@@ -109,7 +110,7 @@ def game_(win,font_list,GAME_CONTROL):
         win.blit(enemy_hp_text, (580, 140))
         win.blit(enemy_de_text, (685, 140))
         win.blit(enemy_mp_text, (750, 140))
-        win.blit(player_value_text, (780, 200))
+        win.blit(enemy_value_text, (780, 200))
 
         next_turn_btn = pygame.Rect(750, 555, 110, 30) 
         next_turn_down_btn = pygame.Rect(750, 555, 110, 30) 
@@ -277,5 +278,9 @@ def game_(win,font_list,GAME_CONTROL):
             enemy = set_enemy(enemy)
             main_role = set_player(main_role,chose_buff,add_value)
             GAME_CONTROL = True
-
+        else:
+            over_text = font_list[1].render("Game Over", True, RED)
+            win.blit(over_text, (280, 300))
+            time.sleep(1)
+            running = False
         pygame.display.flip()

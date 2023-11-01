@@ -25,12 +25,13 @@ def choose_normal(win,font_list,rounds):
     options = [add_hp,add_value]
     out_option = []
     chose_option = []
-    new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
+    if rounds % 5 == 0:
+        new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
+    else:
+        new_card_deck = random.choices(normal_deck,k=3)
     options.extend(new_card_deck)
-    for i in range(3):
-        ops = random.choices(options,weights=[0.3,0.1,0.2,0.2,0.2])
-        out_option.append(ops[0])
-
+    out_option = random.choices(options,weights=[0.45,0.1,0.15,0.15,0.15],k=3)
+        
     while choosing:
         win.blit(bg.bg_big, bg.rect)
         menu_text = font_list[1].render("--選擇獎勵--", True, BLACK)

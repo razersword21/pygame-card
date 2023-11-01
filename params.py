@@ -10,7 +10,7 @@ class Special_card():
     return_card = Card(-1,'重抽','return',1,0,0,0,'重新抽\n  5張手牌')
     drop_card = Card(-1,"抽兩張",'drop',1,0,0,0,'多抽兩張')
     turtle_card = Card(-1,'龜化','turtle',1,0,0,1,'成為烏龜\n 防禦+2\n 治癒+2\n 傷害-2')
-    knife_card = Card(-1,'小刀*2','knife',1,0,0,0,'生成2張\n   小刀')
+    knife_card = Card(-1,'小刀*2','knife',1,0,0,0,'生成2張\n  小刀\n該回合沒用\n 即消失')
     Vampire_card = Card(-1,'壓榨','vampire',2,3,0,0,'造成3傷害\n 治癒自身3hp')
     magic_card = Card(-1,'吸魔','absorb',2,2,0,0,'吸取對方\n  2Mp')
     normal_deck = [Vampire_card,magic_card,drop_card,fire_card,return_card,knife_card,turtle_card] # 
