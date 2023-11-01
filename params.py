@@ -13,18 +13,21 @@ class Special_card():
     knife_card = Card(-1,'小刀*2','knife',1,0,0,0,'生成2張\n  小刀\n該回合沒用\n 即消失')
     Vampire_card = Card(-1,'壓榨','vampire',2,3,0,0,'造成3傷害\n 治癒自身3hp')
     magic_card = Card(-1,'吸魔','absorb',2,2,0,0,'吸取對方\n  2Mp')
-    normal_deck = [Vampire_card,magic_card,drop_card,fire_card,return_card,knife_card,turtle_card] # 
+    shield_bash = Card(-1,"盾擊",'shield',2,0,2,0,'造成自身\n當前防禦值\n的傷害')
+    normal_deck = [Vampire_card,magic_card,drop_card,fire_card,return_card,knife_card,turtle_card,shield_bash] 
+    # normal_deck = []
 
     guard_card = Card(-1,'神聖之盾','guard',2,0,2,0,'獲得自身防禦增強\n 2倍的盾')
     keep_heal = Card(-1,"回春",'keep_heal',2,0,2,2,'持續回自身治癒增強\n  *2的血量\n  2回合')
+    
     high_level_deck = [guard_card,keep_heal]
 
 class params():
     
-    init_max_hp,init_max_de,init_max_magic,money = 10,0,3,300
+    init_max_hp,init_max_de,init_max_magic,money = 10,0,3,0
     add_hp = 20
     add_value = 1
     add_pass_money = 150
     card_name_list = ['攻擊','防禦','治癒']
     card_type_list = ['attack','defense','heal']
-    card_type_number = [5,0,0]
+    card_type_number = [5,3,1]

@@ -25,6 +25,7 @@ def set_enemy(enemy):
         logging.info(enemy.name+' 對於 magic 增強了!')
     enemy.hp = enemy.max_hp
     enemy.magic = enemy.max_magic
+    enemy.buff = []
     return enemy
 
 def set_player(main_role,choose,add_value,new_card=None):
@@ -53,6 +54,7 @@ def set_player(main_role,choose,add_value,new_card=None):
         logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name)
     main_role.hp = main_role.max_hp
     main_role.magic = main_role.max_magic
+    main_role.buff = []
     return main_role
 
 def game_(win,font_list,GAME_CONTROL):
@@ -160,8 +162,10 @@ def game_(win,font_list,GAME_CONTROL):
                             main_remain_deck.pop(usedcardindex)
                         
                         match main_card.type:
-                            case 'attack'|'fire'|'vampire'|'absorb'|'little_knife':
+                            case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield':
                                 enemy,main_role = card_effect(enemy,main_card,main_role)
+                                if main_role.hp > params.init_max_hp:
+                                    main_role.hp = params.init_max_hp
                                 if enemy.hp <= 0:
                                     enemy.hp = 0
                                     GAME_CONTROL = False
@@ -179,10 +183,10 @@ def game_(win,font_list,GAME_CONTROL):
                                 new_drop = [little_knife,little_knife]
                                 current_cards.extend(new_drop)
                             case 'turtle':
-                                main_role.buff.append({'turtle':[main_card.lasting,1]})
+                                duoble_buff(main_card,main_role)
                                 check_person_buff(main_role,enemy,'turtle')
                             case 'keep_heal':
-                                main_role.buff.append({'keep_heal':[main_card.lasting,1]})
+                                duoble_buff(main_card,main_role)
                                 check_person_buff(main_role,enemy,'keep_heal')
                         logging.info(main_role.name+' 打出 '+main_card.name+' '+str(max(main_card.do_to_other+main_role.damage_buff,main_card.do_for_self+main_role.defense_buff))+' | '
                                 +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
@@ -228,8 +232,10 @@ def game_(win,font_list,GAME_CONTROL):
                             enemy_used_cards.append(card)
                             
                             match card.type:
-                                case 'attack'|'fire'|'vampire'|'absorb':
+                                case 'attack'|'fire'|'vampire'|'absorb'|'shield':
                                     main_role,enemy = card_effect(main_role,card,enemy)
+                                    if enemy.hp > params.init_max_hp:
+                                        enemy.hp = params.init_max_hp
                                     if main_role.hp <= 0:
                                         main_role.hp = 0
                                         GAME_CONTROL = False
@@ -244,10 +250,10 @@ def game_(win,font_list,GAME_CONTROL):
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)
                                 case 'turtle':
-                                    enemy.buff.append({'turtle':[card.lasting,1]})
+                                    duoble_buff(card,enemy)
                                     check_person_buff(enemy,main_role,'turtle')
                                 case 'keep_heal':
-                                    enemy.buff.append({'keep_heal':[card.lasting,1]})
+                                    duoble_buff(card,enemy)
                                     check_person_buff(enemy,main_role,'keep_heal')
                             logging.info(enemy.name+' 打出 '+card.name+' '+str(max(card.do_to_other+enemy.damage_buff,card.do_for_self))+' | '
                                         +'剩餘卡牌:'+str(len(enemy_remain_deck))+' | 用過卡牌:'+str(len(enemy_used_cards))+' \n'
@@ -290,4 +296,5 @@ def game_(win,font_list,GAME_CONTROL):
             pygame.display.update()
             time.sleep(3)
             running = False
+            logging.warn('你打到 Round: '+rounds)
         pygame.display.flip()

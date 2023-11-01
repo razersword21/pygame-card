@@ -16,6 +16,14 @@ def card_effect(target,card,myself):
             target.de+=card.do_for_self+target.defense_buff
         case 'guard':
             target.de+=(target.defense_buff*2)
+        case 'shield':
+            if target.de > 0:
+               target.de -= (myself.de)
+               if target.de < 0:
+                  target.hp += target.de
+                  target.de = 0
+            else:
+                target.hp -= (myself.de)
         case 'heal':
             target.hp+=card.do_for_self+target.heal_buff
         case 'fire':
@@ -26,7 +34,7 @@ def card_effect(target,card,myself):
                   target.de = 0
             else:
                 target.hp -= (card.do_to_other+myself.damage_buff)
-            target.buff.append({'fire':[card.lasting,2,1]})
+            duoble_buff(card,target)
         case 'vampire':
             if target.de > 0:
                target.de -= (card.do_to_other+myself.damage_buff)
@@ -39,7 +47,11 @@ def card_effect(target,card,myself):
                 myself.hp += (card.do_to_other+myself.damage_buff)
         case 'absorb':
             target.magic -= card.do_to_other
-            myself.magic += card.do_to_other
+            if target.magic < 0:
+                myself.magic -= target.magic
+                target.magic = 0
+            else:
+                myself.magic += card.do_to_other
         case 'little_knife':
             if target.de > 0:
                target.de -= (card.do_to_other+myself.damage_buff)
@@ -61,7 +73,7 @@ def init_card_deck(random_control:bool=None):
     for i,card_num in enumerate(card_type_number):
         for _ in range(card_num):
             if i == 0:
-                card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,4,0,0,None)])
+                card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,3,0,0,None)])
             else:
                 card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,0,2,0,None)])
             deck_index+=1
@@ -108,3 +120,15 @@ def check_person_buff(person,enemy,card_type=None):
                             person.hp+=(person.heal_buff)*2
                             buff[card_type][1]-=1
     return person
+def duoble_buff(card,target):
+    if any(card.type in b for b in target.buff):
+        for buff_ in target.buff:
+            try:
+                buff_[card.type][0]+=card.lasting
+            except:
+                pass
+    else:
+        if card.type != 'fire':
+            target.buff.append({card.type:[card.lasting,1]})
+        else:
+            target.buff.append({card.type:[card.lasting,card.do_to_other]})
