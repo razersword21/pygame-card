@@ -156,7 +156,7 @@ def game_(win,font_list,GAME_CONTROL):
                             main_remain_deck.pop(usedcardindex)
                         
                         match main_card.type:
-                            case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd':
+                            case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice':
                                 enemy,main_role = card_effect(enemy,main_card,main_role)
                                 if main_role.hp > params.init_max_hp:
                                     main_role.hp = params.init_max_hp
@@ -228,7 +228,7 @@ def game_(win,font_list,GAME_CONTROL):
                             enemy_used_cards.append(card)
                             
                             match card.type:
-                                case 'attack'|'fire'|'vampire'|'absorb'|'shield'|'brk_shd':
+                                case 'attack'|'fire'|'vampire'|'absorb'|'shield'|'brk_shd'|'sacrifice':
                                     main_role,enemy = card_effect(main_role,card,enemy)
                                     if enemy.hp > params.init_max_hp:
                                         enemy.hp = params.init_max_hp

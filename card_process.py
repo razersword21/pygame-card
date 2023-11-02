@@ -14,6 +14,15 @@ def card_effect(target,card,myself):
                 target.hp -= (card.do_to_other+myself.damage_buff)
         case 'brk_shd':
             target.de = 0
+        case 'sacrifice':
+            if target.de > 0:
+               target.de -= (card.do_to_other+myself.damage_buff)
+               if target.de < 0:
+                  target.hp += target.de
+                  target.de = 0
+            else:
+                target.hp -= (card.do_to_other+myself.damage_buff)
+            myself.hp = (0.5*myself.hp)
         case 'defense':
             target.de+=card.do_for_self+target.defense_buff
         case 'guard':
