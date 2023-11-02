@@ -15,17 +15,19 @@ class Special_card():
     magic_card = Card(-1,'吸魔','absorb',2,2,0,0,'吸取對方\n  2Mp')
     shield_bash = Card(-1,"盾擊",'shield',2,0,2,0,'造成自身\n當前防禦值\n的傷害')
     sacrifice_card = Card(-1,'捨身','sacrifice',1,10,0,0,'造成10點傷害\n也對自己造成\n當前50%hp傷害')
-    normal_deck = [Vampire_card,magic_card,drop_card,fire_card,return_card,knife_card,turtle_card,shield_bash] 
+    altar_card = Card(-1,'獻祭','altar',2,0,0,0,'以自身50%hp\n換來damage+3')
+    normal_deck = [Vampire_card,magic_card,drop_card,fire_card,return_card,knife_card,turtle_card,shield_bash,altar_card] 
     # normal_deck = []
     guard_card = Card(-1,'神聖之盾','guard',2,0,2,0,'獲得自身防禦增強\n 2倍的盾')
     keep_heal = Card(-1,"回春",'keep_heal',2,0,2,2,'持續回自身\n  治癒增強\n  *2的血量\n  2回合')
     add_magic = Card(-1,'回魔','add_magic',2,0,2,2,'兩回合\n  Mp+2')
     dragon_card = Card(-1,'化龍','dragon',2,0,0,2,'化龍2回合\n 防禦+4\n 治癒+4\n 傷害+4')
     broke_shield = Card(-1,'破盾','brk_shd',2,0,0,0,'消除所有\n  護盾值')
-    high_level_deck = [guard_card,keep_heal,add_magic,dragon_card,broke_shield]
+    max_hp_card = Card(-1,'血量上限+','add_max_hp',2,0,0,0,'增加血量上限\n  +5')
+    high_level_deck = [guard_card,keep_heal,add_magic,dragon_card,broke_shield,max_hp_card]
 
 class params():
-    init_max_hp,init_max_de,init_max_magic,money = 10,0,3,0
+    init_max_hp,init_max_de,init_max_magic,money = 15,0,3,0
     add_hp = 20
     add_value = 1
     add_pass_money = 150

@@ -162,10 +162,10 @@ def game_(win,font_list,GAME_CONTROL):
                                 if enemy.hp <= 0:
                                     enemy.hp = 0
                                     GAME_CONTROL = False
-                            case 'defense'|'heal'|'guard':
+                            case 'defense'|'heal'|'guard'|'altar'|'add_max_hp':
                                 main_role,enemy = card_effect(main_role,main_card,enemy)
                                 if main_role.hp > main_role.max_hp:
-                                    main_role.hp = main_role.max_hp
+                                    main_role.hp = main_role.max_hp                                
                             case 'return':
                                 current_cards = random.sample(main_remain_deck,main_role.every_drop)
                             case 'drop':
@@ -234,12 +234,12 @@ def game_(win,font_list,GAME_CONTROL):
                                     if main_role.hp <= 0:
                                         main_role.hp = 0
                                         GAME_CONTROL = False
-                                case 'defense'|'heal'|'guard':
+                                case 'defense'|'heal'|'guard'|'altar'|'add_max_hp':
                                     enemy,main_role = card_effect(enemy,card,main_role)
                                     if enemy.hp > enemy.max_hp:
                                         enemy.hp = enemy.max_hp
                                 case 'return'|'drop':
-                                    pass    
+                                    pass
                                 case 'knife':
                                     little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'0費小刀')
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)

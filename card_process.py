@@ -23,6 +23,11 @@ def card_effect(target,card,myself):
             else:
                 target.hp -= (card.do_to_other+myself.damage_buff)
             myself.hp = (0.5*myself.hp)
+        case 'add_max_hp':
+            target.max_hp += 5
+        case 'altar':
+            target.hp = (0.5*target.hp)
+            target.damage+=3
         case 'defense':
             target.de+=card.do_for_self+target.defense_buff
         case 'guard':
