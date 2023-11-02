@@ -105,6 +105,12 @@ def game_(win,font_list,GAME_CONTROL):
         win.blit(player_mp_text, (240, 140))
         win.blit(player_money_text, (755, 500))
         win.blit(player_value_text, (10, 200))
+        start_y = 200
+        if len(list(main_role.buff)) > 0:
+            for i,buff in enumerate(list(main_role.buff)):
+                start_y += 50*i
+                main_buff_text = font_list[0].render(buff, True, YELLOW)
+                win.blit(main_buff_text, (250, start_y))
 
         enemy_hp_text = font_list[0].render("HP: "+str(enemy.hp)+"|"+str(enemy.max_hp), True, RED)
         enemy_de_text = font_list[0].render("Def: "+str(enemy.de), True, BLUE)
@@ -115,6 +121,12 @@ def game_(win,font_list,GAME_CONTROL):
         win.blit(enemy_de_text, (685, 140))
         win.blit(enemy_mp_text, (750, 140))
         win.blit(enemy_value_text, (780, 200))
+        start_y_e = 200
+        if len(list(enemy.buff)) > 0:
+            for i,ebuff in enumerate(list(enemy.buff)):
+                start_y_e += 50*i
+                enemy_buff_text = font_list[0].render(ebuff, True, YELLOW)
+                win.blit(enemy_buff_text, (250, start_y_e))
 
         next_turn_btn = pygame.Rect(750, 555, 110, 30) 
         pygame.draw.rect(win, RED , next_turn_btn)

@@ -52,7 +52,7 @@ class Enemy(pygame.sprite.Sprite):
     self.max_hp = hp
     self.hp = self.max_hp
     self.de = de
-    self.damage_buff = -1
+    self.damage_buff = 0
     self.defense_buff = 0
     self.heal_buff = 0
     self.max_magic = magic
