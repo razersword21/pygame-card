@@ -1,5 +1,4 @@
 import pygame
-from pygame.sprite import _Group
 
 RED = (255,0,0)
 BLUE = (0,0,255)

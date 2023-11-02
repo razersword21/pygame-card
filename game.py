@@ -70,7 +70,6 @@ def game_(win,font_list,GAME_CONTROL):
 
     running = True 
     player_turn = True
-    next_turn_btn_press_down = True
 
     init_enemy_card_deck = init_card_deck(True)
     init_main_card_deck = init_card_deck()
@@ -158,15 +157,15 @@ def game_(win,font_list,GAME_CONTROL):
                         match main_card.type:
                             case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice':
                                 enemy,main_role = card_effect(enemy,main_card,main_role)
-                                if main_role.hp > params.init_max_hp:
-                                    main_role.hp = params.init_max_hp
+                                if main_role.hp > main_role.max_hp:
+                                    main_role.hp = main_role.max_hp
                                 if enemy.hp <= 0:
                                     enemy.hp = 0
                                     GAME_CONTROL = False
                             case 'defense'|'heal'|'guard':
                                 main_role,enemy = card_effect(main_role,main_card,enemy)
-                                if main_role.hp > params.init_max_hp:
-                                    main_role.hp = params.init_max_hp
+                                if main_role.hp > main_role.max_hp:
+                                    main_role.hp = main_role.max_hp
                             case 'return':
                                 current_cards = random.sample(main_remain_deck,main_role.every_drop)
                             case 'drop':
@@ -230,15 +229,15 @@ def game_(win,font_list,GAME_CONTROL):
                             match card.type:
                                 case 'attack'|'fire'|'vampire'|'absorb'|'shield'|'brk_shd'|'sacrifice':
                                     main_role,enemy = card_effect(main_role,card,enemy)
-                                    if enemy.hp > params.init_max_hp:
-                                        enemy.hp = params.init_max_hp
+                                    if enemy.hp > enemy.max_hp:
+                                        enemy.hp = enemy.max_hp
                                     if main_role.hp <= 0:
                                         main_role.hp = 0
                                         GAME_CONTROL = False
                                 case 'defense'|'heal'|'guard':
                                     enemy,main_role = card_effect(enemy,card,main_role)
-                                    if enemy.hp > params.init_max_hp:
-                                        enemy.hp = params.init_max_hp
+                                    if enemy.hp > enemy.max_hp:
+                                        enemy.hp = enemy.max_hp
                                 case 'return'|'drop':
                                     pass    
                                 case 'knife':
