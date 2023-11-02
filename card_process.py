@@ -108,7 +108,12 @@ def check_person_buff(person,enemy,card_type=None):
                             person.hp+=(person.heal_buff)*2
                             buff['keep_heal'][0]-=1
                             if buff['keep_heal'][0] == 0:
-                                person.buff.pop(i)    
+                                person.buff.pop(i)
+                        case 'add_magic':
+                            person.magic += 2
+                            buff['add_magic'][0]-=1
+                            if buff['add_magic'][0] == 0:
+                                person.buff.pop(i)
                 else:
                     if card_type == 'turtle':
                         if buff[card_type][1] > 0:
@@ -118,6 +123,10 @@ def check_person_buff(person,enemy,card_type=None):
                     if card_type == 'keep_heal':
                         if buff[card_type][1] > 0:
                             person.hp+=(person.heal_buff)*2
+                            buff[card_type][1]-=1
+                    if card_type == 'add_magic':
+                        if buff[card_type][1] > 0:
+                            person.magic += 2
                             buff[card_type][1]-=1
     return person
 def duoble_buff(card,target):

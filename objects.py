@@ -1,4 +1,5 @@
 import pygame
+from pygame.sprite import _Group
 
 RED = (255,0,0)
 BLUE = (0,0,255)
@@ -119,3 +120,32 @@ class Card(pygame.sprite.Sprite):
           case 'turtle':
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
             win.blit(card_last_text,(statr_x+20+next_card+5,490+5))
+
+# class Pet(pygame.sprite.Sprite):
+#   def __init__(self,cost,hp,de,damage,shield,heal):
+#     self.name = 'Pet'
+#     self.image = pygame.image.load('draw_source/bg.png').convert_alpha()
+#     self.rect = self.image.get_rect()
+#     self.damage = damage
+#     self.cost = cost
+#     self.max_hp = hp
+#     self.hp = self.max_hp
+#     self.max_de = de
+#     self.de = self.max_de
+#     self.shield = shield
+#     self.heal = heal
+  
+#   def attack_enemy(self,person):
+#     if person.de > 0:
+#         person.de -= self.damage
+#     if person.de < 0:
+#         person.hp -= person.de
+#         person.de = 0
+#     else:
+#         person.hp -= self.damage
+#   def shield_main(self,person):
+#         person.de += self.de
+#   def heal_main(self,person):
+#         person.hp += self.heal
+#         if person.hp > person.max_hp:
+#            person.hp = person.max_hp

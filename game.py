@@ -10,17 +10,19 @@ logging.basicConfig(level=logging.INFO)
 
 def set_enemy(enemy):
     x = random.randint(0,100)
-    if x <= 35:
+    if x <= 30:
         enemy.max_hp += params.add_hp
         logging.info(enemy.name+' 對於 hp 增強了!')
-    if x > 45 and x < 55:
+    if x > 40 and x < 50:
         enemy.damage_buff += params.add_value
         logging.info(enemy.name+' 對於 damage 增強了!')
-    if x >= 55:
-        enemy.defense_buff += params.add_value
+    if x >= 50 and x <= 75:
         enemy.heal_buff += params.add_value
-        logging.info(enemy.name+' 對於 defense & heal 增強了!')
-    if x > 35 and x < 45:
+        logging.info(enemy.name+' 對於 heal 增強了!')
+    if x >= 75:
+        enemy.defense_buff += params.add_value
+        logging.info(enemy.name+' 對於 defense 增強了!')
+    if x > 30 and x < 40:
         enemy.max_magic += params.add_value
         logging.info(enemy.name+' 對於 magic 增強了!')
     enemy.hp = enemy.max_hp
@@ -127,7 +129,7 @@ def game_(win,font_list,GAME_CONTROL):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()          
+                sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if next_turn_btn.collidepoint(pos):
@@ -168,18 +170,20 @@ def game_(win,font_list,GAME_CONTROL):
                             case 'return':
                                 current_cards = random.sample(main_remain_deck,main_role.every_drop)
                             case 'drop':
-                                new_drop = random.sample(main_remain_deck,2)
-                                current_cards.extend(new_drop)
+                                if (len(current_cards)+2) <= main_role.max_card:
+                                    new_drop = random.sample(main_remain_deck,2)
+                                    current_cards.extend(new_drop)
+                                else:
+                                    limit_crad = main_role.max_card - len(current_cards)
+                                    new_drop = random.sample(main_remain_deck,limit_crad)
+                                    current_cards.extend(new_drop)
                             case 'knife':
                                 little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'消逝')
                                 new_drop = [little_knife,little_knife]
                                 current_cards.extend(new_drop)
-                            case 'turtle':
+                            case 'turtle'|'keep_heal'|'add_magic':
                                 duoble_buff(main_card,main_role)
-                                check_person_buff(main_role,enemy,'turtle')
-                            case 'keep_heal':
-                                duoble_buff(main_card,main_role)
-                                check_person_buff(main_role,enemy,'keep_heal')
+                                check_person_buff(main_role,enemy,main_card.type)
                         logging.info(main_role.name+' 打出 '+main_card.name+' '+str(max(main_card.do_to_other+main_role.damage_buff,main_card.do_for_self+main_role.defense_buff))+' | '
                                 +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
                                 +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' de_b '+str(main_role.defense_buff)+' Buff '+str(main_role.buff)+'\n'
@@ -241,27 +245,15 @@ def game_(win,font_list,GAME_CONTROL):
                                     little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'0費小刀')
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)
-                                case 'turtle':
+                                case 'turtle'|'add_magic'|'keep_heal':
                                     duoble_buff(card,enemy)
-                                    check_person_buff(enemy,main_role,'turtle')
-                                case 'keep_heal':
-                                    duoble_buff(card,enemy)
-                                    check_person_buff(enemy,main_role,'keep_heal')
+                                    check_person_buff(enemy,main_role,card.type)
                             logging.info(enemy.name+' 打出 '+card.name+' '+str(max(card.do_to_other+enemy.damage_buff,card.do_for_self))+' | '
                                         +'剩餘卡牌:'+str(len(enemy_remain_deck))+' | 用過卡牌:'+str(len(enemy_used_cards))+' \n'
                                         +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' Mp '+str(main_role.magic)+' Buff '+str(main_role.buff)+'\n'
                                         +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' Mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
                         else:
                             logging.info("Enemy not use current card, drop new one.")
-                        # enemy_action = (enemy.name+' 打出 '+card.name+' '+str(max(card.do_to_other+enemy.damage_buff,card.do_for_self))+
-                        #                 ' | '+'剩餘卡牌:'+str(len(enemy_remain_deck))+' | 用過卡牌:'+str(len(enemy_used_cards))+' \n'
-                        #                 +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' Mp '+
-                        #                 str(main_role.magic)+' Buff '+str(main_role.buff)+'\n'+enemy.name+' 狀態: Hp '+str(enemy.hp)+
-                        #                 ' De '+str(enemy.de)+' Mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
-                        # quit_text = font_list[0].render(enemy_action, True, WHITE)
-                        # win.blit(quit_text, (150, 650))
-                        # pygame.display.update()
-                        # time.sleep(2)
                 else:
                     player_turn = True
                     enemy.magic = enemy.max_magic
