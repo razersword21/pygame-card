@@ -12,6 +12,8 @@ def card_effect(target,card,myself):
                   target.de = 0
             else:
                 target.hp -= (card.do_to_other+myself.damage_buff)
+        case 'brk_shd':
+            target.de = 0
         case 'defense':
             target.de+=card.do_for_self+target.defense_buff
         case 'guard':
@@ -66,7 +68,7 @@ def init_card_deck(random_control:bool=None):
     card_deck = []
     deck_index = 0
     if random_control == True:
-        card_type_number = [random.randint(9,15),random.randint(3,5),random.randint(3,5)]
+        card_type_number = [random.randint(9,30),random.randint(3,10),random.randint(3,10)]
     else:
         card_type_number = params.card_type_number
     
@@ -104,6 +106,13 @@ def check_person_buff(person,enemy,card_type=None):
                                 person.defense_buff-=2
                                 person.heal_buff-=2
                                 person.buff.pop(i)
+                        case 'dragon':
+                            buff['dragon'][0]-=1
+                            if buff['dragon'][0] == 0:
+                                person.defense_buff-=4
+                                person.heal_buff-=4
+                                person.damage_buff-=4
+                                person.buff.pop(i)
                         case 'keep_heal':
                             person.hp+=(person.heal_buff)*2
                             buff['keep_heal'][0]-=1
@@ -119,6 +128,12 @@ def check_person_buff(person,enemy,card_type=None):
                         if buff[card_type][1] > 0:
                             person.defense_buff+=2
                             person.heal_buff+=2
+                            buff[card_type][1]-=1
+                    if card_type == 'dragon':
+                        if buff[card_type][1] > 0:
+                            person.defense_buff+=4
+                            person.heal_buff+=4
+                            person.damage_buff+=4
                             buff[card_type][1]-=1
                     if card_type == 'keep_heal':
                         if buff[card_type][1] > 0:

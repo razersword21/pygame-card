@@ -26,7 +26,7 @@ def choose_(win,font_list,rounds,person):
     out_option = []
     chose_option = []
     out_card = []
-    if rounds % 5 == 0:
+    if rounds % 10 == 0:
         new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
     else:
         new_card_deck = random.choices(normal_deck,k=3)

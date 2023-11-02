@@ -156,7 +156,7 @@ def game_(win,font_list,GAME_CONTROL):
                             main_remain_deck.pop(usedcardindex)
                         
                         match main_card.type:
-                            case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield':
+                            case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd':
                                 enemy,main_role = card_effect(enemy,main_card,main_role)
                                 if main_role.hp > params.init_max_hp:
                                     main_role.hp = params.init_max_hp
@@ -181,7 +181,7 @@ def game_(win,font_list,GAME_CONTROL):
                                 little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'消逝')
                                 new_drop = [little_knife,little_knife]
                                 current_cards.extend(new_drop)
-                            case 'turtle'|'keep_heal'|'add_magic':
+                            case 'turtle'|'keep_heal'|'add_magic'|'dragon':
                                 duoble_buff(main_card,main_role)
                                 check_person_buff(main_role,enemy,main_card.type)
                         logging.info(main_role.name+' 打出 '+main_card.name+' '+str(max(main_card.do_to_other+main_role.damage_buff,main_card.do_for_self+main_role.defense_buff))+' | '
@@ -228,7 +228,7 @@ def game_(win,font_list,GAME_CONTROL):
                             enemy_used_cards.append(card)
                             
                             match card.type:
-                                case 'attack'|'fire'|'vampire'|'absorb'|'shield':
+                                case 'attack'|'fire'|'vampire'|'absorb'|'shield'|'brk_shd':
                                     main_role,enemy = card_effect(main_role,card,enemy)
                                     if enemy.hp > params.init_max_hp:
                                         enemy.hp = params.init_max_hp
@@ -245,7 +245,7 @@ def game_(win,font_list,GAME_CONTROL):
                                     little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'0費小刀')
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)
                                     main_role,enemy = card_effect(main_role,little_knife,enemy)
-                                case 'turtle'|'add_magic'|'keep_heal':
+                                case 'turtle'|'add_magic'|'keep_heal'|'dragon':
                                     duoble_buff(card,enemy)
                                     check_person_buff(enemy,main_role,card.type)
                             logging.info(enemy.name+' 打出 '+card.name+' '+str(max(card.do_to_other+enemy.damage_buff,card.do_for_self))+' | '
