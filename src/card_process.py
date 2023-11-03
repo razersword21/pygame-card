@@ -4,24 +4,27 @@ from src.params import *
 
 def card_effect(target,card,myself):
     match card.type:
-        case 'attack':
-            if target.de > 0:
-               target.de -= (card.do_to_other+myself.damage_buff)
-               if target.de < 0:
-                  target.hp += target.de
-                  target.de = 0
-            else:
-                target.hp -= (card.do_to_other+myself.damage_buff)
+        case 'attack'|'little_knife':
+            attack(target,card,myself)
         case 'brk_shd':
             target.de = 0
+        case 'dice':
+            dice_point = random.randint(1,6)
+            match dice_point:
+                case 6:
+                    attack(target,card,myself)
+                case 5:
+                    attack(target,card,myself,1)
+                case 4:
+                    myself.hp += (3+myself.heal_buff)
+                case 3:
+                    myself.de += (3+myself.defense_buff)
+                case 2:
+                    myself.hp -= 5
+                case 1:
+                    myself.hp -= 10
         case 'sacrifice':
-            if target.de > 0:
-               target.de -= (card.do_to_other+myself.damage_buff)
-               if target.de < 0:
-                  target.hp += target.de
-                  target.de = 0
-            else:
-                target.hp -= (card.do_to_other+myself.damage_buff)
+            attack(target,card,myself)
             myself.hp = (0.5*myself.hp)
         case 'add_max_hp':
             target.max_hp += 5
@@ -43,13 +46,7 @@ def card_effect(target,card,myself):
         case 'heal':
             target.hp+=card.do_for_self+target.heal_buff
         case 'fire':
-            if target.de > 0:
-               target.de -= (card.do_to_other+myself.damage_buff)
-               if target.de < 0:
-                  target.hp += target.de
-                  target.de = 0
-            else:
-                target.hp -= (card.do_to_other+myself.damage_buff)
+            attack(target,card,myself)
             duoble_buff(card,target)
         case 'vampire':
             if target.de > 0:
@@ -70,14 +67,6 @@ def card_effect(target,card,myself):
                 target.magic = 0
             else:
                 myself.magic += card.do_to_other
-        case 'little_knife':
-            if target.de > 0:
-               target.de -= (card.do_to_other+myself.damage_buff)
-               if target.de < 0:
-                  target.hp += target.de
-                  target.de = 0
-            else:
-                target.hp -= (card.do_to_other+myself.damage_buff)
     return target,myself
 
 def init_card_deck(random_control:bool=None):
@@ -173,3 +162,16 @@ def duoble_buff(card,target):
             target.buff.append({card.type:[card.lasting,1]})
         else:
             target.buff.append({card.type:[card.lasting,card.do_to_other]})
+
+def attack(target,card,myself,k=None):
+    if k != None:
+        damage = k
+    else:
+        damage = card.do_to_other
+    if target.de > 0:
+        target.de -= (damage+myself.damage_buff)
+        if target.de < 0:
+            target.hp += target.de
+            target.de = 0
+        else:
+            target.hp -= (damage+myself.damage_buff)
