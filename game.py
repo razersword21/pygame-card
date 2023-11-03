@@ -1,12 +1,13 @@
 import pygame,sys
 import random
 import time
+import logging
+logging.basicConfig(level=logging.INFO)
+
 from objects import *
 from card_process import *
 from choose import *
 from params import *
-import logging
-logging.basicConfig(level=logging.INFO)
 
 def set_enemy(enemy):
     x = random.randint(0,100)
@@ -59,15 +60,13 @@ def set_player(main_role,choose,add_value,new_card=None):
     main_role.buff = []
     return main_role
 
-def game_(win,font_list,GAME_CONTROL):
+def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     bg = BG(900, 600)
     rounds = 0
     clock = pygame.time.Clock()
     
     chose_buff = []
-    enemy = Enemy(params.init_max_hp,params.init_max_de,params.init_max_magic)
-    main_role = Main_role(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
-
+    
     running = True 
     player_turn = True
 
@@ -107,10 +106,10 @@ def game_(win,font_list,GAME_CONTROL):
         win.blit(player_value_text, (10, 200))
         start_y = 200
         if len(list(main_role.buff)) > 0:
-            for i,buff in enumerate(list(main_role.buff)):
+            for i,buff in enumerate(main_role.buff):
                 start_y += 50*i
-                main_buff_text = font_list[0].render(buff, True, YELLOW)
-                win.blit(main_buff_text, (250, start_y))
+                main_buff_text = font_list[0].render(list(buff.keys())[0], True, Coconut_Brown)
+                win.blit(main_buff_text, (260, start_y))
 
         enemy_hp_text = font_list[0].render("HP: "+str(enemy.hp)+"|"+str(enemy.max_hp), True, RED)
         enemy_de_text = font_list[0].render("Def: "+str(enemy.de), True, BLUE)
@@ -123,10 +122,10 @@ def game_(win,font_list,GAME_CONTROL):
         win.blit(enemy_value_text, (780, 200))
         start_y_e = 200
         if len(list(enemy.buff)) > 0:
-            for i,ebuff in enumerate(list(enemy.buff)):
+            for i,ebuff in enumerate(enemy.buff):
                 start_y_e += 50*i
-                enemy_buff_text = font_list[0].render(ebuff, True, YELLOW)
-                win.blit(enemy_buff_text, (250, start_y_e))
+                enemy_buff_text = font_list[0].render(list(ebuff.keys())[0], True, Coconut_Brown)
+                win.blit(enemy_buff_text, (600, start_y_e))
 
         next_turn_btn = pygame.Rect(750, 555, 110, 30) 
         pygame.draw.rect(win, RED , next_turn_btn)
@@ -296,11 +295,12 @@ def game_(win,font_list,GAME_CONTROL):
             main_role = set_player(main_role,chose_buff,add_value,new_card)
             GAME_CONTROL = True
         else:
-            over_text = font_list[1].render("Game Over", True, RED)
+            over_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 150)
+            over_text = over_font.render("Game Over", True, RED)
             win.blit(over_text, (300, 300))
             pygame.display.update()
             time.sleep(3)
             running = False
             logging.warn('你打到 Round: '+str(rounds))
         pygame.display.flip()
-        clock.tick(40)
+        clock.tick(60)

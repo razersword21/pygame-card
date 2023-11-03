@@ -1,20 +1,18 @@
 import pygame,sys
-import random
+
 from objects import *
 from card_process import *
 from choose import *
-import time
-import logging
-logging.basicConfig(level=logging.INFO)
 from game import *
 from params import *
+from input_name import *
 
 GAME_CONTROL = False
 
 def main():
     global GAME_CONTROL
     pygame.init()
-    pygame.display.set_caption('無限地牢')  # 遊戲標題
+    pygame.display.set_caption('數值-無限地牢')  # 遊戲標題
     win = pygame.display.set_mode((900, 600))  # 窗口尺寸
     
     base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 32)
@@ -22,6 +20,9 @@ def main():
     all_font = [base_font,title_font]
     intro = Intro(900, 600)
     show_intro = True
+    enemy = Enemy(params.init_max_hp,params.init_max_de,params.init_max_magic)
+    main_role = Main_role(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
+
     while show_intro:
         win.blit(intro.bg_big, intro.rect)
 
@@ -41,8 +42,10 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if start_btn.collidepoint(pos):
-                    GAME_CONTROL = True
-                    game_(win,all_font,GAME_CONTROL)
+                    input_name(win,main_role)
+                    if len(main_role.name) > 0:
+                        GAME_CONTROL = True
+                        game_(win,all_font,GAME_CONTROL,main_role,enemy)
                 if quit_btn.collidepoint(pos):
                     pygame.quit()
                     sys.exit()
