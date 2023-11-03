@@ -98,10 +98,10 @@ class Card(pygame.sprite.Sprite):
         card_cost_text = FONT.render('Cost '+str(self.cost), True, BLACK)
         win.blit(card_cost_text,(statr_x+20+next_card+5,490+5))
         match self.type:
-          case 'attack':
+          case 'attack'|'sacrifice':
             card_number_text = FONT.render(str(self.do_to_other), True, RED)
             win.blit(card_number_text,(statr_x+45+next_card+5,520+5))
-          case 'defense'|'heal':
+          case 'defense'|'heal'|'add_max_hp':
             card_number_text = FONT.render(str(self.do_for_self), True, GREEN)
             win.blit(card_number_text,(statr_x+45+next_card+5,520+5))
           case 'fire':
@@ -117,7 +117,7 @@ class Card(pygame.sprite.Sprite):
           case 'little_knife'|'knife':
             card_number_text = FONT.render(self.special, True, RED)
             win.blit(card_number_text,(statr_x+10+next_card+5,510+5))
-          case 'turtle':
+          case 'turtle'|'keep_heal'|'add_magic'|'dragon':
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
             win.blit(card_last_text,(statr_x+20+next_card+5,520+5))
 

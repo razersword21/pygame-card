@@ -23,7 +23,7 @@ class Special_card():
     add_magic = Card(-1,'回魔','add_magic',2,0,2,2,'兩回合\n  Mp+2')
     dragon_card = Card(-1,'化龍','dragon',2,0,0,2,'化龍2回合\n 防禦+4\n 治癒+4\n 傷害+4')
     broke_shield = Card(-1,'破盾','brk_shd',2,0,0,0,'消除所有\n  護盾值')
-    max_hp_card = Card(-1,'血量上限+','add_max_hp',2,0,0,0,'增加血量上限\n  +5')
+    max_hp_card = Card(-1,'血量上限+','add_max_hp',2,0,5,0,'增加血量上限\n  +5')
     dice_card = Card(-1,'幸運骰子','dice',1,5,3,0,'隨機執行動作\n6:5傷 5:1傷\n4:+3hp 3:+3de\n2:-5hp 1:-10hp')
     high_level_deck = [guard_card,keep_heal,add_magic,dragon_card,broke_shield,max_hp_card,dice_card]
 

@@ -12,19 +12,17 @@ from src.params import *
 
 def set_enemy(enemy):
     x = random.randint(0,100)
-    if x <= 30:
+    if x <= 35:
         enemy.max_hp += params.add_hp
         logging.info(enemy.name+' 對於 hp 增強了!')
-    if x > 40 and x < 50:
+    if x > 40 and x < 65:
         enemy.damage_buff += params.add_value
         logging.info(enemy.name+' 對於 damage 增強了!')
-    if x >= 50 and x <= 75:
-        enemy.heal_buff += params.add_value
-        logging.info(enemy.name+' 對於 heal 增強了!')
-    if x >= 75:
+    if x >= 65:
         enemy.defense_buff += params.add_value
-        logging.info(enemy.name+' 對於 defense 增強了!')
-    if x > 30 and x < 40:
+        enemy.heal_buff += params.add_value
+        logging.info(enemy.name+' 對於 defense & heal 增強了!')
+    if x > 35 and x < 40:
         enemy.max_magic += params.add_value
         logging.info(enemy.name+' 對於 magic 增強了!')
     enemy.hp = enemy.max_hp
