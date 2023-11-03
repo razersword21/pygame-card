@@ -91,7 +91,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         win.blit(Rounds_text, (10, 10))
 
         main_role.draw(win,200,300)
-        enemy.draw(win,700,300,0)
+        enemy.draw(win,700,300)
 
         player_hp_text = font_list[0].render("HP:"+str(main_role.hp)+"|"+str(main_role.max_hp), True, RED)
         player_de_text = font_list[0].render("Def: "+str(main_role.de), True, BLUE)
@@ -230,7 +230,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         enemy_used_cards = []
                     card = random.choice(enemy_remain_deck)
                     if (enemy.magic - card.cost) >= 0:
-                        use_cards = enemy.use_card(card)
+                        use_cards = enemy.use_cardAI(card)
                         if use_cards:
                             enemy.magic -= card.cost
                             enemy_cardindex = [x.index for x in enemy_remain_deck].index(card.index)

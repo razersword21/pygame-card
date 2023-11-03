@@ -11,13 +11,14 @@ def input_name(win,main_role):
     text = ""
     active = False
     while inputing:
+        
         win.blit(bg.bg_big, bg.rect)
         title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 80)
         base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 50)
         menu_text = title_font.render("輸入玩家名字\n   (限英文)", True, BLACK)
         win.blit(menu_text, (280, 70))
 
-        input_box = pygame.Rect(250, 300, 200, 50)
+        input_box = pygame.Rect(350, 275, 200, 50)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

@@ -158,6 +158,7 @@ def check_person_buff(person,enemy,card_type=None):
                             person.magic += 2
                             buff[card_type][1]-=1
     return person
+
 def duoble_buff(card,target):
     if any(card.type in b for b in target.buff):
         for buff_ in target.buff:

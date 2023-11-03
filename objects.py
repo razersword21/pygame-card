@@ -42,7 +42,7 @@ class Main_role(pygame.sprite.Sprite):
 
   def draw(self, screen,x,y):
     role = pygame.image.load('draw_source/eney2.png').convert_alpha()
-    self.mainrole = pygame.transform.scale(role, (400, 400))
+    self.mainrole = pygame.transform.scale(role, (400, 350))
     self.rect = self.mainrole.get_rect(center = (x,y))
     screen.blit(self.mainrole,self.rect)
       
@@ -60,14 +60,14 @@ class Enemy(pygame.sprite.Sprite):
     self.magic = self.max_magic
     self.buff = []
     
-  def draw(self, screen,x,y, index):
+  def draw(self, screen,x,y):
     # 繪製敵人
     enemy1 = pygame.image.load('draw_source/eney1.png').convert_alpha()
     self.enemy1 = pygame.transform.scale(enemy1, (410, 410))
     self.rect = self.enemy1.get_rect(center = (x,y))
     screen.blit(self.enemy1,self.rect)
     
-  def use_card(self,card):
+  def use_cardAI(self,card):
     use_cards = True
     if self.hp <= self.max_hp/2:
       if card.type == 'defense' or card.type == 'heal':

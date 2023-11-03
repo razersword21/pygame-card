@@ -1,4 +1,5 @@
 import pygame,sys
+import pygame.locals
 
 from objects import *
 from card_process import *
@@ -13,6 +14,7 @@ def main():
     global GAME_CONTROL
     pygame.init()
     pygame.display.set_caption('數值-無限地牢')  # 遊戲標題
+    
     win = pygame.display.set_mode((900, 600))  # 窗口尺寸
     
     base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 32)
@@ -42,6 +44,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if start_btn.collidepoint(pos):
+                    
                     input_name(win,main_role)
                     if len(main_role.name) > 0:
                         GAME_CONTROL = True
