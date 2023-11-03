@@ -1,5 +1,4 @@
 import pygame,sys
-import random
 from objects import *
 
 def input_name(win,main_role):
@@ -11,7 +10,6 @@ def input_name(win,main_role):
     text = ""
     active = False
     while inputing:
-        
         win.blit(bg.bg_big, bg.rect)
         title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 80)
         base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 50)

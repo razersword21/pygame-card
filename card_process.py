@@ -61,6 +61,8 @@ def card_effect(target,card,myself):
             else:
                 target.hp -= (card.do_to_other+myself.damage_buff)
                 myself.hp += (card.do_to_other+myself.damage_buff)
+            if myself.hp > myself.max_hp:
+                myself.hp = myself.max_hp
         case 'absorb':
             target.magic -= card.do_to_other
             if target.magic < 0:

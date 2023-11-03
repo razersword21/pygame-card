@@ -1,6 +1,7 @@
 import pygame,sys
 import random
 import time
+import json
 import logging
 logging.basicConfig(level=logging.INFO)
 
@@ -8,6 +9,7 @@ from objects import *
 from card_process import *
 from choose import *
 from params import *
+from game_utils import *
 
 def set_enemy(enemy):
     x = random.randint(0,100)
@@ -66,7 +68,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     clock = pygame.time.Clock()
     
     chose_buff = []
-    
+    with open('draw_source/rankings.json') as f:
+        rank_list = json.load(f)
     running = True 
     player_turn = True
 
@@ -145,6 +148,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 if next_turn_btn.collidepoint(pos):
                     player_turn = False
                 if quit_btn.collidepoint(pos):
+                    write_game_records(rank_list,main_role,rounds)
+                    logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
                     running = False
                 
                 end_x = (len(current_cards)+1)*100
@@ -168,8 +173,6 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         match main_card.type:
                             case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice':
                                 enemy,main_role = card_effect(enemy,main_card,main_role)
-                                if main_role.hp > main_role.max_hp:
-                                    main_role.hp = main_role.max_hp
                                 if enemy.hp <= 0:
                                     enemy.hp = 0
                                     GAME_CONTROL = False
@@ -240,8 +243,6 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             match card.type:
                                 case 'attack'|'fire'|'vampire'|'absorb'|'shield'|'brk_shd'|'sacrifice':
                                     main_role,enemy = card_effect(main_role,card,enemy)
-                                    if enemy.hp > enemy.max_hp:
-                                        enemy.hp = enemy.max_hp
                                     if main_role.hp <= 0:
                                         main_role.hp = 0
                                         GAME_CONTROL = False
@@ -271,7 +272,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     check_person_buff(main_role,enemy)
 
         elif not GAME_CONTROL and enemy.hp == 0:
-            logging.warn('********* Next Round *********')
+            logging.warning('********* Next Round *********')
             rounds += 1
             chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role)
             if new_card != None:
@@ -301,6 +302,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             pygame.display.update()
             time.sleep(3)
             running = False
-            logging.warn('你打到 Round: '+str(rounds))
+            write_game_records(rank_list,main_role,rounds)
+            logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
         pygame.display.flip()
         clock.tick(60)

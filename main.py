@@ -1,5 +1,6 @@
 import pygame,sys
 import pygame.locals
+import keyboard
 
 from objects import *
 from card_process import *
@@ -7,6 +8,7 @@ from choose import *
 from game import *
 from params import *
 from input_name import *
+from rank import *
 
 GAME_CONTROL = False
 
@@ -24,18 +26,24 @@ def main():
     show_intro = True
     enemy = Enemy(params.init_max_hp,params.init_max_de,params.init_max_magic)
     main_role = Main_role(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
-
+    
     while show_intro:
         win.blit(intro.bg_big, intro.rect)
 
-        start_btn = pygame.Rect(350, 555, 70, 30) 
+        start_btn = pygame.Rect(300, 555, 70, 30) 
         pygame.draw.rect(win, RED , start_btn)
         btn_text = base_font.render("Start", True, BLACK)
-        win.blit(btn_text, (355, 560))
-        quit_btn = pygame.Rect(450, 555, 70, 30) 
+        win.blit(btn_text, (305, 560))
+
+        rank_btn = pygame.Rect(400, 555, 70, 30) 
+        pygame.draw.rect(win, YELLOW , rank_btn)
+        rank_text = base_font.render("Rank", True, BLACK)
+        win.blit(rank_text, (405, 560))
+
+        quit_btn = pygame.Rect(500, 555, 70, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = base_font.render("Quit", True, WHITE)
-        win.blit(quit_text, (455, 560))
+        win.blit(quit_text, (505, 560))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -44,11 +52,14 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if start_btn.collidepoint(pos):
-                    
+                    keyboard.send('alt+shift')
                     input_name(win,main_role)
                     if len(main_role.name) > 0:
                         GAME_CONTROL = True
                         game_(win,all_font,GAME_CONTROL,main_role,enemy)
+                    keyboard.send('alt+shift')
+                if rank_btn.collidepoint(pos):
+                    rank_page(win)
                 if quit_btn.collidepoint(pos):
                     pygame.quit()
                     sys.exit()
