@@ -2,13 +2,13 @@ import pygame,sys
 import pygame.locals
 import keyboard
 
-from objects import *
-from card_process import *
-from choose import *
-from game import *
-from params import *
-from input_name import *
-from rank import *
+from src.objects import *
+from src.card_process import *
+from src.choose import *
+from src.game import *
+from src.params import *
+from src.input_name import *
+from src.rank import *
 
 GAME_CONTROL = False
 

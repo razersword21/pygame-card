@@ -5,11 +5,10 @@ import json
 import logging
 logging.basicConfig(level=logging.INFO)
 
-from objects import *
-from card_process import *
-from choose import *
-from params import *
-from game_utils import *
+from src.objects import *
+from src.card_process import *
+from src.choose import *
+from src.params import *
 
 def set_enemy(enemy):
     x = random.randint(0,100)
@@ -306,3 +305,16 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
         pygame.display.flip()
         clock.tick(60)
+
+def write_game_records(rank_list,main_role,rounds):
+    if not any(player['name'] == main_role.name for player in rank_list):
+        rank_list.append({"name":main_role.name,"score":str(rounds)})
+    else:
+        for player in rank_list:
+            if player['name'] == main_role.name and int(player['score']) < rounds:
+                player['score'] = str(rounds)
+    rank_list = sorted(rank_list, key=lambda k: k['score'], reverse=True)
+    if len(rank_list) > 9:
+        rank_list.pop(-1)
+    with open('draw_source/rankings.json','w') as f:
+        json.dump(rank_list, f)

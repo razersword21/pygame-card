@@ -1,6 +1,6 @@
 import pygame,sys
 import json
-from objects import *
+from src.objects import *
 
 def rank_page(win):
     bg = BG(900, 600)

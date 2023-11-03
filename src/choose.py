@@ -1,10 +1,10 @@
 import pygame,sys
 import random
 
-from objects import *
-from card_process import *
-from params import *
-from shop import *
+from src.objects import *
+from src.card_process import *
+from src.params import *
+from src.shop import *
 
 special_deck = Special_card()
 normal_deck = special_deck.normal_deck

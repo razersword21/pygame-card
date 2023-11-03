@@ -1,5 +1,5 @@
 import pygame,sys
-from objects import *
+from src.objects import *
 
 def input_name(win,main_role):
     bg = BG(900, 600)

@@ -1,6 +1,6 @@
 import random
-from objects import *
-from params import *
+from src.objects import *
+from src.params import *
 
 def card_effect(target,card,myself):
     match card.type:

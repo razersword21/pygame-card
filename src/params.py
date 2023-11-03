@@ -1,4 +1,4 @@
-from objects import *
+from src.objects import *
 
 RED = (255,0,0)
 BLUE = (0,0,255)

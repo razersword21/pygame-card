@@ -2,9 +2,9 @@ import pygame,sys
 import logging
 logging.basicConfig(level=logging.INFO)
 
-from objects import *
-from card_process import *
-from params import *
+from src.objects import *
+from src.card_process import *
+from src.params import *
 
 def shop(win,font_list,person):
     bg = BG(900, 600)
