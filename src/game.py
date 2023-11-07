@@ -201,7 +201,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                                 +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
                                 +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' de_b '+str(main_role.defense_buff)+' Buff '+str(main_role.buff)+'\n'
                                 +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' de_b '+str(enemy.defense_buff)+' Buff '+str(enemy.buff))
-        
+
         if GAME_CONTROL:
             if player_turn:
                 for i in range(len(current_cards)):
