@@ -173,6 +173,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         match main_card.type:
                             case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice':
                                 enemy,main_role = card_effect(enemy,main_card,main_role)
+                                # main_role.main_index = 0
+                                # pygame.display.update()
                                 if enemy.hp <= 0:
                                     enemy.hp = 0
                                     GAME_CONTROL = False
@@ -201,7 +203,6 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                                 +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
                                 +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' de_b '+str(main_role.defense_buff)+' Buff '+str(main_role.buff)+'\n'
                                 +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' de_b '+str(enemy.defense_buff)+' Buff '+str(enemy.buff))
-
         if GAME_CONTROL:
             if player_turn:
                 for i in range(len(current_cards)):
