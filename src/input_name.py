@@ -12,7 +12,7 @@ def input_name(win,main_role):
     while inputing:
         win.blit(bg.bg_big, bg.rect)
         title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 80)
-        base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 50)
+        base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 40)
         menu_text = title_font.render("輸入玩家名字\n   (限英文)", True, BLACK)
         win.blit(menu_text, (280, 70))
 
@@ -43,4 +43,8 @@ def input_name(win,main_role):
         input_box.center = (900/2, 600/2)
         win.blit(text_surface, (input_box.x+5, input_box.y+5))
         pygame.draw.rect(win, color, input_box, 3)
+        
+        menu_text = base_font.render("說明 :\n1.攻擊力=玩家加成數值+卡牌傷害(防禦和治癒相同，\n         甚至buff與debuff都會加上加成數值)\n2.商店可購買加成屬性\n3.每次打贏敵人可選擇獎勵", True, BLACK)
+        win.blit(menu_text, (100, 375))
+
         pygame.display.flip()
