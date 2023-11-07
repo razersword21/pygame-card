@@ -139,6 +139,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         win.blit(quit_text, (825, 20))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                write_game_records(rank_list,main_role,rounds)
+                logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
