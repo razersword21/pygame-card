@@ -16,10 +16,10 @@ def choose_(win,font_list,rounds,person):
     choosing = True
     value,add_hp = 0,0
     chose_card = None
-    if rounds % 5 == 0 and rounds != 0:
-        add_hp = params.add_hp
-        add_value = params.add_value
-    elif rounds % 10 == 0 and rounds != 0:
+    
+    add_hp = params.add_hp
+    add_value = params.add_value
+    if rounds % 10 == 0 and rounds != 0:
         add_hp = params.add_hp*2
         add_value = params.add_value*2       
     

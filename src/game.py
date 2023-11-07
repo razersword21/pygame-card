@@ -28,7 +28,8 @@ def set_enemy(enemy):
     enemy.hp = enemy.max_hp
     enemy.magic = enemy.max_magic
     enemy.buff = []
-    # self.enemy_index = 1 改敵人的圖片
+    e_index = random.randint(0,1)
+    enemy.enemy_index = e_index
     return enemy
 
 def set_player(main_role,choose,add_value,new_card=None):
@@ -86,7 +87,6 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     
     test,current_card_index = 0,0
     while running:
-                
         win.blit(bg.bg_big, bg.rect)
         Rounds_text = font_list[0].render("Rounds: "+str(rounds), True, BLACK)
         win.blit(Rounds_text, (10, 10))
@@ -137,6 +137,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = font_list[0].render("Quit", True, WHITE)
         win.blit(quit_text, (825, 20))
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 write_game_records(rank_list,main_role,rounds)
@@ -151,7 +152,6 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     write_game_records(rank_list,main_role,rounds)
                     logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
                     running = False
-                
                 end_x = (len(current_cards)+1)*100
                 if GAME_CONTROL and pos[0] >= 100 and pos[0] <= end_x and player_turn:
                     card_index = pos[0] // 100 -1
@@ -201,6 +201,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                                 +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
                                 +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' de_b '+str(main_role.defense_buff)+' Buff '+str(main_role.buff)+'\n'
                                 +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' de_b '+str(enemy.defense_buff)+' Buff '+str(enemy.buff))
+        
         if GAME_CONTROL:
             if player_turn:
                 for i in range(len(current_cards)):
@@ -240,9 +241,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             enemy_cardindex = [x.index for x in enemy_remain_deck].index(card.index)
                             enemy_remain_deck.pop(enemy_cardindex)
                             enemy_used_cards.append(card)
-                            card.draw(win,BLACK,WHITE,0,font_list[0],400,100)
-                            enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)
-                            win.blit(enemy_use_card_text, (370, 50))
+                            
                             match card.type:
                                 case 'attack'|'fire'|'vampire'|'absorb'|'shield'|'brk_shd'|'sacrifice'|'dice':
                                     main_role,enemy = card_effect(main_role,card,enemy)
@@ -266,16 +265,18 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                                         +'剩餘卡牌:'+str(len(enemy_remain_deck))+' | 用過卡牌:'+str(len(enemy_used_cards))+' \n'
                                         +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' Mp '+str(main_role.magic)+' Buff '+str(main_role.buff)+'\n'
                                         +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' Mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
+                            card.draw(win,BLACK,WHITE,0,font_list[0],400,100)
+                            enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)
+                            win.blit(enemy_use_card_text, (370, 50))
+                            pygame.display.update()
                         else:
-                            logging.info("Enemy not use current card, drop new one.")
-                        
+                            logging.info('Enemy drops new card')
                 else:
                     time.sleep(1)
                     player_turn = True
                     enemy.magic = enemy.max_magic
                     main_role.magic = main_role.max_magic
                     check_person_buff(main_role,enemy)
-
         elif not GAME_CONTROL and enemy.hp == 0:
             logging.warning('********* Next Round *********')
             rounds += 1
@@ -310,7 +311,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             write_game_records(rank_list,main_role,rounds)
             logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(40)
 
 def write_game_records(rank_list,main_role,rounds):
     if not any(player['name'] == main_role.name for player in rank_list):

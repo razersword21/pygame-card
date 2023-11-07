@@ -39,9 +39,10 @@ class Main_role(pygame.sprite.Sprite):
     self.every_drop = 5
     self.max_card = 9
     self.buff = []
+    self.main_index = 2
 
   def draw(self, screen,x,y):
-    role = pygame.image.load('draw_source/eney2.png').convert_alpha()
+    role = pygame.image.load('draw_source/eney'+str(self.main_index)+'.png').convert_alpha()
     self.mainrole = pygame.transform.scale(role, (400, 350))
     self.rect = self.mainrole.get_rect(center = (x,y))
     screen.blit(self.mainrole,self.rect)
@@ -69,14 +70,16 @@ class Enemy(pygame.sprite.Sprite):
     screen.blit(self.enemy1,self.rect)
     
   def use_cardAI(self,card):
-    use_cards = True
+    use_cards = False
+    if card.type in ['return','drop']:
+        use_cards = False
     if self.hp <= self.max_hp/2:
-      if card.type == 'defense' or card.type == 'heal':
-        use_cards = True
+        if card.type == 'defense' or card.type == 'heal':
+          use_cards = True
     elif card.type not in ['attack','defense','heal']:
-      use_cards = True
+        use_cards = True
     else:
-      use_cards = True
+        use_cards = True
     return use_cards
   
 class Card(pygame.sprite.Sprite):
