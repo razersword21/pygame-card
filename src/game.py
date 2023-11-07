@@ -28,6 +28,7 @@ def set_enemy(enemy):
     enemy.hp = enemy.max_hp
     enemy.magic = enemy.max_magic
     enemy.buff = []
+    # self.enemy_index = 1 改敵人的圖片
     return enemy
 
 def set_player(main_role,choose,add_value,new_card=None):
@@ -102,7 +103,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         win.blit(player_hp_text, (80, 140))
         win.blit(player_de_text, (170, 140))
         win.blit(player_mp_text, (240, 140))
-        win.blit(player_money_text, (755, 500))
+        win.blit(player_money_text, (15, 375))
         win.blit(player_value_text, (10, 200))
         start_y = 200
         if len(list(main_role.buff)) > 0:
@@ -127,11 +128,11 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 enemy_buff_text = font_list[0].render(list(ebuff.keys())[0], True, Coconut_Brown)
                 win.blit(enemy_buff_text, (600, start_y_e))
 
-        next_turn_btn = pygame.Rect(750, 555, 110, 30) 
+        next_turn_btn = pygame.Rect(775, 400, 110, 30) 
         pygame.draw.rect(win, RED , next_turn_btn)
 
         btn_text = font_list[0].render("Next Turn", True, BLACK)
-        win.blit(btn_text, (755, 560))
+        win.blit(btn_text, (780, 405))
         quit_btn = pygame.Rect(820, 20, 65, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = font_list[0].render("Quit", True, WHITE)
@@ -232,11 +233,14 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     if (enemy.magic - card.cost) >= 0:
                         use_cards = enemy.use_cardAI(card)
                         if use_cards:
+                            time.sleep(1)
                             enemy.magic -= card.cost
                             enemy_cardindex = [x.index for x in enemy_remain_deck].index(card.index)
                             enemy_remain_deck.pop(enemy_cardindex)
                             enemy_used_cards.append(card)
-                            
+                            card.draw(win,BLACK,WHITE,0,font_list[0],400,100)
+                            enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)
+                            win.blit(enemy_use_card_text, (370, 50))
                             match card.type:
                                 case 'attack'|'fire'|'vampire'|'absorb'|'shield'|'brk_shd'|'sacrifice'|'dice':
                                     main_role,enemy = card_effect(main_role,card,enemy)
@@ -262,7 +266,9 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                                         +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' Mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
                         else:
                             logging.info("Enemy not use current card, drop new one.")
+                        
                 else:
+                    time.sleep(1)
                     player_turn = True
                     enemy.magic = enemy.max_magic
                     main_role.magic = main_role.max_magic
@@ -281,9 +287,9 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             current_cards = random.sample(main_remain_deck,main_role.every_drop)
             
             init_enemy_card_deck = init_card_deck(True)
-            if rounds % 5 != 0:
+            if rounds % 5 == 0 and rounds != 0:
                 new_add_enemy_card.append(random.choice(enemy_normal_deck))
-            if rounds % 10 != 0:
+            if rounds % 10 == 0 and rounds != 0:
                 new_add_enemy_card.append(random.choice(enemy_high_level_deck))
             enemy_remain_deck = init_enemy_card_deck.copy()
             enemy_remain_deck = enemy_remain_deck+new_add_enemy_card

@@ -55,9 +55,10 @@ def main():
                     input_name(win,main_role)
                     if len(main_role.name) > 0:
                         GAME_CONTROL = True
+                        keyboard.send('alt+shift')
                         game_(win,all_font,GAME_CONTROL,main_role,enemy)
-                    keyboard.send('alt+shift')
-                if rank_btn.collidepoint(pos):
+                    # keyboard.send('shift')
+                if rank_btn.collidepoint(pos): 
                     rank_page(win)
                 if quit_btn.collidepoint(pos):
                     pygame.quit()

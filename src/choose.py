@@ -16,10 +16,10 @@ def choose_(win,font_list,rounds,person):
     choosing = True
     value,add_hp = 0,0
     chose_card = None
-    if rounds % 5 != 0:
+    if rounds % 5 == 0 and rounds != 0:
         add_hp = params.add_hp
         add_value = params.add_value
-    else:
+    elif rounds % 10 == 0 and rounds != 0:
         add_hp = params.add_hp*2
         add_value = params.add_value*2       
     
@@ -27,7 +27,7 @@ def choose_(win,font_list,rounds,person):
     out_option = []
     chose_option = []
     out_card = []
-    if rounds % 10 == 0:
+    if rounds % 10 == 0 and rounds != 0:
         new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
     else:
         new_card_deck = random.choices(normal_deck,k=3)
@@ -72,8 +72,10 @@ def choose_(win,font_list,rounds,person):
                 win.blit(choose_text3, (start_x[i]-20, 300))
                 card_text1 = font_list[0].render(op.name, True, BLACK)
                 win.blit(card_text1, (start_x[i], 340))
+                card_text = font_list[0].render("Cost: "+str(op.cost), True, BLACK)
+                win.blit(card_text, (start_x[i]-10, 380))
                 card_text2 = font_list[0].render(op.special, True, BLACK)
-                win.blit(card_text2, (start_x[i]-20, 400))
+                win.blit(card_text2, (start_x[i]-20, 420))
                 chose_option.append('card')
                 out_card.append(op)
 

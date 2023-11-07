@@ -59,10 +59,11 @@ class Enemy(pygame.sprite.Sprite):
     self.max_magic = magic
     self.magic = self.max_magic
     self.buff = []
+    self.enemy_index = 1
     
   def draw(self, screen,x,y):
     # 繪製敵人
-    enemy1 = pygame.image.load('draw_source/eney1.png').convert_alpha()
+    enemy1 = pygame.image.load('draw_source/eney/eney_'+str(self.enemy_index)+'.png').convert_alpha()
     self.enemy1 = pygame.transform.scale(enemy1, (410, 410))
     self.rect = self.enemy1.get_rect(center = (x,y))
     screen.blit(self.enemy1,self.rect)
@@ -89,34 +90,35 @@ class Card(pygame.sprite.Sprite):
         self.cost = cost
         self.special = special
       
-    def draw(self,win,bgcolor,color,index,FONT,statr_x=100):
+    def draw(self,win,bgcolor,color,index,FONT,statr_x=100,start_y=430):
         next_card = index*100
-        pygame.draw.rect(win,bgcolor,(statr_x+next_card, 430, 110, 150))
-        pygame.draw.rect(win,color,(statr_x+next_card+5, 430+5, 100, 140)) 
+        pygame.draw.rect(win,bgcolor,(statr_x+next_card, start_y, 110, 150))
+        pygame.draw.rect(win,color,(statr_x+next_card+5, start_y+5, 100, 140)) 
         card_name_text = FONT.render(str(self.name), True, BLACK)
-        win.blit(card_name_text,(statr_x+20+next_card+5,460+5))
+        win.blit(card_name_text,(statr_x+20+next_card+5,start_y+30+5))
         card_cost_text = FONT.render('Cost '+str(self.cost), True, BLACK)
-        win.blit(card_cost_text,(statr_x+20+next_card+5,490+5))
+        win.blit(card_cost_text,(statr_x+20+next_card+5,start_y+60+5))
         match self.type:
           case 'attack'|'sacrifice':
             card_number_text = FONT.render(str(self.do_to_other), True, RED)
-            win.blit(card_number_text,(statr_x+45+next_card+5,520+5))
+            win.blit(card_number_text,(statr_x+45+next_card+5,start_y+90+5))
           case 'defense'|'heal'|'add_max_hp':
             card_number_text = FONT.render(str(self.do_for_self), True, GREEN)
-            win.blit(card_number_text,(statr_x+45+next_card+5,520+5))
+            win.blit(card_number_text,(statr_x+45+next_card+5,start_y+90+5))
           case 'fire':
             card_number_text = FONT.render(str(self.do_to_other), True, RED)
-            win.blit(card_number_text,(statr_x+45+next_card+5,520+5))
+            win.blit(card_number_text,(statr_x+45+next_card+5,start_y+90+5))
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
-            win.blit(card_last_text,(statr_x+20+next_card+5,560+5))
+            win.blit(card_last_text,(statr_x+20+next_card+5,start_y+130+5))
           case 'vampire'|'absorb':
             card_number_text = FONT.render('吸: '+str(self.do_to_other), True, PURPLE)
-            win.blit(card_number_text,(statr_x+10+next_card+5,520+5))
+            win.blit(card_number_text,(statr_x+10+next_card+5,start_y+90+5))
             card_last_text = FONT.render('Get: '+str(self.do_to_other), True, BLUE)
-            win.blit(card_last_text,(statr_x+10+next_card+5,540+5))
+            win.blit(card_last_text,(statr_x+10+next_card+5,start_y+110+5))
           case 'little_knife'|'knife':
             card_number_text = FONT.render(self.special, True, RED)
-            win.blit(card_number_text,(statr_x+10+next_card+5,510+5))
+            win.blit(card_number_text,(statr_x+10+next_card+5,start_y+80+5))
           case 'turtle'|'keep_heal'|'add_magic'|'dragon':
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
-            win.blit(card_last_text,(statr_x+20+next_card+5,520+5))
+            win.blit(card_last_text,(statr_x+20+next_card+5,start_y+90+5))
+
