@@ -42,7 +42,7 @@ class Main_role(pygame.sprite.Sprite):
     self.main_index = 2
 
   def draw(self, screen,x,y):
-    role = pygame.image.load('draw_source/eney'+str(self.main_index)+'.png').convert_alpha()
+    role = pygame.image.load('draw_source/main_role.png').convert_alpha()
     self.mainrole = pygame.transform.scale(role, (400, 350))
     self.rect = self.mainrole.get_rect(center = (x,y))
     screen.blit(self.mainrole,self.rect)
@@ -60,12 +60,12 @@ class Enemy(pygame.sprite.Sprite):
     self.max_magic = magic
     self.magic = self.max_magic
     self.buff = []
-    self.enemy_index = 1
+    self.enemy_index = 0
     
   def draw(self, screen,x,y):
     # 繪製敵人
     enemy1 = pygame.image.load('draw_source/eney/eney_'+str(self.enemy_index)+'.png').convert_alpha()
-    self.enemy1 = pygame.transform.scale(enemy1, (410, 410))
+    self.enemy1 = pygame.transform.scale(enemy1, (350, 400))
     self.rect = self.enemy1.get_rect(center = (x,y))
     screen.blit(self.enemy1,self.rect)
     
