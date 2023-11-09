@@ -12,14 +12,14 @@ Coconut_Brown = (77,31,0)
 class Intro(pygame.sprite.Sprite):
   def __init__(self,x,y):
     super(Intro, self).__init__()
-    background = pygame.image.load('draw_source/start.png').convert_alpha()
+    background = pygame.image.load('source/start.png').convert_alpha()
     self.bg_big = pygame.transform.scale(background, (x, y))
     self.rect = self.bg_big.get_rect(left=0, top=0)
 
 class BG(pygame.sprite.Sprite):
   def __init__(self,x,y):
     super(BG, self).__init__()
-    background = pygame.image.load('draw_source/bg.png').convert_alpha()
+    background = pygame.image.load('source/bg.png').convert_alpha()
     self.bg_big = pygame.transform.scale(background, (x, y))
     self.rect = self.bg_big.get_rect(left=0, top=0)
 
@@ -42,10 +42,25 @@ class Main_role(pygame.sprite.Sprite):
     self.main_index = 2
 
   def draw(self, screen,x,y):
-    role = pygame.image.load('draw_source/main_role.png').convert_alpha()
+    role = pygame.image.load('source/main_role.png').convert_alpha()
     self.mainrole = pygame.transform.scale(role, (400, 350))
     self.rect = self.mainrole.get_rect(center = (x,y))
     screen.blit(self.mainrole,self.rect)
+  
+  def reset(self,hp,de,magic,money):
+    self.max_hp = hp
+    self.hp = self.max_hp
+    self.max_de = de
+    self.de = self.max_de
+    self.damage_buff = 0
+    self.defense_buff = 0
+    self.heal_buff = 0
+    self.max_magic = magic
+    self.magic = self.max_magic
+    self.money = money
+    self.every_drop = 5
+    self.max_card = 9
+    self.buff = []
       
 class Enemy(pygame.sprite.Sprite):
 
@@ -64,13 +79,13 @@ class Enemy(pygame.sprite.Sprite):
     
   def draw(self, screen,x,y):
     # 繪製敵人
-    enemy1 = pygame.image.load('draw_source/eney/eney_'+str(self.enemy_index)+'.png').convert_alpha()
+    enemy1 = pygame.image.load('source/eney/eney_'+str(self.enemy_index)+'.png').convert_alpha()
     self.enemy1 = pygame.transform.scale(enemy1, (350, 400))
     self.rect = self.enemy1.get_rect(center = (x,y))
     screen.blit(self.enemy1,self.rect)
     
   def use_cardAI(self,card):
-    use_cards = False
+    use_cards = True
     if card.type in ['return','drop']:
         use_cards = False
     if self.hp <= self.max_hp/2:
@@ -81,6 +96,17 @@ class Enemy(pygame.sprite.Sprite):
     else:
         use_cards = True
     return use_cards
+  
+  def reset(self, hp,de,magic):
+    self.max_hp = hp
+    self.hp = self.max_hp
+    self.de = de
+    self.damage_buff = 0
+    self.defense_buff = 0
+    self.heal_buff = 0
+    self.max_magic = magic
+    self.magic = self.max_magic
+    self.buff = []
   
 class Card(pygame.sprite.Sprite):
     def __init__(self, index, name, card_type,cost,do_to_other=4, do_for_self=2, Lasting=0, special=None):

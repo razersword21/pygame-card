@@ -14,6 +14,8 @@ def shop(win,font_list,person):
         win.blit(bg.bg_big, bg.rect)
         menu_text = font_list[1].render("--商店--", True, BLACK)
         win.blit(menu_text, (300, 100))
+        Money_text = font_list[0].render("Money: "+str(person.money), True, Coconut_Brown)
+        win.blit(Money_text, (800, 20))
         choose_btn1 = pygame.Rect(50, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn1)
         choose_btn2 = pygame.Rect(350, 240, 200, 300)
@@ -25,12 +27,15 @@ def shop(win,font_list,person):
         rerurn_text = font_list[0].render("Rerurn", True, BLACK)
         win.blit(rerurn_text, (795, 560))
         start_x = [100,400,700]
-        shop_add_value = ['damage','defense','heal']
+        shop_add_value = ['Damage','Defense','Heal']
         for i,add_v in enumerate(shop_add_value):
-            choose_text1 = font_list[0].render(add_v, True, BLACK)
-            win.blit(choose_text1, (start_x[i], 300))
+            choose_text1 = font_list[1].render(add_v, True, BLACK)
+            if i < 2:
+                win.blit(choose_text1, (start_x[i]-30, 300))
+            else:
+                win.blit(choose_text1, (start_x[i], 300))
             choose_text1 = font_list[1].render("+ 1", True, BLACK)
-            win.blit(choose_text1, (start_x[i]+20, 400))
+            win.blit(choose_text1, (start_x[i]+20, 365))
             choose_text1 = font_list[0].render("Money: 300", True, BLACK)
             win.blit(choose_text1, (start_x[i], 450))
             
@@ -50,5 +55,7 @@ def shop(win,font_list,person):
                     else:
                         person.heal_buff += 1
                         logging.warn('玩家 購買 治癒加成')
+                if rerurn_btn1.collidepoint(pos):
+                    shop_activate = False
         pygame.display.flip()
     return person

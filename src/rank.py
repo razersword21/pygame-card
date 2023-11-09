@@ -1,19 +1,20 @@
 import pygame,sys
 import json
 from src.objects import *
+from src.params import *
 
 def rank_page(win):
     bg = BG(900, 600)
     ranking = True
-    with open('draw_source/rankings.json') as f:
+    with open('source/rankings.json') as f:
         rank_list = json.load(f)
     rank_list = sorted(rank_list, key=lambda k: k['score'], reverse=True)
     if len(rank_list) > 9:
         rank_list.pop(-1)
     while ranking:
         win.blit(bg.bg_big, bg.rect)
-        base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 32)
-        title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 80)
+        base_font = pygame.font.Font(params.Font, 32)
+        title_font = pygame.font.Font(params.Font, 80)
         menu_text = title_font.render("排名榜", True, BLACK)
         win.blit(menu_text, (350, 10))
 

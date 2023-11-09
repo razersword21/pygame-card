@@ -69,13 +69,13 @@ def choose_(win,font_list,rounds,person):
                 chose_option.append('all')
             else:
                 choose_text3 = font_list[0].render("增加特殊卡", True, BLACK)
-                win.blit(choose_text3, (start_x[i]-20, 300))
+                win.blit(choose_text3, (start_x[i]-20, 250))
                 card_text1 = font_list[0].render(op.name, True, BLACK)
-                win.blit(card_text1, (start_x[i], 340))
+                win.blit(card_text1, (start_x[i], 290))
                 card_text = font_list[0].render("Cost: "+str(op.cost), True, BLACK)
-                win.blit(card_text, (start_x[i]-10, 380))
+                win.blit(card_text, (start_x[i]-10, 330))
                 card_text2 = font_list[0].render(op.special, True, BLACK)
-                win.blit(card_text2, (start_x[i]-20, 420))
+                win.blit(card_text2, (start_x[i]-20, 370))
                 chose_option.append('card')
                 out_card.append(op)
 

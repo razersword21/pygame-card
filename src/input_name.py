@@ -1,5 +1,6 @@
 import pygame,sys
 from src.objects import *
+from src.params import *
 
 def input_name(win,main_role):
     bg = BG(900, 600)
@@ -11,8 +12,8 @@ def input_name(win,main_role):
     active = False
     while inputing:
         win.blit(bg.bg_big, bg.rect)
-        title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 80)
-        base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 40)
+        title_font = pygame.font.Font(params.Font, 80)
+        base_font = pygame.font.Font(params.Font, 40)
         menu_text = title_font.render("輸入玩家名字\n   (限英文)", True, BLACK)
         win.blit(menu_text, (280, 70))
 

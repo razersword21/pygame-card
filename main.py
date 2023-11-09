@@ -18,8 +18,8 @@ def main():
     pygame.display.set_caption('數值-無限地牢')  # 遊戲標題
     win = pygame.display.set_mode((900, 600))  # 窗口尺寸
     
-    base_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 32)
-    title_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 80)
+    base_font = pygame.font.Font(params.Font, 32)
+    title_font = pygame.font.Font(params.Font, 80)
     all_font = [base_font,title_font]
     intro = Intro(900, 600)
     show_intro = True

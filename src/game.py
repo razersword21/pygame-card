@@ -65,9 +65,11 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     bg = BG(900, 600)
     rounds = 0
     clock = pygame.time.Clock()
+    main_role.reset(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
+    enemy.reset(params.init_max_hp,params.init_max_de,params.init_max_magic)
     
     chose_buff = []
-    with open('draw_source/rankings.json') as f:
+    with open('source/rankings.json') as f:
         rank_list = json.load(f)
     running = True 
     player_turn = True
@@ -236,8 +238,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     card = random.choice(enemy_remain_deck)
                     if (enemy.magic - card.cost) >= 0:
                         use_cards = enemy.use_cardAI(card)
+                        time.sleep(1)
                         if use_cards:
-                            time.sleep(1)
                             enemy.magic -= card.cost
                             enemy_cardindex = [x.index for x in enemy_remain_deck].index(card.index)
                             enemy_remain_deck.pop(enemy_cardindex)
@@ -303,7 +305,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             main_role = set_player(main_role,chose_buff,add_value,new_card)
             GAME_CONTROL = True
         else:
-            over_font = pygame.font.Font('font/ChenYuluoyan-Thin.ttf', 150)
+            over_font = pygame.font.Font(params.Font, 150)
             over_text = over_font.render("Game Over", True, RED)
             win.blit(over_text, (300, 300))
             pygame.display.update()
@@ -324,5 +326,5 @@ def write_game_records(rank_list,main_role,rounds):
     rank_list = sorted(rank_list, key=lambda k: k['score'], reverse=True)
     if len(rank_list) > 9:
         rank_list.pop(-1)
-    with open('draw_source/rankings.json','w') as f:
+    with open('source/rankings.json','w') as f:
         json.dump(rank_list, f)
