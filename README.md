@@ -15,7 +15,7 @@ python main.py
 
 ### 包成執行檔
 ```bash
-pyinstaller  main.py -n 無限輪迴 -p src -i 'game_ico.ico'
+pyinstaller  main.py -n 無限輪迴 -p src -i game_ico.ico
 ```
 
 ### 未完成

@@ -83,7 +83,7 @@ def init_card_deck(random_control:bool=None):
     for i,card_num in enumerate(card_type_number):
         for _ in range(card_num):
             if i == 0:
-                card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,3,0,0,None)])
+                card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,5,0,0,None)])
             else:
                 card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,0,2,0,None)])
             deck_index+=1

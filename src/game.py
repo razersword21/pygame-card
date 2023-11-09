@@ -156,7 +156,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
                     running = False
                 end_x = (len(current_cards)+1)*100
-                if GAME_CONTROL and pos[0] >= 100 and pos[0] <= end_x and player_turn:
+                if GAME_CONTROL and pos[0] >= 100 and pos[0] <= end_x and player_turn and pos[1]>=430 and pos[1]<=540:
                     card_index = pos[0] // 100 -1
                     if len(current_cards)<=5:
                         if card_index>=4:
