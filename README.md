@@ -22,3 +22,4 @@ pyinstaller  main.py -n 無限輪迴 -p src -i game_ico.ico
 * 戰鬥歷程
 * 玩家 敵人 buff debuff美術圖
 * +職業 or +技能
+* 勝利畫面(加一個func畫surface單獨判斷動作win_page.py)
