@@ -53,7 +53,7 @@ def set_player(main_role,choose,add_value,new_card=None):
         logging.info(main_role.name+' 對於 '+choose+' 屬性增強了!')
     elif choose == '':
         main_role.money += params.add_pass_money
-        logging.info(main_role.name+'放棄選擇 ， 獲得錢幣 +200 !')
+        logging.info(main_role.name+'放棄選擇 ， 獲得錢幣 '+str(params.add_pass_money)+' !')
     else:
         logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name)
     main_role.hp = main_role.max_hp

@@ -42,7 +42,8 @@ def choose_(win,font_list,rounds,person):
         pygame.draw.rect(win, YELLOW , shop_btn1)
         shop_text = font_list[0].render("Shop", True, BLACK)
         win.blit(shop_text, (795, 560))
-
+        shop_text = font_list[0].render("如果選擇跳過獎勵，關閉頁面將得到Money+150", True, BLACK)
+        win.blit(shop_text, (20, 560))
         choose_btn1 = pygame.Rect(50, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn1)
         choose_btn2 = pygame.Rect(350, 240, 200, 300)
