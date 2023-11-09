@@ -28,7 +28,7 @@ def set_enemy(enemy):
     enemy.hp = enemy.max_hp
     enemy.magic = enemy.max_magic
     enemy.buff = []
-    e_index = random.randint(0,1)
+    e_index = random.randint(0,2)
     enemy.enemy_index = e_index
     return enemy
 
