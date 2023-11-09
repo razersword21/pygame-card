@@ -1,4 +1,5 @@
 import pygame
+import random
 
 RED = (255,0,0)
 BLUE = (0,0,255)
@@ -84,17 +85,14 @@ class Enemy(pygame.sprite.Sprite):
     self.rect = self.enemy1.get_rect(center = (x,y))
     screen.blit(self.enemy1,self.rect)
     
-  def use_cardAI(self,card):
-    use_cards = True
-    if card.type in ['return','drop']:
-        use_cards = False
-    if self.hp <= self.max_hp/2:
+  def use_cardAI(self,enemy_current_cards):
+    use_cards = random.choice(enemy_current_cards)
+    for card in enemy_current_cards:
+      if card.cost == 0:
+        return card
+      elif self.hp <= self.max_hp/2:
         if card.type == 'defense' or card.type == 'heal':
-          use_cards = True
-    elif card.type not in ['attack','defense','heal']:
-        use_cards = True
-    else:
-        use_cards = True
+          return card
     return use_cards
   
   def reset(self, hp,de,magic):

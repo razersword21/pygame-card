@@ -84,6 +84,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     enemy_remain_deck = init_enemy_card_deck.copy()
     enemy_normal_deck = Special_card.normal_deck.copy()
     enemy_high_level_deck = Special_card.high_level_deck.copy()
+    enemy_current_cards = random.sample(enemy_remain_deck,5)
     enemy_used_cards = []
     new_add_enemy_card = []
     
@@ -171,40 +172,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             main_used_cards.append(main_card)
                             usedcardindex = [x.index for x in main_remain_deck].index(main_card.index)
                             main_remain_deck.pop(usedcardindex)
-                        
-                        match main_card.type:
-                            case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice':
-                                enemy,main_role = card_effect(enemy,main_card,main_role)
-                                # main_role.main_index = 0
-                                # pygame.display.update()
-                                if enemy.hp <= 0:
-                                    enemy.hp = 0
-                                    GAME_CONTROL = False
-                            case 'defense'|'heal'|'guard'|'altar'|'add_max_hp':
-                                main_role,enemy = card_effect(main_role,main_card,enemy)
-                                if main_role.hp > main_role.max_hp:
-                                    main_role.hp = main_role.max_hp                                
-                            case 'return':
-                                current_cards = random.sample(main_remain_deck,main_role.every_drop)
-                            case 'drop':
-                                if (len(current_cards)+2) <= main_role.max_card:
-                                    new_drop = random.sample(main_remain_deck,2)
-                                    current_cards.extend(new_drop)
-                                else:
-                                    limit_crad = main_role.max_card - len(current_cards)
-                                    new_drop = random.sample(main_remain_deck,limit_crad)
-                                    current_cards.extend(new_drop)
-                            case 'knife':
-                                little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'消逝')
-                                new_drop = [little_knife,little_knife]
-                                current_cards.extend(new_drop)
-                            case 'turtle'|'keep_heal'|'add_magic'|'dragon':
-                                duoble_buff(main_card,main_role)
-                                check_person_buff(main_role,enemy,main_card.type)
-                        logging.info(main_role.name+' 打出 '+main_card.name+' '+str(max(main_card.do_to_other+main_role.damage_buff,main_card.do_for_self+main_role.defense_buff))+' | '
-                                +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
-                                +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' de_b '+str(main_role.defense_buff)+' Buff '+str(main_role.buff)+'\n'
-                                +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' de_b '+str(enemy.defense_buff)+' Buff '+str(enemy.buff))
+                        GAME_CONTROL,current_cards = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards)
         if GAME_CONTROL:
             if player_turn:
                 for i in range(len(current_cards)):
@@ -215,6 +183,14 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 if test == 0:
                     test = 1
                     logging.info('---------------Player Turn---------------')
+                if len(enemy_remain_deck) < 5:
+                    enemy_return_cards = random.sample(enemy_used_cards,5-len(enemy_remain_deck))
+                    enemy_remain_deck.extend(enemy_return_cards)
+                    enemy_current_cards = random.sample(enemy_remain_deck,5)
+                    enemy_remain_deck.extend(enemy_used_cards)
+                    enemy_used_cards = []
+                else:
+                    enemy_current_cards = random.sample(enemy_remain_deck,5)
             else:
                 # 玩家剩餘牌<5從用過的牌拉回
                 if len(main_remain_deck) < main_role.every_drop:
@@ -232,48 +208,26 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     test = 0
                 
                 if enemy.magic > 0:
-                    if len(enemy_remain_deck) <= 0:
-                        enemy_remain_deck.extend(enemy_used_cards)
-                        enemy_used_cards = []
-                    card = random.choice(enemy_remain_deck)
+                    card = enemy.use_cardAI(enemy_current_cards)
                     if (enemy.magic - card.cost) >= 0:
-                        use_cards = enemy.use_cardAI(card)
-                        time.sleep(1)
-                        if use_cards:
-                            enemy.magic -= card.cost
+                        time.sleep(0.5)
+                        enemy.magic -= card.cost
+                        if card.index != -1:
                             enemy_cardindex = [x.index for x in enemy_remain_deck].index(card.index)
                             enemy_remain_deck.pop(enemy_cardindex)
+                            enemy_current_cardindex = [x.index for x in enemy_current_cards].index(card.index)
+                            enemy_current_cards.pop(enemy_current_cardindex)
                             enemy_used_cards.append(card)
-                            
-                            match card.type:
-                                case 'attack'|'fire'|'vampire'|'absorb'|'shield'|'brk_shd'|'sacrifice'|'dice':
-                                    main_role,enemy = card_effect(main_role,card,enemy)
-                                    if main_role.hp <= 0:
-                                        main_role.hp = 0
-                                        GAME_CONTROL = False
-                                case 'defense'|'heal'|'guard'|'altar'|'add_max_hp':
-                                    enemy,main_role = card_effect(enemy,card,main_role)
-                                    if enemy.hp > enemy.max_hp:
-                                        enemy.hp = enemy.max_hp
-                                case 'return'|'drop':
-                                    pass
-                                case 'knife':
-                                    little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'0費小刀')
-                                    main_role,enemy = card_effect(main_role,little_knife,enemy)
-                                    main_role,enemy = card_effect(main_role,little_knife,enemy)
-                                case 'turtle'|'add_magic'|'keep_heal'|'dragon':
-                                    duoble_buff(card,enemy)
-                                    check_person_buff(enemy,main_role,card.type)
-                            logging.info(enemy.name+' 打出 '+card.name+' '+str(max(card.do_to_other+enemy.damage_buff,card.do_for_self))+' | '
-                                        +'剩餘卡牌:'+str(len(enemy_remain_deck))+' | 用過卡牌:'+str(len(enemy_used_cards))+' \n'
-                                        +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' Mp '+str(main_role.magic)+' Buff '+str(main_role.buff)+'\n'
-                                        +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' Mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
-                            card.draw(win,BLACK,WHITE,0,font_list[0],400,100)
-                            enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)
-                            win.blit(enemy_use_card_text, (370, 50))
-                            pygame.display.update()
-                        else:
-                            logging.info('Enemy drops new card')
+
+                        GAME_CONTROL,enemy_current_cards = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards)
+                        
+                        card.draw(win,BLACK,WHITE,0,font_list[0],400,100)
+                        enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)
+                        win.blit(enemy_use_card_text, (370, 50))
+                        pygame.display.update()
+                        time.sleep(0.5)
+                    else:
+                        logging.info('Enemy drops new card ! ...')
                 else:
                     time.sleep(1)
                     player_turn = True
@@ -291,15 +245,18 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             main_remain_deck = init_main_card_deck.copy()
             main_used_cards = []
             current_cards = random.sample(main_remain_deck,main_role.every_drop)
-            
+
             init_enemy_card_deck = init_card_deck(True)
             if rounds % 5 == 0 and rounds != 0:
                 new_add_enemy_card.append(random.choice(enemy_normal_deck))
             if rounds % 10 == 0 and rounds != 0:
                 new_add_enemy_card.append(random.choice(enemy_high_level_deck))
             enemy_remain_deck = init_enemy_card_deck.copy()
-            enemy_remain_deck = enemy_remain_deck+new_add_enemy_card
+            for new_e_card in new_add_enemy_card:
+                new_e_card.index = len(init_enemy_card_deck)
+                enemy_remain_deck.append(new_e_card)
             enemy_used_cards = []
+            enemy_current_cards = random.sample(enemy_remain_deck,5)
 
             enemy = set_enemy(enemy)
             main_role = set_player(main_role,chose_buff,add_value,new_card)
