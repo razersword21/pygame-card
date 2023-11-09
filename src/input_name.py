@@ -45,7 +45,7 @@ def input_name(win,main_role):
         win.blit(text_surface, (input_box.x+5, input_box.y+5))
         pygame.draw.rect(win, color, input_box, 3)
         
-        menu_text = base_font.render("說明 :\n1.攻擊力=玩家加成數值+卡牌傷害(防禦和治癒相同，\n         甚至buff與debuff都會加上加成數值)\n2.商店可購買加成屬性\n3.每次打贏敵人可選擇獎勵", True, BLACK)
+        menu_text = base_font.render("說明 :\n1.攻擊力=玩家加成數值+卡牌傷害(防禦和治癒相同，\n         甚至buff與debuff都會加上加成數值)\n2.商店可購買加成屬性\n3.每次打贏敵人可選擇獎勵 \n -- 回到主頁面請按右上角關閉X --", True, BLACK)
         win.blit(menu_text, (100, 375))
 
         pygame.display.flip()
