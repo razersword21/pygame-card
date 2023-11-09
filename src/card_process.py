@@ -191,7 +191,7 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
                 enemy.hp = 0
                 GAME_CONTROL = False
         case 'defense'|'heal'|'guard'|'altar'|'add_max_hp':
-            if main_card.type == 'defense'|'guard':
+            if main_card.type in ['defense','guard']:
                 value = str(main_card.do_for_self+main_role.defense_buff)
             else:
                 value = str(main_card.do_for_self+main_role.heal_buff)
