@@ -2,3 +2,5 @@ __pycache__
 dist
 build
 無限輪迴.spec
+build_exe.sh
+game_ico.ico
