@@ -140,10 +140,10 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = font_list[0].render("Quit", True, WHITE)
         win.blit(quit_text, (825, 20))
-        history_btn = pygame.Rect(700, 500, 70, 70) 
+        history_btn = pygame.Rect(800, 500, 70, 70) 
         pygame.draw.rect(win, Wisteria , history_btn)
         history_text = font_list[0].render("戰鬥\n歷程", True, BLACK)
-        win.blit(history_text, (710, 500))
+        win.blit(history_text, (810, 500))
 
         if show_history:
             history_surface = pygame.Surface((500,350))
@@ -180,8 +180,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         if card_index>=4:
                             card_index = 4
                     else:
-                        if card_index>=6:
-                            card_index = 6
+                        if card_index>=8:
+                            card_index = 8
                     main_card = current_cards[card_index]
                     if (main_role.magic - main_card.cost) >= 0:
                         current_cards.pop(card_index)
