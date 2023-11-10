@@ -46,7 +46,7 @@ def choose_(win,font_list,rounds,person,new_card_deck):
         pygame.draw.rect(win, WHITE , choose_btn3)
         rerurn_btn1 = pygame.Rect(790, 555, 70, 30)
         pygame.draw.rect(win, RED , rerurn_btn1)
-        rerurn_text = font_list[0].render("跳過", True, BLACK)
+        rerurn_text = font_list[0].render("返回", True, BLACK)
         win.blit(rerurn_text, (795, 560))
         start_x = [100,400,700]
         for i,op in enumerate(out_option):

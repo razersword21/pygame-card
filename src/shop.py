@@ -24,7 +24,7 @@ def shop(win,font_list,person):
         pygame.draw.rect(win, WHITE , choose_btn3)
         rerurn_btn1 = pygame.Rect(790, 555, 100, 30)
         pygame.draw.rect(win, RED , rerurn_btn1)
-        rerurn_text = font_list[0].render("Rerurn", True, BLACK)
+        rerurn_text = font_list[0].render("返回", True, BLACK)
         win.blit(rerurn_text, (795, 560))
         start_x = [100,400,700]
         shop_add_value = ['Damage','Defense','Heal']
