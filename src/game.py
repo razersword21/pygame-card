@@ -73,7 +73,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     with open('source/rankings.json') as f:
         rank_list = json.load(f)
     running = True 
-    player_turn = True
+    player_turn,show_history = True,False
 
     init_enemy_card_deck = init_card_deck(True)
     init_main_card_deck = init_card_deck()
@@ -134,14 +134,26 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
 
         next_turn_btn = pygame.Rect(775, 400, 110, 30) 
         pygame.draw.rect(win, RED , next_turn_btn)
-
         btn_text = font_list[0].render("Next Turn", True, BLACK)
         win.blit(btn_text, (780, 405))
         quit_btn = pygame.Rect(820, 20, 65, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = font_list[0].render("Quit", True, WHITE)
         win.blit(quit_text, (825, 20))
-        
+        history_btn = pygame.Rect(700, 500, 70, 70) 
+        pygame.draw.rect(win, Wisteria , history_btn)
+        history_text = font_list[0].render("戰鬥\n歷程", True, BLACK)
+        win.blit(history_text, (710, 500))
+
+        if show_history:
+            history_surface = pygame.Surface((500,350))
+            history_surface.fill(Wisteria)
+            for i, text in enumerate(log_text_list):
+                log_text = font_list[0].render(text, True, BLACK)
+                history_surface.blit(log_text, (30, 10+i*30))
+            win.blit(history_surface, (200, 30))
+            pygame.display.update()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 write_game_records(rank_list,main_role,rounds)
@@ -152,6 +164,11 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 pos = pygame.mouse.get_pos()
                 if next_turn_btn.collidepoint(pos):
                     player_turn = False
+                if history_btn.collidepoint(pos):
+                    if not show_history:
+                        show_history = True
+                    else:
+                        show_history = False
                 if quit_btn.collidepoint(pos):
                     write_game_records(rank_list,main_role,rounds)
                     logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
@@ -173,7 +190,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             main_used_cards.append(main_card)
                             usedcardindex = [x.index for x in main_remain_deck].index(main_card.index)
                             main_remain_deck.pop(usedcardindex)
-                        GAME_CONTROL,current_cards = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards)
+                        GAME_CONTROL,current_cards,log_text_list = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list)
         if GAME_CONTROL:
             if player_turn:
                 for i in range(len(current_cards)):
@@ -185,7 +202,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     test = 1
                     log_text = '---------------Player Turn---------------'
                     log_text_list.append(log_text)
-                    log_text_list = log_text_list[-10:]
+                    log_text_list = log_text_list[-params.log_text_len:]
                     logging.info('---------------Player Turn---------------')
                 if len(enemy_remain_deck) < 5:
                     enemy_return_cards = random.sample(enemy_used_cards,5-len(enemy_remain_deck))
@@ -210,7 +227,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     check_person_buff(enemy,main_role)
                     log_text = '---------------Enemy Turn---------------'
                     log_text_list.append(log_text)
-                    log_text_list = log_text_list[-10:]
+                    log_text_list = log_text_list[-params.log_text_len:]
                     logging.info('---------------Enemy Turn---------------')
                     test = 0
                 
@@ -226,7 +243,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             enemy_current_cards.pop(enemy_current_cardindex)
                             enemy_used_cards.append(card)
 
-                        GAME_CONTROL,enemy_current_cards = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards)
+                        GAME_CONTROL,enemy_current_cards,log_text_list = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards,log_text_list)
                         
                         card.draw(win,BLACK,WHITE,0,font_list[0],400,100)
                         enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)
@@ -244,7 +261,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         elif not GAME_CONTROL and enemy.hp == 0:
             log_text = '********* Next Round *********'
             log_text_list.append(log_text)
-            log_text_list = log_text_list[-10:]
+            log_text_list = log_text_list[-params.log_text_len:]
             logging.warning('********* Next Round *********')
             rounds += 1
             chose_buff,add_value,new_card,main_role = win_surface(win,font_list,rounds,main_role)
