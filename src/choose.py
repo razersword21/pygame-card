@@ -29,7 +29,7 @@ def choose_(win,font_list,rounds,person,new_card_deck):
     out_card = []
     
     options.extend(new_card_deck)
-    out_option = random.choices(options,weights=[0.2,0.2,0.2,0.2,0.2],k=3)
+    out_option = random.sample(options,k=3)
         
     while choosing:
         win.blit(bg.bg_big, bg.rect)
