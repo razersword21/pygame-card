@@ -1,5 +1,6 @@
 import pygame,sys
 import pygame.locals
+import time
 
 from src.objects import *
 from src.card_process import *
@@ -21,11 +22,17 @@ def main():
     title_font = pygame.font.Font(params.Font, 80)
     all_font = [base_font,title_font]
     intro = Intro(900, 600)
-    show_intro = True
+    intro_animation = Intro_animation(300,300)
+    show_intro,show_animation = True,True
     enemy = Enemy(params.init_max_hp,params.init_max_de,params.init_max_magic)
     main_role = Main_role(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
 
     while show_intro:
+        if show_animation:
+            win.blit(intro_animation.bg_big, intro_animation.rect)
+            pygame.display.update()
+            time.sleep(2)
+            show_animation = False
         win.blit(intro.bg_big, intro.rect)
 
         start_btn = pygame.Rect(300, 555, 70, 30) 

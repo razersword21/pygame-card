@@ -10,7 +10,7 @@ special_deck = Special_card()
 normal_deck = special_deck.normal_deck
 high_level_deck = special_deck.high_level_deck
 
-def choose_(win,font_list,rounds,person):
+def choose_(win,font_list,rounds,person,new_card_deck):
     bg = BG(900, 600)
     choose_buff = ''
     choosing = True
@@ -27,12 +27,9 @@ def choose_(win,font_list,rounds,person):
     out_option = []
     chose_option = []
     out_card = []
-    if rounds % 10 == 0 and rounds != 0:
-        new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
-    else:
-        new_card_deck = random.choices(normal_deck,k=3)
+    
     options.extend(new_card_deck)
-    out_option = random.choices(options,weights=[0.4,0.15,0.15,0.15,0.15],k=3)
+    out_option = random.choices(options,weights=[0.2,0.2,0.2,0.2,0.2],k=3)
         
     while choosing:
         win.blit(bg.bg_big, bg.rect)
@@ -86,6 +83,8 @@ def choose_(win,font_list,rounds,person):
                 choosing = False
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
+                if rerurn_btn1.collidepoint(pos):
+                    choosing = False
                 if choose_btn1.collidepoint(pos):
                     choose_buff = chose_option[0]
                 elif choose_btn2.collidepoint(pos):
