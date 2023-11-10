@@ -30,7 +30,7 @@ def choose_(win,font_list,rounds,person,new_card_deck):
     
     options.extend(new_card_deck)
     out_option = random.sample(options,k=3)
-        
+    
     while choosing:
         win.blit(bg.bg_big, bg.rect)
         menu_text = font_list[1].render("--選擇獎勵--", True, BLACK)
