@@ -6,14 +6,14 @@ from src.choose import *
 def win_surface(win,font_list,rounds,main_role):
     bg = BG(900, 600)
     show_win_surface = True
-    chose_buff = []
+    chose_buff = ''
     add_value = 0
     new_card = None
     while show_win_surface:
         win.blit(bg.bg_big, bg.rect)
 
         menu_text = font_list[1].render("--勝利--", True, BLACK)
-        win.blit(menu_text, (350, 100))
+        win.blit(menu_text, (325, 100))
 
         choose_btn = pygame.Rect(100, 200, 400, 150)
         pygame.draw.rect(win, WHITE , choose_btn)
@@ -35,7 +35,7 @@ def win_surface(win,font_list,rounds,main_role):
                     chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role)
                 if shop_btn.collidepoint(pos):
                     main_role = shop(win,font_list,main_role)
-                if next_rounds_btn.collidepoint(pos):
+                if next_rounds_btn.collidepoint(pos) and (new_card != None ):
                     show_win_surface = False
         
         pygame.display.update()

@@ -69,7 +69,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     main_role.reset(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
     enemy.reset(params.init_max_hp,params.init_max_de,params.init_max_magic)
     
-    chose_buff = []
+    chose_buff = ''
     with open('source/rankings.json') as f:
         rank_list = json.load(f)
     running = True 
