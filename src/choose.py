@@ -100,9 +100,17 @@ def choose_(win,font_list,rounds,person,new_card_deck):
                         if pos[0] >= 50 and pos[0] <= 250:
                             chose_card = out_card[0]
                         elif pos[0] >= 350 and pos[0] <= 550:
-                            chose_card = out_card[1]
+                            if len(out_card) <= 2:
+                                chose_card = out_card[0]
+                            else:
+                                chose_card = out_card[1]
                         else:
-                            chose_card = out_card[2]
+                            if len(out_card) == 1:
+                                chose_card = out_card[0]
+                            elif len(out_card) == 2:
+                                chose_card = out_card[1]
+                            else:
+                                chose_card = out_card[2]
                 choosing = False
                 
         pygame.display.flip()
