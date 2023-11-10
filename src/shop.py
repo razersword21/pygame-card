@@ -12,8 +12,6 @@ def shop(win,font_list,person):
     
     while shop_activate:
         win.blit(bg.bg_big, bg.rect)
-        menu_text = font_list[1].render("--商店--", True, BLACK)
-        win.blit(menu_text, (300, 100))
         Money_text = font_list[0].render("Money: "+str(person.money), True, Coconut_Brown)
         win.blit(Money_text, (800, 20))
         choose_btn1 = pygame.Rect(50, 240, 200, 300)

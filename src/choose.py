@@ -11,7 +11,7 @@ normal_deck = special_deck.normal_deck
 high_level_deck = special_deck.high_level_deck
 
 def choose_(win,font_list,rounds,person,new_card_deck):
-    bg = BG(900, 600)
+    bg = chose_BG(900, 600)
     choose_buff = ''
     choosing = True
     value,add_hp = 0,0
@@ -33,10 +33,10 @@ def choose_(win,font_list,rounds,person,new_card_deck):
     
     while choosing:
         win.blit(bg.bg_big, bg.rect)
-        menu_text = font_list[1].render("--選擇獎勵--", True, BLACK)
+        menu_text = font_list[1].render("--選擇獎勵--", True, WHITE)
         win.blit(menu_text, (280, 100))
         
-        shop_text = font_list[0].render("如果選擇跳過獎勵，關閉頁面將得到Money+150", True, BLACK)
+        shop_text = font_list[0].render("如果選擇跳過獎勵，關閉頁面將得到Money+150", True, WHITE)
         win.blit(shop_text, (20, 560))
         choose_btn1 = pygame.Rect(50, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn1)

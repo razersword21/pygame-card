@@ -33,6 +33,13 @@ class BG(pygame.sprite.Sprite):
     self.bg_big = pygame.transform.scale(background, (x, y))
     self.rect = self.bg_big.get_rect(left=0, top=0)
 
+class chose_BG(pygame.sprite.Sprite):
+  def __init__(self,x,y):
+    super(chose_BG, self).__init__()
+    background = pygame.image.load('source/start2.jpg').convert_alpha()
+    self.bg_big = pygame.transform.scale(background, (x, y))
+    self.rect = self.bg_big.get_rect(left=0, top=0)
+
 class Main_role(pygame.sprite.Sprite):
   def __init__(self, hp,de,magic,money):
     self.name = ''
