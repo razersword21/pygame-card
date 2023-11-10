@@ -153,7 +153,7 @@ class Card(pygame.sprite.Sprite):
             win.blit(card_last_text,(statr_x+10+next_card+5,start_y+110+5))
           case 'little_knife'|'knife':
             card_number_text = FONT.render(self.special, True, RED)
-            win.blit(card_number_text,(statr_x+10+next_card+5,start_y+80+5))
+            win.blit(card_number_text,(statr_x+10+next_card+5,start_y+90+5))
           case 'turtle'|'keep_heal'|'add_magic'|'dragon':
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
             win.blit(card_last_text,(statr_x+20+next_card+5,start_y+90+5))
