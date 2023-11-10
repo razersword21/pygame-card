@@ -56,6 +56,7 @@ def set_player(main_role,choose,add_value,new_card=None):
         main_role.money += params.add_pass_money
         logging.info(main_role.name+'放棄選擇 ， 獲得錢幣 '+str(params.add_pass_money)+' !')
     else:
+        main_role.money += random.randint(50,100)
         logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name)
     main_role.hp = main_role.max_hp
     main_role.magic = main_role.max_magic
@@ -132,10 +133,10 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 enemy_buff_text = font_list[0].render(list(ebuff.keys())[0], True, Coconut_Brown)
                 win.blit(enemy_buff_text, (600, start_y_e))
 
-        next_turn_btn = pygame.Rect(775, 400, 110, 30) 
+        next_turn_btn = pygame.Rect(775, 425, 110, 30) 
         pygame.draw.rect(win, RED , next_turn_btn)
         btn_text = font_list[0].render("Next Turn", True, BLACK)
-        win.blit(btn_text, (780, 405))
+        win.blit(btn_text, (780, 430))
         quit_btn = pygame.Rect(820, 20, 65, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = font_list[0].render("Quit", True, WHITE)
@@ -180,8 +181,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         if card_index>=4:
                             card_index = 4
                     else:
-                        if card_index>=8:
-                            card_index = 8
+                        if card_index>=(len(current_cards)-1):
+                            card_index = len(current_cards)-1
                     main_card = current_cards[card_index]
                     if (main_role.magic - main_card.cost) >= 0:
                         current_cards.pop(card_index)
