@@ -38,10 +38,7 @@ def choose_(win,font_list,rounds,person):
         win.blit(bg.bg_big, bg.rect)
         menu_text = font_list[1].render("--選擇獎勵--", True, BLACK)
         win.blit(menu_text, (280, 100))
-        shop_btn1 = pygame.Rect(790, 555, 70, 30)
-        pygame.draw.rect(win, YELLOW , shop_btn1)
-        shop_text = font_list[0].render("Shop", True, BLACK)
-        win.blit(shop_text, (795, 560))
+        
         shop_text = font_list[0].render("如果選擇跳過獎勵，關閉頁面將得到Money+150", True, BLACK)
         win.blit(shop_text, (20, 560))
         choose_btn1 = pygame.Rect(50, 240, 200, 300)
@@ -50,6 +47,10 @@ def choose_(win,font_list,rounds,person):
         pygame.draw.rect(win, WHITE , choose_btn2)
         choose_btn3 = pygame.Rect(650, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn3)
+        rerurn_btn1 = pygame.Rect(790, 555, 70, 30)
+        pygame.draw.rect(win, RED , rerurn_btn1)
+        rerurn_text = font_list[0].render("跳過", True, BLACK)
+        win.blit(rerurn_text, (795, 560))
         start_x = [100,400,700]
         for i,op in enumerate(out_option):
             if op == add_hp:
@@ -104,8 +105,6 @@ def choose_(win,font_list,rounds,person):
                         else:
                             chose_card = out_card[2]
                 choosing = False
-                if shop_btn1.collidepoint(pos):
-                    person = shop(win,font_list,person)
-                    choosing = True
+                
         pygame.display.flip()
     return choose_buff,value,chose_card,person
