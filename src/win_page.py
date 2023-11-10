@@ -35,7 +35,7 @@ def win_surface(win,font_list,rounds,main_role):
                     chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role)
                 if shop_btn.collidepoint(pos):
                     main_role = shop(win,font_list,main_role)
-                if next_rounds_btn.collidepoint(pos) and (new_card != None ):
+                if next_rounds_btn.collidepoint(pos):
                     show_win_surface = False
         
         pygame.display.update()

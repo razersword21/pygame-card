@@ -1,6 +1,7 @@
 import pygame,sys
 import pygame.locals
 import keyboard
+import ctypes
 
 from src.objects import *
 from src.card_process import *
@@ -25,6 +26,11 @@ def main():
     show_intro = True
     enemy = Enemy(params.init_max_hp,params.init_max_de,params.init_max_magic)
     main_role = Main_role(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
+
+    user32 = ctypes.windll.user32
+    curr_locale = user32.GetKeyboardLayout(0)
+    Locale_CHINESE = 0x0804
+    Locale_ENGLISH = 0x0409
     
     while show_intro:
         win.blit(intro.bg_big, intro.rect)
@@ -51,13 +57,14 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if start_btn.collidepoint(pos):
-                    keyboard.send('alt+shift')
+                    if curr_locale == Locale_CHINESE:
+                        keyboard.send('alt+shift')
                     input_name(win,main_role)
                     if len(main_role.name) > 0:
                         GAME_CONTROL = True
-                        keyboard.send('alt+shift')
                         game_(win,all_font,GAME_CONTROL,main_role,enemy)
-                    # keyboard.send('shift')
+                    if curr_locale == Locale_ENGLISH:
+                        keyboard.send('alt+shift')
                 if rank_btn.collidepoint(pos): 
                     rank_page(win)
                 if quit_btn.collidepoint(pos):

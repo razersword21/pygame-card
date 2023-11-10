@@ -22,7 +22,7 @@ def shop(win,font_list,person):
         pygame.draw.rect(win, WHITE , choose_btn2)
         choose_btn3 = pygame.Rect(650, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn3)
-        rerurn_btn1 = pygame.Rect(790, 555, 70, 30)
+        rerurn_btn1 = pygame.Rect(790, 555, 100, 30)
         pygame.draw.rect(win, RED , rerurn_btn1)
         rerurn_text = font_list[0].render("Rerurn", True, BLACK)
         win.blit(rerurn_text, (795, 560))
