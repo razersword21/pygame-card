@@ -53,7 +53,7 @@ class Main_role(pygame.sprite.Sprite):
 
   def draw(self, screen,x,y):
     role = pygame.image.load('source/main_role.png').convert_alpha()
-    self.mainrole = pygame.transform.scale(role, (400, 350))
+    self.mainrole = pygame.transform.scale(role, (300, 350))
     self.rect = self.mainrole.get_rect(center = (x,y))
     screen.blit(self.mainrole,self.rect)
   
