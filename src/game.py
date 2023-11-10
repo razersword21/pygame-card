@@ -263,9 +263,11 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             main_role = set_player(main_role,chose_buff,add_value,new_card)
             GAME_CONTROL = True
         else:
+            over_bg = pygame.Rect(200, 225, 525, 150) 
+            pygame.draw.rect(win, BLACK , over_bg)
             over_font = pygame.font.Font(params.Font, 150)
             over_text = over_font.render("Game Over", True, RED)
-            win.blit(over_text, (300, 300))
+            win.blit(over_text, (250, 250))
             pygame.display.update()
             time.sleep(3)
             running = False
