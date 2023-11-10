@@ -18,7 +18,7 @@ def rank_page(win):
         menu_text = title_font.render("排名榜", True, BLACK)
         win.blit(menu_text, (350, 10))
 
-        return_btn = pygame.Rect(800, 555, 70, 30) 
+        return_btn = pygame.Rect(800, 560, 70, 30) 
         pygame.draw.rect(win, RED , return_btn)
         return_text = base_font.render("返回", True, BLACK)
         win.blit(return_text, (805, 560))

@@ -89,7 +89,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     enemy_used_cards = []
     new_add_enemy_card = []
     
-    test,current_card_index = 0,0
+    test,current_card_index,log_text_list = 0,0,[]
     while running:
         win.blit(bg.bg_big, bg.rect)
         Rounds_text = font_list[0].render("Rounds: "+str(rounds), True, BLACK)
@@ -183,6 +183,9 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 current_card_index = 0
                 if test == 0:
                     test = 1
+                    log_text = '---------------Player Turn---------------'
+                    log_text_list.append(log_text)
+                    log_text_list = log_text_list[-10:]
                     logging.info('---------------Player Turn---------------')
                 if len(enemy_remain_deck) < 5:
                     enemy_return_cards = random.sample(enemy_used_cards,5-len(enemy_remain_deck))
@@ -205,6 +208,9 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 
                 if test == 1:
                     check_person_buff(enemy,main_role)
+                    log_text = '---------------Enemy Turn---------------'
+                    log_text_list.append(log_text)
+                    log_text_list = log_text_list[-10:]
                     logging.info('---------------Enemy Turn---------------')
                     test = 0
                 
@@ -236,6 +242,9 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     main_role.magic = main_role.max_magic
                     check_person_buff(main_role,enemy)
         elif not GAME_CONTROL and enemy.hp == 0:
+            log_text = '********* Next Round *********'
+            log_text_list.append(log_text)
+            log_text_list = log_text_list[-10:]
             logging.warning('********* Next Round *********')
             rounds += 1
             chose_buff,add_value,new_card,main_role = win_surface(win,font_list,rounds,main_role)

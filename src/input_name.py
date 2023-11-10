@@ -20,7 +20,7 @@ def input_name(win,main_role):
     klid = user32.GetKeyboardLayout(thread_id)
     lid = klid & (2**16 - 1)
     lid_hex = hex(lid)
-
+    print(lid_hex)
     while inputing:
         win.blit(bg.bg_big, bg.rect)
         title_font = pygame.font.Font(params.Font, 80)
