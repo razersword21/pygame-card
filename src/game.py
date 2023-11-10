@@ -92,7 +92,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     test,current_card_index,log_text_list = 0,0,[]
     while running:
         win.blit(bg.bg_big, bg.rect)
-        Rounds_text = font_list[0].render("Rounds: "+str(rounds), True, BLACK)
+        Rounds_text = font_list[0].render("Levels: "+str(rounds), True, BLACK)
         win.blit(Rounds_text, (10, 10))
 
         main_role.draw(win,200,300)

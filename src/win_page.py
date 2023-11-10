@@ -9,6 +9,10 @@ def win_surface(win,font_list,rounds,main_role):
     chose_buff = ''
     add_value = 0
     new_card = None
+    if rounds % 5 == 0 and rounds != 0:
+        new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
+    else:
+        new_card_deck = random.choices(normal_deck,k=3)
     while show_win_surface:
         win.blit(bg.bg_big, bg.rect)
 
@@ -29,10 +33,12 @@ def win_surface(win,font_list,rounds,main_role):
         win.blit(choose_text, (625, 300))
             
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                show_win_surface = False
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if choose_btn.collidepoint(pos):
-                    chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role)
+                    chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role,new_card_deck)
                 if shop_btn.collidepoint(pos):
                     main_role = shop(win,font_list,main_role)
                 if next_rounds_btn.collidepoint(pos):

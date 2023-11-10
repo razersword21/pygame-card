@@ -12,6 +12,13 @@ Coconut_Brown = (77,31,0)
 Camel = (161,107,71)
 Wisteria = (201,160,220)
 
+class Intro_animation(pygame.sprite.Sprite):
+  def __init__(self,x,y):
+    super(Intro_animation, self).__init__()
+    background = pygame.image.load('source/info.png').convert_alpha()
+    self.bg_big = pygame.transform.scale(background, (x, y))
+    self.rect = self.bg_big.get_rect(center=(450,300))
+
 class Intro(pygame.sprite.Sprite):
   def __init__(self,x,y):
     super(Intro, self).__init__()
@@ -42,7 +49,7 @@ class Main_role(pygame.sprite.Sprite):
     self.every_drop = 5
     self.max_card = 9
     self.buff = []
-    self.main_index = 2
+    self.main_index = 1
 
   def draw(self, screen,x,y):
     role = pygame.image.load('source/main_role.png').convert_alpha()
@@ -83,7 +90,7 @@ class Enemy(pygame.sprite.Sprite):
   def draw(self, screen,x,y):
     # 繪製敵人
     enemy1 = pygame.image.load('source/eney/eney_'+str(self.enemy_index)+'.png').convert_alpha()
-    self.enemy1 = pygame.transform.scale(enemy1, (350, 400))
+    self.enemy1 = pygame.transform.scale(enemy1, (300, 400))
     self.rect = self.enemy1.get_rect(center = (x,y))
     screen.blit(self.enemy1,self.rect)
     
