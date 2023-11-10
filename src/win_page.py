@@ -3,16 +3,13 @@ import pygame
 from src.objects import *
 from src.choose import *
 
-def win_surface(win,font_list,rounds,main_role):
+def win_surface(win,font_list,rounds,main_role,new_card_deck):
     bg = BG(900, 600)
     show_win_surface = True
     chose_buff = ''
     add_value = 0
     new_card = None
-    if rounds % 5 == 0 and rounds != 0:
-        new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
-    else:
-        new_card_deck = random.choices(normal_deck,k=3)
+    
     while show_win_surface:
         win.blit(bg.bg_big, bg.rect)
 

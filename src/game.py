@@ -264,7 +264,11 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             log_text_list = log_text_list[-params.log_text_len:]
             logging.warning('********* Next Round *********')
             rounds += 1
-            chose_buff,add_value,new_card,main_role = win_surface(win,font_list,rounds,main_role)
+            if rounds % 5 == 0 and rounds != 0:
+                new_card_deck = random.choices(normal_deck+high_level_deck,k=3)
+            else:
+                new_card_deck = random.choices(normal_deck,k=3)
+            chose_buff,add_value,new_card,main_role = win_surface(win,font_list,rounds,main_role,new_card_deck)
             if new_card != None:
                 new_card.index = len(init_main_card_deck)
                 init_main_card_deck.append(new_card)
