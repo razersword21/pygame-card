@@ -1,6 +1,4 @@
 import pygame,sys
-import keyboard
-import ctypes
 
 from src.objects import *
 from src.params import *
@@ -13,14 +11,7 @@ def input_name(win,main_role):
     color = color_inactive
     text = ""
     active = False
-
-    user32 = ctypes.WinDLL('user32', use_last_error=True)
-    curr_window = user32.GetForegroundWindow()
-    thread_id = user32.GetWindowThreadProcessId(curr_window, 0)
-    klid = user32.GetKeyboardLayout(thread_id)
-    lid = klid & (2**16 - 1)
-    lid_hex = hex(lid)
-    print(lid_hex)
+    
     while inputing:
         win.blit(bg.bg_big, bg.rect)
         title_font = pygame.font.Font(params.Font, 80)
@@ -32,8 +23,6 @@ def input_name(win,main_role):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                if lid_hex == '0x409':
-                    keyboard.send('alt+shift')
                 inputing = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 active = True if input_box.collidepoint(event.pos) else False
@@ -45,8 +34,6 @@ def input_name(win,main_role):
                     if event.key == pygame.K_RETURN:
                         print("玩家姓名: ",text)
                         main_role.name = text
-                        if lid_hex == '0x409':
-                            keyboard.send('alt+shift')
                         inputing = False
                     elif event.key == pygame.K_BACKSPACE:
                         text = text[:-1]

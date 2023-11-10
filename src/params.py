@@ -28,13 +28,14 @@ class Special_card():
     high_level_deck = [guard_card,keep_heal,add_magic,dragon_card,broke_shield,max_hp_card,dice_card]
 
 class params():
-    init_max_hp,init_max_de,init_max_magic,money = 10,0,3,0
-    add_hp = 20
+    init_max_hp,init_max_de,init_max_magic,money = 15,0,3,0
+    add_hp = 15
     add_value = 1
     add_pass_money = 150
     card_name_list = ['攻擊','防禦','治癒']
     card_type_list = ['attack','defense','heal']
     card_type_number = [9,3,3]
-    card_init_damage = 5
-    init_defense_or_heal = 3
+    card_init_damage = 3
+    init_defense_or_heal = 2
     Font = 'source/font/ChenYuluoyan-Thin.ttf'
+    log_text_len = 10

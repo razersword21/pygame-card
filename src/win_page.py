@@ -29,6 +29,8 @@ def win_surface(win,font_list,rounds,main_role):
         win.blit(choose_text, (625, 300))
             
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                show_win_surface = False
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if choose_btn.collidepoint(pos):

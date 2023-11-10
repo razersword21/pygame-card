@@ -10,6 +10,7 @@ PURPLE = (116,0,179)
 YELLOW = (230,230,0)
 Coconut_Brown = (77,31,0)
 Camel = (161,107,71)
+Wisteria = (201,160,220)
 
 class Intro(pygame.sprite.Sprite):
   def __init__(self,x,y):

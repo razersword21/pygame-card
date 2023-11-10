@@ -1,7 +1,5 @@
 import pygame,sys
 import pygame.locals
-import keyboard
-import ctypes
 
 from src.objects import *
 from src.card_process import *
@@ -27,13 +25,6 @@ def main():
     enemy = Enemy(params.init_max_hp,params.init_max_de,params.init_max_magic)
     main_role = Main_role(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
 
-    user32 = ctypes.WinDLL('user32', use_last_error=True)
-    curr_window = user32.GetForegroundWindow()
-    thread_id = user32.GetWindowThreadProcessId(curr_window, 0)
-    klid = user32.GetKeyboardLayout(thread_id)
-    lid = klid & (2**16 - 1)
-    lid_hex = hex(lid)
-    
     while show_intro:
         win.blit(intro.bg_big, intro.rect)
 
@@ -59,8 +50,6 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if start_btn.collidepoint(pos):
-                    if lid_hex == '0x404':
-                        keyboard.send('alt+shift')
                     input_name(win,main_role)
                     if len(main_role.name) > 0:
                         GAME_CONTROL = True
