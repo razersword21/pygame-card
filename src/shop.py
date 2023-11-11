@@ -7,23 +7,23 @@ from src.card_process import *
 from src.params import *
 
 def shop(win,font_list,person):
-    bg = BG(900, 600)
+    bg = shop_BG(900, 600)
     shop_activate = True
     
     while shop_activate:
         win.blit(bg.bg_big, bg.rect)
         Money_text = font_list[0].render("Money: "+str(person.money), True, Coconut_Brown)
-        win.blit(Money_text, (800, 20))
+        win.blit(Money_text, (780, 20))
         choose_btn1 = pygame.Rect(50, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn1)
         choose_btn2 = pygame.Rect(350, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn2)
         choose_btn3 = pygame.Rect(650, 240, 200, 300)
         pygame.draw.rect(win, WHITE , choose_btn3)
-        rerurn_btn1 = pygame.Rect(790, 555, 100, 30)
+        rerurn_btn1 = pygame.Rect(790, 555, 70, 30)
         pygame.draw.rect(win, RED , rerurn_btn1)
         rerurn_text = font_list[0].render("返回", True, BLACK)
-        win.blit(rerurn_text, (795, 560))
+        win.blit(rerurn_text, (795, 555))
         start_x = [100,400,700]
         shop_add_value = ['Damage','Defense','Heal']
         for i,add_v in enumerate(shop_add_value):
