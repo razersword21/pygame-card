@@ -19,7 +19,6 @@ def choose_(win,font_list,rounds,person,out_option):
     add_hp = params.add_hp
     add_value = params.add_value
     
-    out_option = []
     chose_option = []
     out_card = []
 
@@ -69,8 +68,7 @@ def choose_(win,font_list,rounds,person,out_option):
                 win.blit(card_text2, (start_x[i]-20, 370))
                 chose_option.append('card')
                 out_card.append(op)
-        for i,k in enumerate(out_card):
-            print(i,k.name)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 choosing = False
