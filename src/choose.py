@@ -10,27 +10,19 @@ special_deck = Special_card()
 normal_deck = special_deck.normal_deck
 high_level_deck = special_deck.high_level_deck
 
-def choose_(win,font_list,rounds,person,new_card_deck):
+def choose_(win,font_list,rounds,person,out_option):
     bg = chose_BG(900, 600)
     choose_buff = ''
     choosing = True
     value,add_hp = 0,0
     chose_card = None
-    
     add_hp = params.add_hp
     add_value = params.add_value
-    if rounds % 10 == 0 and rounds != 0:
-        add_hp = params.add_hp*2
-        add_value = params.add_value*2       
     
-    options = [add_hp,add_value]
     out_option = []
     chose_option = []
     out_card = []
-    
-    options.extend(new_card_deck)
-    out_option = random.sample(options,k=3)
-    
+
     while choosing:
         win.blit(bg.bg_big, bg.rect)
         menu_text = font_list[1].render("--選擇獎勵--", True, WHITE)
@@ -77,7 +69,8 @@ def choose_(win,font_list,rounds,person,new_card_deck):
                 win.blit(card_text2, (start_x[i]-20, 370))
                 chose_option.append('card')
                 out_card.append(op)
-
+        for i,k in enumerate(out_card):
+            print(i,k.name)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 choosing = False

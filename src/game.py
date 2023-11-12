@@ -36,7 +36,6 @@ def set_enemy(enemy):
 def set_player(main_role,choose,add_value,new_card=None):
     if choose == 'hp':
         main_role.max_hp += add_value
-        main_role.money += random.randint(50,100)
         logging.info(main_role.name+' 對於 Hp 增強了!')
     elif choose == 'all':
         y = random.randint(0,2)
@@ -50,13 +49,11 @@ def set_player(main_role,choose,add_value,new_card=None):
             case 2:
                 main_role.heal_buff += add_value
                 choose = 'heal'
-        main_role.money += random.randint(50,100)
         logging.info(main_role.name+' 對於 '+choose+' 屬性增強了!')
     elif choose == '':
         main_role.money += params.add_pass_money
         logging.info(main_role.name+'放棄選擇 ， 獲得錢幣 '+str(params.add_pass_money)+' !')
     else:
-        main_role.money += random.randint(50,100)
         logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name)
     main_role.hp = main_role.max_hp
     main_role.magic = main_role.max_magic
@@ -264,6 +261,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             log_text_list.append(log_text)
             log_text_list = log_text_list[-params.log_text_len:]
             logging.warning('********* Next Round *********')
+            main_role.money += random.randint(50,100)
             rounds += 1
             if rounds % 5 == 0 and rounds != 0:
                 new_card_deck = random.sample(normal_deck+high_level_deck,k=3)
