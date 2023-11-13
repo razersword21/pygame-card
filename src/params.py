@@ -30,7 +30,7 @@ class Special_card():
 class params():
     init_max_hp,init_max_de,init_max_magic,money = 20,0,3,0
     enemy_max_hp,enemy_max_de,enemy_max_magic = 10,0,3
-    add_hp = 15
+    add_hp = 10
     add_value = 1
     add_pass_money = 150
     card_name_list = ['攻擊','防禦','治癒']

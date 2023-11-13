@@ -53,18 +53,18 @@ def choose_(win,font_list,rounds,person,out_option):
         for i,op in enumerate(out_option):
             if op == add_hp:
                 choose_text1 = font_list[1].render("血量\n增加", True, BLACK)
-                win.blit(choose_text1, (start_x[i], 300))
+                win.blit(choose_text1, (start_x[i]-10, 280))
                 choose_text1 = font_list[1].render("+"+str(add_hp), True, BLACK)
-                win.blit(choose_text1, (start_x[i]+20, 450))
+                win.blit(choose_text1, (start_x[i]+10, 450))
             elif op == add_value:
                 choose_text2 = font_list[0].render("以下屬性\n隨機增強", True, BLACK)
                 win.blit(choose_text2, (start_x[i], 270))
                 choose_text2_1 = font_list[0].render("傷害+1", True, BLACK)
-                win.blit(choose_text2_1, (start_x[i], 330))
+                win.blit(choose_text2_1, (start_x[i]+10, 350))
                 choose_text2_2 = font_list[0].render("防禦+1", True, BLACK)
-                win.blit(choose_text2_2, (start_x[i], 370))
+                win.blit(choose_text2_2, (start_x[i]+10, 390))
                 choose_text2_3 = font_list[0].render("治癒+1", True, BLACK)
-                win.blit(choose_text2_3, (start_x[i], 410))
+                win.blit(choose_text2_3, (start_x[i]+10, 430))
             else:
                 choose_text3 = font_list[0].render("增加特殊卡", True, BLACK)
                 win.blit(choose_text3, (start_x[i]-20, 250))

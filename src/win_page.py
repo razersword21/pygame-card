@@ -44,10 +44,12 @@ def win_surface(win,font_list,rounds,main_role,new_card_deck):
                 show_win_surface = False
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
-                if choose_btn.collidepoint(pos) and chose_buff == '':
-                    chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role,out_option)
                 if choose_btn.collidepoint(pos) and chose_buff != '':
                     logging.info('你已經選擇過囉！ 你選擇 '+chose_buff +' 作為獎勵，請前往下一關')
+                if choose_btn.collidepoint(pos) and chose_buff == '':
+                    chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role,out_option)
+                    if chose_buff == '':
+                        logging.info('你還沒選擇獎勵喔！如果選擇下一回合將獲得150 Money！')
                 if shop_btn.collidepoint(pos):
                     main_role = shop(win,font_list,main_role)
                 if next_rounds_btn.collidepoint(pos):

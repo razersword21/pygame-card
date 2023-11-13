@@ -35,7 +35,7 @@ def shop(win,font_list,person):
             choose_text1 = font_list[1].render("+ 1", True, BLACK)
             win.blit(choose_text1, (start_x[i]+20, 335))
             choose_text1 = font_list[0].render("Money cost: 300", True, BLACK)
-            win.blit(choose_text1, (start_x[i]-20, 420))
+            win.blit(choose_text1, (start_x[i]-25, 420))
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
