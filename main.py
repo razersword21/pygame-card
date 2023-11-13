@@ -37,17 +37,17 @@ def main():
         start_btn = pygame.Rect(300, 555, 70, 30) 
         pygame.draw.rect(win, RED , start_btn)
         btn_text = base_font.render("Start", True, BLACK)
-        win.blit(btn_text, (305, 560))
+        win.blit(btn_text, (305, 555))
 
-        rank_btn = pygame.Rect(400, 555, 70, 30) 
+        rank_btn = pygame.Rect(400, 555, 80, 30) 
         pygame.draw.rect(win, YELLOW , rank_btn)
-        rank_text = base_font.render("Rank", True, BLACK)
-        win.blit(rank_text, (405, 560))
+        rank_text = base_font.render("排名榜", True, BLACK)
+        win.blit(rank_text, (400, 555))
 
-        quit_btn = pygame.Rect(500, 555, 70, 30) 
+        quit_btn = pygame.Rect(500, 555, 60, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = base_font.render("Quit", True, WHITE)
-        win.blit(quit_text, (505, 560))
+        win.blit(quit_text, (505, 555))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

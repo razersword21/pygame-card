@@ -24,14 +24,14 @@ def rank_page(win):
         win.blit(return_text, (805, 560))
 
         name_text = base_font.render("姓名", True, BLACK)
-        score_text = base_font.render("分數(Rounds)", True, BLACK)
+        score_text = base_font.render("關卡(Rounds)", True, BLACK)
         win.blit(name_text, (150, 100))
         win.blit(score_text, (450, 100))
 
         y = 150 
         for player in rank_list:
             name_text = player['name']
-            score_text = str(player['score']) + " 回合"  
+            score_text = str(player['score']) + " 關"  
             name_surf = base_font.render(name_text, True, PURPLE)
             score_surf = base_font.render(score_text, True, PURPLE)
             win.blit(name_surf, (150, y))

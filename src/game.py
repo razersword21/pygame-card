@@ -97,7 +97,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     test,current_card_index,log_text_list = 0,0,[]
     while running:
         win.blit(bg.bg_big, bg.rect)
-        Rounds_text = font_list[0].render("Levels: "+str(rounds), True, BLACK)
+        Rounds_text = font_list[0].render("關卡: "+str(rounds), True, BLACK)
         win.blit(Rounds_text, (10, 10))
 
         main_role.draw(win,230,300)
@@ -166,7 +166,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 write_game_records(rank_list,main_role,rounds)
-                logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
+                logging.warning(main_role.name + ' 打到 關卡: '+str(rounds))
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
@@ -180,7 +180,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         show_history = False
                 if quit_btn.collidepoint(pos):
                     write_game_records(rank_list,main_role,rounds)
-                    logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
+                    logging.warning(main_role.name + ' 打到 關卡: '+str(rounds))
                     running = False
                 end_x = (len(current_cards)+1)*100
                 if GAME_CONTROL and 100<=pos[0]<= end_x and player_turn and 430<=pos[1]<=540:
@@ -310,16 +310,16 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             main_role,log_text_list = set_player(main_role,chose_buff,add_value,log_text_list,new_card)
             GAME_CONTROL = True
         else:
-            over_bg = pygame.Rect(200, 225, 525, 150) 
+            over_bg = pygame.Rect(200, 225, 500, 150) 
             pygame.draw.rect(win, BLACK , over_bg)
             over_font = pygame.font.Font(params.Font, 150)
             over_text = over_font.render("Game Over", True, RED)
-            win.blit(over_text, (250, 250))
+            win.blit(over_text, (225, 230))
             pygame.display.update()
             time.sleep(3)
             running = False
             write_game_records(rank_list,main_role,rounds)
-            logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
+            logging.warning(main_role.name + ' 打到 關卡: '+str(rounds))
         pygame.display.flip()
         clock.tick(40)
 
