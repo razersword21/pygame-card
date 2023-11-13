@@ -325,7 +325,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             enemy_used_cards = []
             enemy_current_cards = random.sample(enemy_remain_deck,5)
 
-            enemy = set_enemy(enemy)
+            enemy,log_text_list = set_enemy(enemy,log_text_list)
             main_role,log_text_list = set_player(main_role,chose_buff,add_value,log_text_list,new_card)
             GAME_CONTROL = True
         else:
