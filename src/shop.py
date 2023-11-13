@@ -42,21 +42,22 @@ def shop(win,font_list,person):
                 shop_activate = False
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
-                if (person.money - 300) >= 0: 
-                    if 50<=pos[0]<=250 and 240<=pos[1]<=540:
+                if 50<=pos[0]<=250 and 240<=pos[1]<=540:
+                    if (person.money - 300) >= 0:
                         person.money -= 300
                         person.damage_buff += 1
                         logging.warn(person.name+' 購買 傷害加成')
-                    elif 350<=pos[0]<=550 and 240<=pos[1]<=540:
+                elif 350<=pos[0]<=550 and 240<=pos[1]<=540:
+                    if (person.money - 300) >= 0:
                         person.money -= 300
                         person.defense_buff += 1
                         logging.warn(person.name+' 購買 防禦加成')
-                    elif 650<=pos[0]<=850 and 240<=pos[1]<=540:
+                elif 650<=pos[0]<=850 and 240<=pos[1]<=540:
+                    if (person.money - 300) >= 0:
                         person.money -= 300
                         person.heal_buff += 1
                         logging.warn(person.name+' 購買 治癒加成')
                 else:
-                    
                     logging.warn('太窮了！買不起....QAQ')
                 if rerurn_btn1.collidepoint(pos):
                     shop_activate = False
