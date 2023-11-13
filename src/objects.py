@@ -13,7 +13,7 @@ Camel = (161,107,71)
 Wisteria = (201,160,220)
 enemy_name = {0:'惡魔',1:'史萊姆-女',2:'史萊姆-男',3:'魷魚監察者',4:'機器人',5:'獵人',6:'猩猩'}
 job_dict = {1:'騎士',2:'魔法師',3:'弓箭手',4:'凡人'}
-job_image = {1:'source/player/knight.png',2:'source/player/knight.png',3:'source/player/knight.png',4:'source/player/knight.png'}
+job_image = {1:'source/player/knight.png',2:'source/player/magic.png',3:'source/player/archer.png',4:'source/player/people.png'}
 
 class Intro_animation(pygame.sprite.Sprite):
   def __init__(self,x,y):
