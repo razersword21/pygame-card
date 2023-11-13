@@ -6,7 +6,7 @@ from src.objects import *
 from src.params import *
 
 def chose_job(win,person):
-    bg = shop_BG(900, 600)
+    bg = BG(900, 600)
     job_chosing = True
     base_font = pygame.font.Font(params.Font, 32)
     while job_chosing:
