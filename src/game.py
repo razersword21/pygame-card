@@ -11,28 +11,34 @@ from src.choose import *
 from src.params import *
 from src.win_page import *
 
-def set_enemy(enemy):
+def set_enemy(enemy,log_text_list):
+    e_index = random.randint(0,6)
+    enemy.enemy_index = e_index
+    enemy.name = enemy_name[enemy.enemy_index]
     x = random.randint(0,100)
     if x <= 35:
         enemy.max_hp += params.add_hp
+        log_text = enemy.name+' 對於 hp 增強了!'
         logging.info(enemy.name+' 對於 hp 增強了!')
     if x > 40 and x < 65:
         enemy.damage_buff += params.add_value
+        log_text = enemy.name+' 對於 damage 增強了!'
         logging.info(enemy.name+' 對於 damage 增強了!')
     if x >= 65:
         enemy.defense_buff += params.add_value
         enemy.heal_buff += params.add_value
+        log_text = enemy.name+' 對於 defense & heal 增強了!'
         logging.info(enemy.name+' 對於 defense & heal 增強了!')
     if x > 35 and x < 40:
         enemy.max_magic += params.add_value
+        log_text = enemy.name+' 對於 magic 增強了!'
         logging.info(enemy.name+' 對於 magic 增強了!')
     enemy.hp = enemy.max_hp
     enemy.magic = enemy.max_magic
     enemy.buff = []
-    e_index = random.randint(0,6)
-    enemy.enemy_index = e_index
-    enemy.name = enemy_name[enemy.enemy_index]
-    return enemy
+    log_text_list.append(log_text)
+    log_text_list = log_text_list[-params.log_text_len:]
+    return enemy,log_text_list
 
 def set_player(main_role,choose,add_value,log_text_list,new_card=None):
     if choose == 'hp':
@@ -40,7 +46,7 @@ def set_player(main_role,choose,add_value,log_text_list,new_card=None):
         log_text = main_role.name+' 對於 Hp 增強了!'
         logging.info(main_role.name+' 對於 Hp 增強了!')
     elif choose == 'all':
-        y = random.randint(1,3)
+        y = random.randint(1,4)
         match y:
             case 1:
                 main_role.damage_buff += add_value
@@ -51,6 +57,10 @@ def set_player(main_role,choose,add_value,log_text_list,new_card=None):
             case 3:
                 main_role.heal_buff += add_value
                 choose = 'heal'
+            case 4:
+                log_text = main_role.name+' 對於 magic 增強了!'
+                main_role.magic += add_value
+                choose = 'magic'
         log_text = main_role.name+' 對於 '+choose+' 屬性增強了!'
         logging.info(main_role.name+' 對於 '+choose+' 屬性增強了!')
     elif choose == '':
@@ -143,8 +153,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
 
         next_turn_btn = pygame.Rect(775, 425, 110, 30) 
         pygame.draw.rect(win, RED , next_turn_btn)
-        btn_text = font_list[0].render("Next Turn", True, BLACK)
-        win.blit(btn_text, (780, 430))
+        btn_text = font_list[0].render("回合結束", True, BLACK)
+        win.blit(btn_text, (780, 425))
         quit_btn = pygame.Rect(820, 20, 65, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = font_list[0].render("Quit", True, WHITE)
