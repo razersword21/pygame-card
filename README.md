@@ -21,5 +21,5 @@ pyinstaller main.py -n 無限輪迴 -p src -i source/game_ico.ico
 
 ### 未完成
 * 玩家 敵人 buff debuff美術圖
-* +職業 or +技能
+* +技能
 

@@ -18,13 +18,13 @@ def chose_job(win,person):
         choose_btn3 = pygame.Rect(650, 50, 200, 475)
         pygame.draw.rect(win, WHITE , choose_btn3)
         
-        knight_img = pygame.image.load('source/player/knight.png').convert_alpha()
+        knight_img = pygame.image.load(job_image[1]).convert_alpha()
         knight = pygame.transform.scale(knight_img, (150, 150))
         win.blit(knight,(75,70))
-        magic_img = pygame.image.load('source/player/knight.png').convert_alpha()
+        magic_img = pygame.image.load(job_image[2]).convert_alpha()
         magic = pygame.transform.scale(magic_img, (150, 150))
         win.blit(magic,(375,70))
-        bow_img = pygame.image.load('source/player/knight.png').convert_alpha()
+        bow_img = pygame.image.load(job_image[3]).convert_alpha()
         bow = pygame.transform.scale(bow_img, (150, 150))
         win.blit(bow,(675,70))
 

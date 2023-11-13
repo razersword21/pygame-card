@@ -127,7 +127,10 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         win.blit(player_mp_text, (200, 70))
         win.blit(player_money_text, (15, 375))
         win.blit(player_value_text, (10, 200))
-        win.blit(player_name_text, (200, 100))
+        if len(enemy.name) > 10:
+            win.blit(player_name_text, (170, 100))
+        else:
+            win.blit(player_name_text, (200, 100))
         win.blit(player_job_text, (125, 100))
         start_y = 200
         if len(list(main_role.buff)) > 0:
@@ -146,7 +149,10 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         win.blit(enemy_de_text, (685, 40))
         win.blit(enemy_mp_text, (685, 70))
         win.blit(enemy_value_text, (780, 200))
-        win.blit(enemy_name_text, (685, 100))
+        if len(enemy.name) > 3:
+            win.blit(enemy_name_text, (655, 100))
+        else:
+            win.blit(enemy_name_text, (685, 100))
         start_y_e = 200
         if len(list(enemy.buff)) > 0:
             for i,ebuff in enumerate(enemy.buff):
@@ -179,7 +185,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 write_game_records(rank_list,main_role,rounds)
-                logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_jpb] + ' 打到 關卡: '+str(rounds))
+                logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_job] + ' 打到 關卡: '+str(rounds))
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
@@ -193,7 +199,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         show_history = False
                 if quit_btn.collidepoint(pos):
                     write_game_records(rank_list,main_role,rounds)
-                    logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_jpb] + ' 打到 關卡: '+str(rounds))
+                    logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_job] + ' 打到 關卡: '+str(rounds))
                     running = False
                 end_x = (len(current_cards)+1)*100
                 if GAME_CONTROL and 100<=pos[0]<= end_x and player_turn and 430<=pos[1]<=540:
@@ -332,7 +338,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             time.sleep(3)
             running = False
             write_game_records(rank_list,main_role,rounds)
-            logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_jpb] + ' 打到 關卡: '+str(rounds))
+            logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_job] + ' 打到 關卡: '+str(rounds))
         pygame.display.flip()
         clock.tick(40)
 
