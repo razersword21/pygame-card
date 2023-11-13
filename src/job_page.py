@@ -37,17 +37,21 @@ def chose_job(win,person):
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                person.main_job = 3
+                person.main_job = 4
+                logging.info('你選擇成為 '+job_dict[person.main_job])
                 job_chosing = False
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if 50<=pos[0]<=250  and 50<=pos[1]<=525:
                     person.main_job = 1                    
                     job_chosing = False
+                    logging.info('你選擇成為 '+job_dict[person.main_job])
                 elif 350<=pos[0]<=550 and 50<=pos[1]<=525:
                     person.main_job = 2
+                    logging.info('你選擇成為 '+job_dict[person.main_job])
                     job_chosing = False
                 elif 650<=pos[0]<=850 and 50<=pos[1]<=525:
                     person.main_job = 3
+                    logging.info('你選擇成為 '+job_dict[person.main_job])
                     job_chosing = False
         pygame.display.flip()

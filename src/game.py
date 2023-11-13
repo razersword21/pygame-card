@@ -72,6 +72,7 @@ def set_player(main_role,choose,add_value,log_text_list,new_card=None):
         logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name+'')
     main_role.hp = main_role.max_hp
     main_role.magic = main_role.max_magic
+    main_role.de = 0
     main_role.buff = []
     log_text_list.append(log_text)
     log_text_list = log_text_list[-params.log_text_len:]
