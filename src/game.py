@@ -105,7 +105,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     enemy_used_cards = []
     new_add_enemy_card = []
     
-    test,current_card_index,log_text_list = 0,0,[]
+    test,current_card_index,log_text_list,new_card = 0,0,[],None
     while running:
         win.blit(bg.bg_big, bg.rect)
         Rounds_text = font_list[0].render("關卡: "+str(rounds), True, BLACK)
@@ -317,7 +317,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             if rounds % 5 == 0 and rounds != 0 and rounds % 10 != 0:
                 new_add_enemy_card.append(random.choice(enemy_normal_deck))
             if rounds % 10 == 0 and rounds != 0:
-                new_add_enemy_card.append(random.choice(enemy_high_level_deck))
+                new_add_enemy_card.append(random.choice(enemy_normal_deck+enemy_high_level_deck))
             enemy_remain_deck = init_enemy_card_deck.copy()
             for new_e_card in new_add_enemy_card:
                 new_e_card.index = len(init_enemy_card_deck)
