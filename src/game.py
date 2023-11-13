@@ -33,9 +33,10 @@ def set_enemy(enemy):
     enemy.enemy_index = e_index
     return enemy
 
-def set_player(main_role,choose,add_value,new_card=None):
+def set_player(main_role,choose,add_value,log_text_list,new_card=None):
     if choose == 'hp':
         main_role.max_hp += add_value
+        log_text = main_role.name+' 對於 Hp 增強了!'
         logging.info(main_role.name+' 對於 Hp 增強了!')
     elif choose == 'all':
         y = random.randint(0,2)
@@ -49,16 +50,21 @@ def set_player(main_role,choose,add_value,new_card=None):
             case 2:
                 main_role.heal_buff += add_value
                 choose = 'heal'
+        log_text = main_role.name+' 對於 '+choose+' 屬性增強了!'
         logging.info(main_role.name+' 對於 '+choose+' 屬性增強了!')
     elif choose == '':
         main_role.money += params.add_pass_money
+        log_text = main_role.name+'放棄選擇 ， 獲得錢幣 '+str(params.add_pass_money)+' !'
         logging.info(main_role.name+'放棄選擇 ， 獲得錢幣 '+str(params.add_pass_money)+' !')
     else:
+        log_text = main_role.name+' 選擇特殊卡 ! -> '+new_card.name
         logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name)
     main_role.hp = main_role.max_hp
     main_role.magic = main_role.max_magic
     main_role.buff = []
-    return main_role
+    log_text_list.append(log_text)
+    log_text_list = log_text_list[-params.log_text_len:]
+    return main_role,log_text_list
 
 def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     bg = BG(900, 600)
@@ -257,17 +263,20 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     main_role.magic = main_role.max_magic
                     check_person_buff(main_role,enemy)
         elif not GAME_CONTROL and enemy.hp == 0:
-            log_text = '********* Next Round *********'
-            log_text_list.append(log_text)
-            log_text_list = log_text_list[-params.log_text_len:]
-            logging.warning('********* Next Round *********')
-            main_role.money += random.randint(50,100)
+            mm = random.randint(50,100)
+            main_role.money += mm
+            logging.info('勝利！獲得 '+str(mm)+' 金錢')
             rounds += 1
             if rounds % 5 == 0 and rounds != 0:
                 new_card_deck = random.sample(normal_deck+high_level_deck,k=3)
             else:
                 new_card_deck = random.sample(normal_deck,k=3)
             chose_buff,add_value,new_card,main_role = win_surface(win,font_list,rounds,main_role,new_card_deck)
+            
+            log_text = '********* Next Round *********'
+            log_text_list.append(log_text)
+            log_text_list = log_text_list[-params.log_text_len:]
+            logging.warning('********* Next Round *********')
             if new_card != None:
                 new_card.index = len(init_main_card_deck)
                 init_main_card_deck.append(new_card)
@@ -277,7 +286,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             current_cards = random.sample(main_remain_deck,main_role.every_drop)
 
             init_enemy_card_deck = init_card_deck(True)
-            if rounds % 5 == 0 and rounds != 0:
+            if rounds % 5 == 0 and rounds != 0 and rounds % 10 != 0:
                 new_add_enemy_card.append(random.choice(enemy_normal_deck))
             if rounds % 10 == 0 and rounds != 0:
                 new_add_enemy_card.append(random.choice(enemy_high_level_deck))
@@ -289,7 +298,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             enemy_current_cards = random.sample(enemy_remain_deck,5)
 
             enemy = set_enemy(enemy)
-            main_role = set_player(main_role,chose_buff,add_value,new_card)
+            main_role,log_text_list = set_player(main_role,chose_buff,add_value,log_text_list,new_card)
             GAME_CONTROL = True
         else:
             over_bg = pygame.Rect(200, 225, 525, 150) 

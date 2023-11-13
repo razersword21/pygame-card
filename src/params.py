@@ -34,7 +34,7 @@ class params():
     add_pass_money = 150
     card_name_list = ['攻擊','防禦','治癒']
     card_type_list = ['attack','defense','heal']
-    card_type_number = [9,3,3]
+    card_type_number = [10,3,3]
     card_init_damage = 3
     init_defense_or_heal = 2
     Font = 'source/font/ChenYuluoyan-Thin.ttf'

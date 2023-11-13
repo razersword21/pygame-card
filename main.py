@@ -24,7 +24,7 @@ def main():
     intro = Intro(900, 600)
     intro_animation = Intro_animation(300,300)
     show_intro,show_animation = True,True
-    enemy = Enemy(params.init_max_hp,params.init_max_de,params.init_max_magic)
+    enemy = Enemy(10,params.init_max_de,params.init_max_magic)
     main_role = Main_role(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
 
     while show_intro:

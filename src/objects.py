@@ -93,7 +93,7 @@ class Enemy(pygame.sprite.Sprite):
     self.max_hp = hp
     self.hp = self.max_hp
     self.de = de
-    self.damage_buff = 0
+    self.damage_buff = -1
     self.defense_buff = 0
     self.heal_buff = 0
     self.max_magic = magic
@@ -167,7 +167,7 @@ class Card(pygame.sprite.Sprite):
             win.blit(card_last_text,(statr_x+10+next_card+5,start_y+110+5))
           case 'little_knife'|'knife':
             card_number_text = FONT.render(self.special, True, RED)
-            win.blit(card_number_text,(statr_x+10+next_card+5,start_y+90+5))
+            win.blit(card_number_text,(statr_x+10+next_card+5,start_y+100+5))
           case 'turtle'|'keep_heal'|'add_magic'|'dragon':
             card_last_text = FONT.render('Last: '+str(self.lasting), True, BLACK)
             win.blit(card_last_text,(statr_x+20+next_card+5,start_y+90+5))

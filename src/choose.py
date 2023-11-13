@@ -14,13 +14,20 @@ def choose_(win,font_list,rounds,person,out_option):
     bg = chose_BG(900, 600)
     choose_buff = ''
     choosing = True
-    value,add_hp = 0,0
+    value = 0
     chose_card = None
     add_hp = params.add_hp
     add_value = params.add_value
-    
-    chose_option = []
+    chose_option = []*3
     out_card = []
+    for i,op in enumerate(out_option):
+        if op == add_hp or add_hp*2:
+            chose_option[0]='hp'
+        elif op == add_value or add_value*2:
+            chose_option[1]='all'
+        else:
+            chose_option[2]='card'
+            out_card.append(op)
 
     while choosing:
         win.blit(bg.bg_big, bg.rect)
@@ -46,7 +53,6 @@ def choose_(win,font_list,rounds,person,out_option):
                 win.blit(choose_text1, (start_x[i], 300))
                 choose_text1 = font_list[1].render("+"+str(add_hp), True, BLACK)
                 win.blit(choose_text1, (start_x[i]+20, 400))
-                chose_option.append('hp')
             elif op == add_value:
                 choose_text2 = font_list[0].render("隨機屬性增強", True, BLACK)
                 win.blit(choose_text2, (start_x[i]-10, 300))
@@ -56,7 +62,6 @@ def choose_(win,font_list,rounds,person,out_option):
                 win.blit(choose_text2_2, (start_x[i], 400))
                 choose_text2_3 = font_list[0].render("治癒+1", True, BLACK)
                 win.blit(choose_text2_3, (start_x[i], 450))
-                chose_option.append('all')
             else:
                 choose_text3 = font_list[0].render("增加特殊卡", True, BLACK)
                 win.blit(choose_text3, (start_x[i]-20, 250))
@@ -65,10 +70,8 @@ def choose_(win,font_list,rounds,person,out_option):
                 card_text = font_list[0].render("Cost: "+str(op.cost), True, BLACK)
                 win.blit(card_text, (start_x[i]-10, 330))
                 card_text2 = font_list[0].render(op.special, True, BLACK)
-                win.blit(card_text2, (start_x[i]-20, 370))
-                chose_option.append('card')
-                out_card.append(op)
-        
+                win.blit(card_text2, (start_x[i]-25, 370))
+                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 choosing = False
@@ -88,14 +91,14 @@ def choose_(win,font_list,rounds,person,out_option):
                     case 'all':
                         value = add_value
                     case 'card':
-                        if pos[0] >= 50 and pos[0] <= 250:
+                        if 50<=pos[0]<=250 and 240<=pos[1]<=540:
                             chose_card = out_card[0]
-                        elif pos[0] >= 350 and pos[0] <= 550:
+                        elif 350<=pos[0]<=550 and 240<=pos[1]<=540:
                             if len(out_card) <= 2:
                                 chose_card = out_card[0]
                             else:
                                 chose_card = out_card[1]
-                        else:
+                        elif 650<=pos[0]<=850 and 240<=pos[1]<=540:
                             if len(out_card) == 1:
                                 chose_card = out_card[0]
                             elif len(out_card) == 2:
@@ -103,6 +106,5 @@ def choose_(win,font_list,rounds,person,out_option):
                             else:
                                 chose_card = out_card[2]
                 choosing = False
-                
         pygame.display.flip()
     return choose_buff,value,chose_card,person
