@@ -343,7 +343,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         clock.tick(40)
 
 def write_game_records(rank_list,main_role,rounds):
-    if not any(player['name'] == main_role.name for player in rank_list) and not any(player['job'] == main_role.main_job for player in rank_list):
+    if not any(player['name'] == main_role.name for player in rank_list) or not any(player['job'] == main_role.main_job for player in rank_list):
         rank_list.append({"name":main_role.name,"job":params.player_value[main_role.main_job]['name'],"score":str(rounds)})
     else:
         for player in rank_list:

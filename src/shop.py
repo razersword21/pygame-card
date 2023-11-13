@@ -56,6 +56,7 @@ def shop(win,font_list,person):
                         person.heal_buff += 1
                         logging.warn(person.name+' 購買 治癒加成')
                 else:
+                    
                     logging.warn('太窮了！買不起....QAQ')
                 if rerurn_btn1.collidepoint(pos):
                     shop_activate = False
