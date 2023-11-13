@@ -15,7 +15,7 @@ class Special_card():
     magic_card = Card(-1,'吸魔','absorb',1,2,0,0,'吸取對方\n  2Mp')
     shield_bash = Card(-1,"盾擊",'shield',2,0,2,0,'造成自身\n當前防禦值\n的傷害')
     sacrifice_card = Card(-1,'捨身','sacrifice',1,10,0,0,'造成10點傷害\n也對自己造成\n當前50%hp傷害')
-    altar_card = Card(-1,'獻祭','altar',2,0,0,0,'以目前50%hp\n換來damage+3')
+    altar_card = Card(-1,'獻祭','altar',2,0,0,0,'以目前50%hp\n換來damage+1')
     normal_deck = [Vampire_card,magic_card,drop_card,fire_card,return_card,knife_card,turtle_card,shield_bash,altar_card] 
     # normal_deck = [fire_card]
     guard_card = Card(-1,'神聖之盾','guard',2,0,3,0,'獲得自身\n 防禦增強\n 2倍的盾')

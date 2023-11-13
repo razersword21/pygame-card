@@ -301,7 +301,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             else:
                 new_card_deck = random.sample(normal_deck,k=3)
             chose_buff,add_value,new_card,main_role = win_surface(win,font_list,rounds,main_role,new_card_deck)
-            print('return',chose_buff)
+            
             log_text = '********* Next Round *********'
             log_text_list.append(log_text)
             log_text_list = log_text_list[-params.log_text_len:]

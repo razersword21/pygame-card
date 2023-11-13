@@ -1,4 +1,5 @@
 import random
+import math
 import logging
 logging.basicConfig(level=logging.INFO)
 from src.objects import *
@@ -8,7 +9,6 @@ def card_effect(target,card,myself):
     match card.type:
         case 'attack'|'little_knife':
             target,myself = attack(target,card,myself,None)
-            
         case 'brk_shd':
             target.de = 0
         case 'dice':
@@ -28,12 +28,12 @@ def card_effect(target,card,myself):
                     myself.hp -= 10
         case 'sacrifice':
             target,myself = attack(target,card,myself)
-            myself.hp = (0.5*myself.hp)
+            myself.hp = math.floor(0.5*myself.hp)
         case 'add_max_hp':
             target.max_hp += 5
         case 'altar':
-            target.hp = (0.5*target.hp)
-            target.damage_buff+=3
+            target.hp = math.floor(0.5*target.hp)
+            target.damage_buff+=1
         case 'defense':
             target.de+=card.do_for_self+target.defense_buff
         case 'guard':
