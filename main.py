@@ -15,8 +15,9 @@ GAME_CONTROL = False
 def main():
     global GAME_CONTROL
     pygame.init()
-    pygame.display.set_caption('數值-無限地牢')  # 遊戲標題
+    pygame.display.set_caption('數值-無限輪迴 ( Numerical value-infinite reincarnation )')  # 遊戲標題
     win = pygame.display.set_mode((900, 600))  # 窗口尺寸
+    clock = pygame.time.Clock()
     
     base_font = pygame.font.Font(params.Font, 32)
     title_font = pygame.font.Font(params.Font, 80)
@@ -29,9 +30,7 @@ def main():
 
     while show_intro:
         if show_animation:
-            win.blit(intro_animation.bg_big, intro_animation.rect)
-            pygame.display.update()
-            time.sleep(2)
+            intro_animation.fadeout_animation(win,clock,a=255)
             show_animation = False
         win.blit(intro.bg_big, intro.rect)
 

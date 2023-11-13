@@ -16,9 +16,20 @@ enemy_name = {0:'惡魔',1:'史萊姆-女',2:'史萊姆-男',3:'魷魚',4:'機�
 class Intro_animation(pygame.sprite.Sprite):
   def __init__(self,x,y):
     super(Intro_animation, self).__init__()
-    background = pygame.image.load('source/info.png').convert_alpha()
-    self.bg_big = pygame.transform.scale(background, (x, y))
+    self.background = pygame.image.load('source/info.png').convert_alpha()
+    self.bg_big = pygame.transform.scale(self.background, (x, y))
     self.rect = self.bg_big.get_rect(center=(450,300))
+  def fadeout_animation(self,win,clock,a):
+    while a > 0:
+      background=pygame.Surface((win.get_rect().width, win.get_rect().height))
+      background.fill(BLACK)
+      self.background.set_alpha(a)
+      self.bg_big = pygame.transform.scale(self.background, (300,300))
+      win.blit(background, background.get_rect())
+      win.blit(self.bg_big, self.rect)
+      pygame.display.update()
+      clock.tick(15)
+      a -= 5
 
 class Intro(pygame.sprite.Sprite):
   def __init__(self,x,y):
@@ -68,7 +79,7 @@ class Main_role(pygame.sprite.Sprite):
 
   def draw(self, screen,x,y):
     role = pygame.image.load('source/main_role.png').convert_alpha()
-    self.mainrole = pygame.transform.scale(role, (400, 350))
+    self.mainrole = pygame.transform.scale(role, (350, 350))
     self.rect = self.mainrole.get_rect(center = (x,y))
     screen.blit(self.mainrole,self.rect)
   
@@ -144,7 +155,7 @@ class Card(pygame.sprite.Sprite):
     def draw(self,win,bgcolor,color,index,FONT,statr_x=100,start_y=430):
         next_card = index*100
         pygame.draw.rect(win,bgcolor,(statr_x+next_card, start_y, 110, 150))
-        pygame.draw.rect(win,color,(statr_x+next_card+5, start_y+5, 100, 140)) 
+        pygame.draw.rect(win,color,(statr_x+next_card+5, start_y+5, 100, 140))
         card_name_text = FONT.render(str(self.name), True, BLACK)
         win.blit(card_name_text,(statr_x+20+next_card+5,start_y+30+5))
         card_cost_text = FONT.render('Cost '+str(self.cost), True, BLACK)

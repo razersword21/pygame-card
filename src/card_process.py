@@ -65,11 +65,7 @@ def card_effect(target,card,myself):
                 myself.hp = myself.max_hp
         case 'absorb':
             target.magic -= card.do_to_other
-            if target.magic < 0:
-                myself.magic -= target.magic
-                target.magic = 0
-            else:
-                myself.magic += card.do_to_other
+            myself.magic += card.do_to_other
     return target,myself
 
 def init_card_deck(random_control:bool=None):
