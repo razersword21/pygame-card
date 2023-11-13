@@ -47,18 +47,22 @@ def shop(win,font_list,person):
                         person.money -= 300
                         person.damage_buff += 1
                         logging.warn(person.name+' 購買 傷害加成')
+                    else:
+                        logging.warn('太窮了！買不起....QAQ')
                 elif 350<=pos[0]<=550 and 240<=pos[1]<=540:
                     if (person.money - 300) >= 0:
                         person.money -= 300
                         person.defense_buff += 1
                         logging.warn(person.name+' 購買 防禦加成')
+                    else:
+                        logging.warn('太窮了！買不起....QAQ')
                 elif 650<=pos[0]<=850 and 240<=pos[1]<=540:
                     if (person.money - 300) >= 0:
                         person.money -= 300
                         person.heal_buff += 1
                         logging.warn(person.name+' 購買 治癒加成')
-                else:
-                    logging.warn('太窮了！買不起....QAQ')
+                    else:
+                        logging.warn('太窮了！買不起....QAQ')
                 if rerurn_btn1.collidepoint(pos):
                     shop_activate = False
         pygame.display.flip()
