@@ -18,13 +18,13 @@ def chose_job(win,person):
         choose_btn3 = pygame.Rect(650, 50, 200, 475)
         pygame.draw.rect(win, WHITE , choose_btn3)
         
-        knight_img = pygame.image.load('source/main_role.png').convert_alpha()
+        knight_img = pygame.image.load('source/player/knight.png').convert_alpha()
         knight = pygame.transform.scale(knight_img, (150, 150))
         win.blit(knight,(75,70))
-        magic_img = pygame.image.load('source/main_role.png').convert_alpha()
+        magic_img = pygame.image.load('source/player/knight.png').convert_alpha()
         magic = pygame.transform.scale(magic_img, (150, 150))
         win.blit(magic,(375,70))
-        bow_img = pygame.image.load('source/main_role.png').convert_alpha()
+        bow_img = pygame.image.load('source/player/knight.png').convert_alpha()
         bow = pygame.transform.scale(bow_img, (150, 150))
         win.blit(bow,(675,70))
 
@@ -41,13 +41,13 @@ def chose_job(win,person):
                 job_chosing = False
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
-                if 50<=pos[0]<=250  and 240<=pos[1]<=540:
+                if 50<=pos[0]<=250  and 50<=pos[1]<=525:
                     person.main_job = 1                    
                     job_chosing = False
-                elif 350<=pos[0]<=550 and 240<=pos[1]<=540:
+                elif 350<=pos[0]<=550 and 50<=pos[1]<=525:
                     person.main_job = 2
                     job_chosing = False
-                elif 650<=pos[0]<=850 and 240<=pos[1]<=540:
+                elif 650<=pos[0]<=850 and 50<=pos[1]<=525:
                     person.main_job = 3
                     job_chosing = False
         pygame.display.flip()

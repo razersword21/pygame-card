@@ -24,18 +24,23 @@ def rank_page(win):
         win.blit(return_text, (805, 560))
 
         name_text = base_font.render("姓名", True, BLACK)
+        job_text = base_font.render("職業", True, BLACK)
         score_text = base_font.render("關卡(Rounds)", True, BLACK)
         win.blit(name_text, (150, 100))
-        win.blit(score_text, (450, 100))
+        win.blit(job_text, (450, 100))
+        win.blit(score_text, (650, 100))
 
         y = 150 
         for player in rank_list:
-            name_text = player['name']
-            score_text = str(player['score']) + " 關"  
-            name_surf = base_font.render(name_text, True, PURPLE)
-            score_surf = base_font.render(score_text, True, PURPLE)
+            player_name_text = player['name']
+            player_job = player['job']
+            player_score_text = str(player['score']) + " 關"  
+            name_surf = base_font.render(player_name_text, True, PURPLE)
+            job_surf = base_font.render(player_job, True, PURPLE)
+            score_surf = base_font.render(player_score_text, True, PURPLE)
             win.blit(name_surf, (150, y))
-            win.blit(score_surf, (450, y))
+            win.blit(job_surf, (450, y))
+            win.blit(score_surf, (675, y))
             y += 50
 
         for event in pygame.event.get():
