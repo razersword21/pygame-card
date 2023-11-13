@@ -65,6 +65,8 @@ def choose_(win,font_list,rounds,person,out_option):
                 win.blit(choose_text2_2, (start_x[i]+10, 390))
                 choose_text2_3 = font_list[0].render("治癒+1", True, BLACK)
                 win.blit(choose_text2_3, (start_x[i]+10, 430))
+                choose_text2_4 = font_list[0].render("魔力+1", True, BLACK)
+                win.blit(choose_text2_4, (start_x[i]+10, 470))
             else:
                 choose_text3 = font_list[0].render("增加特殊卡", True, BLACK)
                 win.blit(choose_text3, (start_x[i]-20, 250))

@@ -12,6 +12,8 @@ Coconut_Brown = (77,31,0)
 Camel = (161,107,71)
 Wisteria = (201,160,220)
 enemy_name = {0:'惡魔',1:'史萊姆-女',2:'史萊姆-男',3:'魷魚',4:'機器人',5:'獵人',6:'猩猩'}
+job_dict = {1:'騎士',2:'魔法師',3:'弓箭手'}
+job_image = {1:'source/player/knight.png',2:'source/player/knight.png',3:'source/player/knight.png'}
 
 class Intro_animation(pygame.sprite.Sprite):
   def __init__(self,x,y):
@@ -28,7 +30,7 @@ class Intro_animation(pygame.sprite.Sprite):
       win.blit(background, background.get_rect())
       win.blit(self.bg_big, self.rect)
       pygame.display.update()
-      clock.tick(15)
+      clock.tick(20)
       a -= 5
 
 class Intro(pygame.sprite.Sprite):
@@ -60,7 +62,7 @@ class shop_BG(pygame.sprite.Sprite):
     self.rect = self.bg_big.get_rect(left=0, top=0)
 
 class Main_role(pygame.sprite.Sprite):
-  def __init__(self, hp,de,magic,money):
+  def __init__(self,hp,de,magic,money):
     self.name = ''
     self.max_hp = hp
     self.hp = self.max_hp
@@ -75,25 +77,26 @@ class Main_role(pygame.sprite.Sprite):
     self.every_drop = 5
     self.max_card = 9
     self.buff = []
-    self.main_index = 1
+    self.main_job = 1
 
   def draw(self, screen,x,y):
-    role = pygame.image.load('source/main_role.png').convert_alpha()
+    role = pygame.image.load(job_image[self.main_job]).convert_alpha()
     self.mainrole = pygame.transform.scale(role, (350, 350))
     self.rect = self.mainrole.get_rect(center = (x,y))
     screen.blit(self.mainrole,self.rect)
   
-  def reset(self,hp,de,magic,money):
-    self.max_hp = hp
+  def reset(self,job_dict):
+    job_value = job_dict[self.main_job]
+    self.max_hp = job_value['max_hp']
     self.hp = self.max_hp
-    self.max_de = de
+    self.max_de = job_value['max_de']
     self.de = self.max_de
-    self.damage_buff = 0
-    self.defense_buff = 0
-    self.heal_buff = 0
-    self.max_magic = magic
+    self.damage_buff = job_value['damage_b']
+    self.defense_buff = job_value['defense_b']
+    self.heal_buff = job_value['heal_b']
+    self.max_magic = job_value['magic']
     self.magic = self.max_magic
-    self.money = money
+    self.money = job_value['money']
     self.every_drop = 5
     self.max_card = 9
     self.buff = []
@@ -125,9 +128,15 @@ class Enemy(pygame.sprite.Sprite):
     for card in enemy_current_cards:
       if card.cost == 0:
         return card
-      elif self.hp <= self.max_hp/2:
-        if card.type == 'defense' or card.type == 'heal':
-          return card
+      elif self.hp <= self.max_hp/3:
+        if self.defense_buff+card.do_for_self > self.heal_buff+card.do_for_self:
+          if card.type == 'defense':
+              return card
+        else:
+          if card.type == 'heal':
+            return card
+      elif card.type not in ['attack','defense','heal']:
+        return card
     return use_cards
   
   def reset(self, hp,de,magic):

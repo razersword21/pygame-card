@@ -1,6 +1,5 @@
 import pygame,sys
 import pygame.locals
-import time
 
 from src.objects import *
 from src.card_process import *
@@ -9,6 +8,7 @@ from src.game import *
 from src.params import *
 from src.input_name import *
 from src.rank import *
+from src.job_page import *
 
 GAME_CONTROL = False
 
@@ -57,6 +57,7 @@ def main():
                 pos = pygame.mouse.get_pos()
                 if start_btn.collidepoint(pos):
                     input_name(win,main_role)
+                    chose_job(win,main_role)
                     if len(main_role.name) > 0:
                         GAME_CONTROL = True
                         game_(win,all_font,GAME_CONTROL,main_role,enemy)

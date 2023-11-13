@@ -81,7 +81,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     bg = BG(900, 600)
     rounds = 0
     clock = pygame.time.Clock()
-    main_role.reset(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
+    main_role.reset(params.player_value)
     enemy.reset(params.enemy_max_hp,params.enemy_max_de,params.enemy_max_magic)
     
     chose_buff = ''
@@ -120,12 +120,14 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         player_value_text = font_list[0].render("Damage: "+str(main_role.damage_buff)+'\nDef: '
                                         +str(main_role.defense_buff)+'\nHeal: '+str(main_role.heal_buff), True, PURPLE)
         player_name_text = font_list[0].render(main_role.name, True, Coconut_Brown)
+        player_job_text = font_list[0].render(job_dict[main_role.main_job], True, Coconut_Brown)
         win.blit(player_hp_text, (200, 10))
         win.blit(player_de_text, (200, 40))
         win.blit(player_mp_text, (200, 70))
         win.blit(player_money_text, (15, 375))
         win.blit(player_value_text, (10, 200))
         win.blit(player_name_text, (200, 100))
+        win.blit(player_job_text, (150, 100))
         start_y = 200
         if len(list(main_role.buff)) > 0:
             for i,buff in enumerate(main_role.buff):
