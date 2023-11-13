@@ -46,6 +46,7 @@ def win_surface(win,font_list,rounds,main_role,new_card_deck):
                 pos = pygame.mouse.get_pos()
                 if choose_btn.collidepoint(pos) and chose_buff == '':
                     chose_buff,add_value,new_card,main_role = choose_(win,font_list,rounds,main_role,out_option)
+                if choose_btn.collidepoint(pos) and chose_buff != '':
                     logging.info('你已經選擇過囉！ 你選擇 '+chose_buff +' 作為獎勵，請前往下一關')
                 if shop_btn.collidepoint(pos):
                     main_role = shop(win,font_list,main_role)

@@ -28,7 +28,8 @@ class Special_card():
     high_level_deck = [guard_card,keep_heal,add_magic,dragon_card,broke_shield,max_hp_card,dice_card]
 
 class params():
-    init_max_hp,init_max_de,init_max_magic,money = 15,0,3,0
+    init_max_hp,init_max_de,init_max_magic,money = 20,0,3,0
+    enemy_max_hp,enemy_max_de,enemy_max_magic = 10,0,3
     add_hp = 15
     add_value = 1
     add_pass_money = 150

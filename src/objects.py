@@ -11,6 +11,7 @@ YELLOW = (230,230,0)
 Coconut_Brown = (77,31,0)
 Camel = (161,107,71)
 Wisteria = (201,160,220)
+enemy_name = {0:'惡魔',1:'史萊姆-女',2:'史萊姆-男',3:'魷魚',4:'機器人',5:'獵人',6:'猩猩'}
 
 class Intro_animation(pygame.sprite.Sprite):
   def __init__(self,x,y):
@@ -89,7 +90,6 @@ class Main_role(pygame.sprite.Sprite):
 class Enemy(pygame.sprite.Sprite):
 
   def __init__(self, hp,de,magic):
-    self.name = '敵人'
     self.max_hp = hp
     self.hp = self.max_hp
     self.de = de
@@ -100,6 +100,7 @@ class Enemy(pygame.sprite.Sprite):
     self.magic = self.max_magic
     self.buff = []
     self.enemy_index = 0
+    self.name = enemy_name[self.enemy_index]
     
   def draw(self, screen,x,y):
     # 繪製敵人
@@ -122,7 +123,7 @@ class Enemy(pygame.sprite.Sprite):
     self.max_hp = hp
     self.hp = self.max_hp
     self.de = de
-    self.damage_buff = 0
+    self.damage_buff = -1
     self.defense_buff = 0
     self.heal_buff = 0
     self.max_magic = magic

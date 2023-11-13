@@ -31,6 +31,7 @@ def set_enemy(enemy):
     enemy.buff = []
     e_index = random.randint(0,6)
     enemy.enemy_index = e_index
+    enemy.name = enemy_name[enemy.enemy_index]
     return enemy
 
 def set_player(main_role,choose,add_value,log_text_list,new_card=None):
@@ -39,15 +40,15 @@ def set_player(main_role,choose,add_value,log_text_list,new_card=None):
         log_text = main_role.name+' 對於 Hp 增強了!'
         logging.info(main_role.name+' 對於 Hp 增強了!')
     elif choose == 'all':
-        y = random.randint(0,2)
+        y = random.randint(1,3)
         match y:
-            case 0:
+            case 1:
                 main_role.damage_buff += add_value
                 choose = 'damage'
-            case 1:
+            case 2:
                 main_role.defense_buff += add_value
                 choose = 'defense'
-            case 2:
+            case 3:
                 main_role.heal_buff += add_value
                 choose = 'heal'
         log_text = main_role.name+' 對於 '+choose+' 屬性增強了!'
@@ -58,7 +59,7 @@ def set_player(main_role,choose,add_value,log_text_list,new_card=None):
         logging.info(main_role.name+'放棄選擇 ， 獲得錢幣 '+str(params.add_pass_money)+' !')
     else:
         log_text = main_role.name+' 選擇特殊卡 ! -> '+new_card.name
-        logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name)
+        logging.info(main_role.name+' 選擇特殊卡 ! -> '+new_card.name+'')
     main_role.hp = main_role.max_hp
     main_role.magic = main_role.max_magic
     main_role.buff = []
@@ -71,7 +72,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     rounds = 0
     clock = pygame.time.Clock()
     main_role.reset(params.init_max_hp,params.init_max_de,params.init_max_magic,params.money)
-    enemy.reset(params.init_max_hp,params.init_max_de,params.init_max_magic)
+    enemy.reset(params.enemy_max_hp,params.enemy_max_de,params.enemy_max_magic)
     
     chose_buff = ''
     with open('source/rankings.json') as f:
@@ -99,42 +100,46 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         Rounds_text = font_list[0].render("Levels: "+str(rounds), True, BLACK)
         win.blit(Rounds_text, (10, 10))
 
-        main_role.draw(win,200,300)
+        main_role.draw(win,230,300)
         enemy.draw(win,700,300)
 
-        player_hp_text = font_list[0].render("HP:"+str(main_role.hp)+"|"+str(main_role.max_hp), True, RED)
+        player_hp_text = font_list[0].render("HP: "+str(main_role.hp), True, RED)
         player_de_text = font_list[0].render("Def: "+str(main_role.de), True, BLUE)
         player_mp_text = font_list[0].render("MP: "+str(main_role.magic), True, BLACK)
         player_money_text = font_list[0].render("Money: "+str(main_role.money), True, YELLOW)
         player_value_text = font_list[0].render("Damage: "+str(main_role.damage_buff)+'\nDef: '
                                         +str(main_role.defense_buff)+'\nHeal: '+str(main_role.heal_buff), True, PURPLE)
-        win.blit(player_hp_text, (80, 140))
-        win.blit(player_de_text, (170, 140))
-        win.blit(player_mp_text, (240, 140))
+        player_name_text = font_list[0].render(main_role.name, True, Coconut_Brown)
+        win.blit(player_hp_text, (200, 10))
+        win.blit(player_de_text, (200, 40))
+        win.blit(player_mp_text, (200, 70))
         win.blit(player_money_text, (15, 375))
         win.blit(player_value_text, (10, 200))
+        win.blit(player_name_text, (200, 100))
         start_y = 200
         if len(list(main_role.buff)) > 0:
             for i,buff in enumerate(main_role.buff):
                 start_y += 50*i
                 main_buff_text = font_list[0].render(list(buff.keys())[0], True, Coconut_Brown)
-                win.blit(main_buff_text, (260, start_y))
+                win.blit(main_buff_text, (300, start_y))
 
-        enemy_hp_text = font_list[0].render("HP: "+str(enemy.hp)+"|"+str(enemy.max_hp), True, RED)
+        enemy_hp_text = font_list[0].render("HP: "+str(enemy.hp), True, RED)
         enemy_de_text = font_list[0].render("Def: "+str(enemy.de), True, BLUE)
         enemy_mp_text = font_list[0].render("MP: "+str(enemy.magic), True, BLACK)
         enemy_value_text = font_list[0].render("Damage: "+str(enemy.damage_buff)+'\nDef: '
                                         +str(enemy.defense_buff)+'\nHeal: '+str(enemy.heal_buff), True, PURPLE)
-        win.blit(enemy_hp_text, (585, 140))
-        win.blit(enemy_de_text, (685, 140))
-        win.blit(enemy_mp_text, (750, 140))
+        enemy_name_text = font_list[0].render(enemy.name, True, Coconut_Brown)
+        win.blit(enemy_hp_text, (685, 10))
+        win.blit(enemy_de_text, (685, 40))
+        win.blit(enemy_mp_text, (685, 70))
         win.blit(enemy_value_text, (780, 200))
+        win.blit(enemy_name_text, (685, 100))
         start_y_e = 200
         if len(list(enemy.buff)) > 0:
             for i,ebuff in enumerate(enemy.buff):
                 start_y_e += 50*i
                 enemy_buff_text = font_list[0].render(list(ebuff.keys())[0], True, Coconut_Brown)
-                win.blit(enemy_buff_text, (600, start_y_e))
+                win.blit(enemy_buff_text, (550, start_y_e))
 
         next_turn_btn = pygame.Rect(775, 425, 110, 30) 
         pygame.draw.rect(win, RED , next_turn_btn)
@@ -178,7 +183,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     logging.warning(main_role.name + ' 打到 Round: '+str(rounds))
                     running = False
                 end_x = (len(current_cards)+1)*100
-                if GAME_CONTROL and pos[0] >= 100 and pos[0] <= end_x and player_turn and pos[1]>=430 and pos[1]<=540:
+                if GAME_CONTROL and 100<=pos[0]<= end_x and player_turn and 430<=pos[1]<=540:
                     card_index = pos[0] // 100 -1
                     if len(current_cards)<=5:
                         if card_index>=4:
@@ -197,6 +202,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         GAME_CONTROL,current_cards,log_text_list = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list)
         if GAME_CONTROL:
             if player_turn:
+                turn_index = pygame.image.load('source/mainrole_turn.png')
+                win.blit(turn_index,(280,150))
                 for i in range(len(current_cards)):
                     current_cards[i].draw(win,BLACK,WHITE,i,font_list[0])
                     current_card_index += 1
@@ -234,7 +241,9 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     log_text_list = log_text_list[-params.log_text_len:]
                     logging.info('---------------Enemy Turn---------------')
                     test = 0
-                
+                enemy_turn_index = pygame.image.load('source/enemy_turn.png')
+                win.blit(enemy_turn_index,(550,150))
+                pygame.display.update()
                 if enemy.magic > 0:
                     card = enemy.use_cardAI(enemy_current_cards)
                     if (enemy.magic - card.cost) >= 0:

@@ -18,12 +18,15 @@ def choose_(win,font_list,rounds,person,out_option):
     chose_card = None
     add_hp = params.add_hp
     add_value = params.add_value
-    chose_option = []*3
+    if rounds % 10 == 0 and rounds != 0:
+        add_hp = params.add_hp*2
+        add_value = params.add_value*2
+    chose_option = [None]*3
     out_card = []
     for i,op in enumerate(out_option):
-        if op == add_hp or add_hp*2:
+        if op == add_hp:
             chose_option[0]='hp'
-        elif op == add_value or add_value*2:
+        elif op == add_value:
             chose_option[1]='all'
         else:
             chose_option[2]='card'
@@ -49,19 +52,19 @@ def choose_(win,font_list,rounds,person,out_option):
         start_x = [100,400,700]
         for i,op in enumerate(out_option):
             if op == add_hp:
-                choose_text1 = font_list[0].render("血量增加", True, BLACK)
+                choose_text1 = font_list[1].render("血量\n增加", True, BLACK)
                 win.blit(choose_text1, (start_x[i], 300))
                 choose_text1 = font_list[1].render("+"+str(add_hp), True, BLACK)
-                win.blit(choose_text1, (start_x[i]+20, 400))
+                win.blit(choose_text1, (start_x[i]+20, 450))
             elif op == add_value:
-                choose_text2 = font_list[0].render("隨機屬性增強", True, BLACK)
-                win.blit(choose_text2, (start_x[i]-10, 300))
+                choose_text2 = font_list[0].render("以下屬性\n隨機增強", True, BLACK)
+                win.blit(choose_text2, (start_x[i], 270))
                 choose_text2_1 = font_list[0].render("傷害+1", True, BLACK)
-                win.blit(choose_text2_1, (start_x[i], 350))
+                win.blit(choose_text2_1, (start_x[i], 330))
                 choose_text2_2 = font_list[0].render("防禦+1", True, BLACK)
-                win.blit(choose_text2_2, (start_x[i], 400))
+                win.blit(choose_text2_2, (start_x[i], 370))
                 choose_text2_3 = font_list[0].render("治癒+1", True, BLACK)
-                win.blit(choose_text2_3, (start_x[i], 450))
+                win.blit(choose_text2_3, (start_x[i], 410))
             else:
                 choose_text3 = font_list[0].render("增加特殊卡", True, BLACK)
                 win.blit(choose_text3, (start_x[i]-20, 250))
