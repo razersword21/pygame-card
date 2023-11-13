@@ -25,11 +25,11 @@ def choose_(win,font_list,rounds,person,out_option):
     out_card = []
     for i,op in enumerate(out_option):
         if op == add_hp:
-            chose_option[0]='hp'
+            chose_option[i]='hp'
         elif op == add_value:
-            chose_option[1]='all'
+            chose_option[i]='all'
         else:
-            chose_option[2]='card'
+            chose_option[i]='card'
             out_card.append(op)
 
     while choosing:
@@ -84,12 +84,13 @@ def choose_(win,font_list,rounds,person,out_option):
                 pos = pygame.mouse.get_pos()
                 if rerurn_btn1.collidepoint(pos):
                     choosing = False
-                if choose_btn1.collidepoint(pos):
+                if 50<=pos[0]<=250 and 240<=pos[1]<=540:
                     choose_buff = chose_option[0]
-                elif choose_btn2.collidepoint(pos):
+                if 350<=pos[0]<=550 and 240<=pos[1]<=540:
                     choose_buff = chose_option[1]
-                elif choose_btn3.collidepoint(pos):
+                if 650<=pos[0]<=850 and 240<=pos[1]<=540:
                     choose_buff = chose_option[2]
+                
                 match choose_buff:
                     case 'hp':
                         value = add_hp

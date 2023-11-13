@@ -29,7 +29,7 @@ class Special_card():
 
 class params():
     init_max_hp,init_max_de,init_max_magic,money = 20,0,3,0
-    player_value = {1:{'name':'騎士','max_hp':25,'max_de':0,'damage_b':2,'defense_b':2,'heal_b':0,'magic':2,'money':100},
+    player_value = {1:{'name':'騎士','max_hp':25,'max_de':0,'damage_b':1,'defense_b':1,'heal_b':0,'magic':2,'money':100},
                     2:{'name':'魔法師','max_hp':15,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':1,'magic':4,'money':0},
                     3:{'name':'弓箭手','max_hp':20,'max_de':0,'damage_b':1,'defense_b':0,'heal_b':0,'magic':3,'money':50},
                     4:{'name':'凡人','max_hp':10,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':0,'magic':3,'money':0}}
