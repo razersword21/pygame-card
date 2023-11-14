@@ -92,8 +92,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     running = True 
     player_turn,show_history = True,False
 
-    init_enemy_card_deck = init_card_deck(True)
-    init_main_card_deck = init_card_deck()
+    init_enemy_card_deck = enemy_init_card_deck()
+    init_main_card_deck = init_card_deck(main_role)
 
     main_remain_deck = init_main_card_deck.copy()
     main_used_cards = []
@@ -314,7 +314,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             main_used_cards = []
             current_cards = random.sample(main_remain_deck,main_role.every_drop)
 
-            init_enemy_card_deck = init_card_deck(True)
+            init_enemy_card_deck = enemy_init_card_deck()
             if rounds % 5 == 0 and rounds != 0 and rounds % 10 != 0:
                 new_add_enemy_card.append(random.choice(enemy_normal_deck))
             if rounds % 10 == 0 and rounds != 0:

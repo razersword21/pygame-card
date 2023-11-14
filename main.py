@@ -21,6 +21,7 @@ def main():
     
     base_font = pygame.font.Font(params.Font, 32)
     title_font = pygame.font.Font(params.Font, 80)
+    btn_font = pygame.font.Font(params.Font, 50)
     all_font = [base_font,title_font]
     intro = Intro(900, 600)
     intro_animation = Intro_animation(300,300)
@@ -34,20 +35,20 @@ def main():
             show_animation = False
         win.blit(intro.bg_big, intro.rect)
 
-        start_btn = pygame.Rect(300, 555, 70, 30) 
+        start_btn = pygame.Rect(250, 530, 130, 50) 
         pygame.draw.rect(win, RED , start_btn)
-        btn_text = base_font.render("Start", True, BLACK)
-        win.blit(btn_text, (305, 555))
+        btn_text = btn_font.render("Start", True, BLACK)
+        win.blit(btn_text, (270, 530))
 
-        rank_btn = pygame.Rect(400, 555, 80, 30) 
+        rank_btn = pygame.Rect(400, 530, 130, 50) 
         pygame.draw.rect(win, YELLOW , rank_btn)
-        rank_text = base_font.render("排名榜", True, BLACK)
-        win.blit(rank_text, (400, 555))
+        rank_text = btn_font.render("排名榜", True, BLACK)
+        win.blit(rank_text, (405, 530))
 
-        quit_btn = pygame.Rect(500, 555, 60, 30) 
+        quit_btn = pygame.Rect(550, 530, 130, 50) 
         pygame.draw.rect(win, BLACK , quit_btn)
-        quit_text = base_font.render("Quit", True, WHITE)
-        win.blit(quit_text, (505, 555))
+        quit_text = btn_font.render("Quit", True, WHITE)
+        win.blit(quit_text, (575, 530))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

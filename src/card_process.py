@@ -68,14 +68,10 @@ def card_effect(target,card,myself):
             myself.magic += card.do_to_other
     return target,myself
 
-def init_card_deck(random_control:bool=None):
+def enemy_init_card_deck():
     card_deck = []
     deck_index = 0
-    if random_control == True:
-        card_type_number = [random.randint(9,30),random.randint(3,10),random.randint(3,10)]
-    else:
-        card_type_number = params.card_type_number
-    
+    card_type_number = [random.randint(9,30),random.randint(3,10),random.randint(3,10)]
     for i,card_num in enumerate(card_type_number):
         for _ in range(card_num):
             if i == 0:
@@ -83,6 +79,32 @@ def init_card_deck(random_control:bool=None):
             else:
                 card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,0,params.init_defense_or_heal,0,None)])
             deck_index+=1
+    return card_deck
+
+def init_card_deck(person):
+    card_deck = []
+    deck_index = 0
+    card_type_number = params.card_type_number
+    for i,card_num in enumerate(card_type_number):
+        for _ in range(card_num):
+            if i == 0:
+                card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,params.card_init_damage,0,0,None)])
+            else:
+                card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,0,params.init_defense_or_heal,0,None)])
+            deck_index+=1
+    match person.main_job:
+        case 1:
+            pro_card = Special_card.guard_card
+            pro_card.index = len(card_deck)
+            card_deck.extend([pro_card])
+        case 2:
+            pro_card = Special_card.add_magic
+            pro_card.index = len(card_deck)
+            card_deck.extend([pro_card])
+        case 3:
+            pro_card = Special_card.broke_shield
+            pro_card.index = len(card_deck)
+            card_deck.extend([pro_card])
     return card_deck
 
 def check_person_buff(person,enemy,card_type=None):
