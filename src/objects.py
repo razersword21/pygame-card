@@ -61,6 +61,13 @@ class shop_BG(pygame.sprite.Sprite):
     self.bg_big = pygame.transform.scale(background, (x, y))
     self.rect = self.bg_big.get_rect(left=0, top=0)
 
+class job_BG(pygame.sprite.Sprite):
+  def __init__(self,x,y):
+    super(job_BG, self).__init__()
+    background = pygame.image.load('source/job.png').convert_alpha()
+    self.bg_big = pygame.transform.scale(background, (x, y))
+    self.rect = self.bg_big.get_rect(left=0, top=0)
+
 class Main_role(pygame.sprite.Sprite):
   def __init__(self,hp,de,magic,money):
     self.name = ''
