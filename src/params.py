@@ -23,12 +23,13 @@ class Special_card():
     fire_card = Card(-1,'燃燒','fire',1,2,0,2,'每回合燒\n 敵人2hp\n 持續2回合')
     magic_deck = [fire_card]
     broke_shield = Card(-1,'破盾','brk_shd',2,0,0,0,'消除所有\n  護盾值')
-    archer_deck = [broke_shield]
+    penetrate = Card(-1,'破甲箭','penetrate',1,2,0,0,'無視防禦\n造成真實傷害')
+    archer_deck = [broke_shield,penetrate]
     dice_card = Card(-1,'幸運骰子','dice',1,5,3,0,'隨機執行動作\n6:5傷 5:1傷\n4:+3hp 3:+3de\n2:-5hp 1:-10hp')
     steal_card = Card(-1,'竊取','steal',1,2,0,0,'造成2傷害\n並隨機偷取對方\n0~30 Money')
     theif_card = [dice_card,steal_card]
     keep_heal = Card(-1,"回春",'keep_heal',2,0,3,2,'持續回自身\n  治癒增強\n  *2的血量\n  3回合') 
-    stick_card = Card(-1,'當頭棒喝','stick',2,2,0,0,'造成2+生命上限30%傷害')
+    stick_card = Card(-1,'當頭棒喝','stick',2,1,0,0,'造成1+生命上限30%傷害')
     priest_deck = [max_hp_card,keep_heal,stick_card]
     pro_job_deck = {1:knight_deck,2:magic_deck,3:archer_deck,4:[],5:theif_card,6:priest_deck}
 
@@ -38,7 +39,7 @@ class params():
                     2:{'name':'魔法師','max_hp':15,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':1,'magic':4,'money':50},
                     3:{'name':'弓箭手','max_hp':20,'max_de':0,'damage_b':1,'defense_b':0,'heal_b':0,'magic':3,'money':0},
                     4:{'name':'凡人','max_hp':10,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':0,'magic':3,'money':0},
-                    5:{'name':'盜賊','max_hp':20,'max_de':0,'damage_b':1,'defense_b':-1,'heal_b':0,'magic':3,'money':100},
+                    5:{'name':'盜賊','max_hp':20,'max_de':0,'damage_b':1,'defense_b':-1,'heal_b':0,'magic':3,'money':25},
                     6:{'name':'牧師','max_hp':30,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':2,'magic':3,'money':0}}
     enemy_max_hp,enemy_max_de,enemy_max_magic = 10,0,3
     add_hp = 10

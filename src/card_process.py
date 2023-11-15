@@ -72,6 +72,8 @@ def card_effect(target,card,myself):
         case 'stick':
             card.do_to_other = card.do_to_other+math.ceil(myself.max_hp*0.3)
             target,myself = attack(target,card,myself,None)
+        case 'penetrate':
+            target.hp -= (card.do_to_other+myself.damage_buff)
     return target,myself
 
 def enemy_init_card_deck():
@@ -104,7 +106,7 @@ def init_card_deck(person):
         case 2:
             pro_card = Special_card.add_magic
         case 3:
-            pro_card = Special_card.broke_shield
+            pro_card = Special_card.penetrate
         case 5:
             pro_card = Special_card.steal_card
         case 6:
@@ -209,7 +211,7 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
     value = ''
     log_text = main_role.name+' 打出 '+main_card.name+' '
     match main_card.type:
-        case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice'|'steal'|'stick':
+        case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice'|'steal'|'stick'|'penetrate':
             enemy,main_role = card_effect(enemy,main_card,main_role)
             value = str(main_card.do_to_other+main_role.damage_buff)
             log_text += '造成 ' + value + ' 傷害'
