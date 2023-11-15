@@ -173,6 +173,11 @@ def check_person_buff(person,enemy,card_type=None):
                             buff['fire'][0]-=1
                             if buff['fire'][0] == 0:
                                 person.buff.pop(i)
+                        case 'poison':
+                            person.damage_buff = math.ceil(person.damage_buff*0.5)
+                            buff['poison'][0]-=1
+                            if buff['poison'][0] == 0:
+                                person.buff.pop(i)    
                         case 'turtle':
                             buff['turtle'][0]-=1
                             if buff['turtle'][0] == 0:
@@ -235,6 +240,10 @@ def check_person_buff(person,enemy,card_type=None):
                         if buff[card_type][1] > 0:
                             person.de += 2 + person.defense_buff
                             buff[card_type][1]-=1
+                    if card_type == 'poison':
+                        if buff[card_type][1] > 0:
+                            person.damage_buff = math.ceil(person.damage_buff*0.5)
+                            buff[card_type][1]-=1
     return person
 
 def duoble_buff(card,target):
@@ -245,7 +254,7 @@ def duoble_buff(card,target):
             except:
                 pass
     else:
-        if card.type != 'fire':
+        if card.type != 'fire'|'poison':
             target.buff.append({card.type:[card.lasting,1]})
         else:
             target.buff.append({card.type:[card.lasting,card.do_to_other]})
@@ -314,9 +323,11 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
             little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'消逝')
             new_drop = [little_knife,little_knife]
             current_cards.extend(new_drop)
-        case 'turtle'|'keep_heal'|'add_magic'|'dragon'|'mud':
+        case 'turtle'|'keep_heal'|'add_magic'|'dragon'|'mud'|'poison':
             value = '持續 '+str(main_card.lasting) + ' 回合'
             log_text += value + '效果: ' + (main_card.special.replace('\n',' '))
+            if main_card.type == 'poison':
+                target,myself = attack(target,main_card,myself,None)
             duoble_buff(main_card,main_role)
             check_person_buff(main_role,enemy,main_card.type)
             if enemy.hp <= 0:

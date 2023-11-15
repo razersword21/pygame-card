@@ -22,11 +22,12 @@ class Special_card():
     knight_deck = [dragon_card,guard_card,defense_card]
     add_magic = Card(-1,'回魔','add_magic',2,0,2,2,'兩回合\n  Mp+2')
     fire_card = Card(-1,'燃燒','fire',1,2,0,2,'每回合燒\n 敵人2hp\n 持續2回合')
-    mud_card = Card(-1,'土盾','mud',1,2,0,3,'每回合獲得\n 2 護甲\n 持續2回合')
+    mud_card = Card(-1,'土盾','mud',1,2,0,3,'每回合獲得\n 2 護甲\n 持續3回合')
     magic_deck = [fire_card,mud_card]
     broke_shield = Card(-1,'破盾','brk_shd',2,0,0,0,'消除所有\n  護盾值')
     penetrate = Card(-1,'破甲箭','penetrate',1,2,0,0,'無視防禦\n造成真實傷害')
-    archer_deck = [broke_shield,penetrate]
+    poison = Card(-1,'塗毒','poison',1,2,0,2,'造成2傷害\n敵人虛弱2回合\n虛弱:damage-50%')
+    archer_deck = [broke_shield,penetrate,poison]
     dice_card = Card(-1,'幸運骰子','dice',1,5,3,0,'隨機執行動作\n6:5傷 5:1傷\n4:+3hp 3:+3de\n2:-5hp 1:-10hp')
     steal_card = Card(-1,'竊取','steal',1,2,0,0,'造成2傷害\n並隨機偷取對方\n0~30 Money')
     row_card = Card(-1,'輪盤','row',1,4,2,0,'隨機執行動作\n1:敵人補兩hp\n2:自己補2hp\n3:傷害敵人4hp\n4:傷害自己4hp')
