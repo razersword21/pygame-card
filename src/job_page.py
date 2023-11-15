@@ -65,7 +65,7 @@ def chose_job(win,person):
                     bow_text = base_font.render("普通的神箭手\n平常一直練習射箭\n帝國內所有人事物\n都是你的目標\n因為得罪太多人\n被趕來挑戰輪迴\n擁有初始專屬卡 - 破甲箭\n無視防禦\n造成真實傷害", True, WHITE)
                     win.blit(bow_text, (625, 250))
                 case 5:
-                    thief_img = pygame.image.load(job_image[3]).convert_alpha()
+                    thief_img = pygame.image.load(job_image[5]).convert_alpha()
                     thief = pygame.transform.scale(thief_img, (250, 300))
                     win.blit(thief,(520,-20))
                     thief_text = base_font.render("  盜賊\n血量: 20\n魔力: 3\nDamage: 2\nDefense: -1\nHeal: 0\nMoney: 25", True, WHITE)
@@ -73,7 +73,7 @@ def chose_job(win,person):
                     thief_text = base_font.render("沉迷賭博的盜賊\n作為不小心\n沉迷賭博之人\n同時作為盜賊\n所有動作充滿\n「隨機與竊取」\n擁有初始專屬卡 - 竊取\n造成2傷害\n並隨機偷取對方\n0~30 Money", True, WHITE)
                     win.blit(thief_text, (625, 250))
                 case 6:
-                    priest_img = pygame.image.load(job_image[3]).convert_alpha()
+                    priest_img = pygame.image.load(job_image[6]).convert_alpha()
                     priest = pygame.transform.scale(priest_img, (300, 300))
                     win.blit(priest,(520,-20))
                     priest_text = base_font.render("  牧師\n血量: 30\n魔力: 3\nDamage: 0\nDefense: 0\nHeal: 2\nMoney: 0", True, WHITE)
