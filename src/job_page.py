@@ -66,7 +66,7 @@ def chose_job(win,person):
                     win.blit(bow_text, (625, 250))
                 case 5:
                     thief_img = pygame.image.load(job_image[3]).convert_alpha()
-                    thief = pygame.transform.scale(thief_img, (300, 300))
+                    thief = pygame.transform.scale(thief_img, (250, 300))
                     win.blit(thief,(520,-20))
                     thief_text = base_font.render("  盜賊\n血量: 20\n魔力: 3\nDamage: 2\nDefense: -1\nHeal: 0\nMoney: 25", True, WHITE)
                     win.blit(thief_text, (500, 250))
