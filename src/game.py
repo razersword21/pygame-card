@@ -297,9 +297,9 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             logging.info('勝利！獲得 '+str(mm)+' 金錢')
             rounds += 1
             if rounds % 5 == 0 and rounds != 0:
-                new_card_deck = random.sample(normal_deck+high_level_deck+Special_card.pro_job_deck[main_role.main_job],k=3)
+                new_card_deck = random.sample(Special_card.normal_deck+Special_card.high_level_deck+Special_card.pro_job_deck[main_role.main_job],k=3)
             else:
-                new_card_deck = random.sample(normal_deck+Special_card.pro_job_deck[main_role.main_job],k=3)
+                new_card_deck = random.sample(Special_card.normal_deck+Special_card.pro_job_deck[main_role.main_job],k=3)
             chose_buff,add_value,new_card,main_role = win_surface(win,font_list,rounds,main_role,new_card_deck)
             
             log_text = '********* Next Round *********'
