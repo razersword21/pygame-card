@@ -207,7 +207,7 @@ def attack(target,card,myself,k=None):
     
     return target,myself
 
-def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list):
+def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list,name):
     value = ''
     log_text = main_role.name+' 打出 '+main_card.name+' '
     match main_card.type:
@@ -227,6 +227,16 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
                 log_text += '補 ' + value + ' 血量'
             main_role,enemy = card_effect(main_role,main_card,enemy)
             if main_role.hp > main_role.max_hp:
+                if name == 'player':
+                    if main_role.main_job == 6:
+                        more_hp = main_role.hp-main_role.max_hp
+                        if enemy.de > 0:
+                            enemy.de -= (more_hp)
+                            if enemy.de < 0:
+                                enemy.hp += enemy.de
+                                enemy.de = 0
+                        else:
+                            enemy.hp -= (more_hp)
                 main_role.hp = main_role.max_hp                           
         case 'return':
             current_cards = random.sample(main_remain_deck,main_role.every_drop)

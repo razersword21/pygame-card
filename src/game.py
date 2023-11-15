@@ -219,7 +219,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             main_used_cards.append(main_card)
                             usedcardindex = [x.index for x in main_remain_deck].index(main_card.index)
                             main_remain_deck.pop(usedcardindex)
-                        GAME_CONTROL,current_cards,log_text_list = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list)
+                        GAME_CONTROL,current_cards,log_text_list = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list,'player')
         if GAME_CONTROL:
             if player_turn:
                 turn_index = pygame.image.load('source/mainrole_turn.png')
@@ -276,7 +276,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             enemy_current_cards.pop(enemy_current_cardindex)
                             enemy_used_cards.append(card)
 
-                        GAME_CONTROL,enemy_current_cards,log_text_list = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards,log_text_list)
+                        GAME_CONTROL,enemy_current_cards,log_text_list = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards,log_text_list,'enemy')
                         
                         card.draw(win,BLACK,WHITE,0,font_list[0],400,100)
                         enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)

@@ -78,7 +78,7 @@ def chose_job(win,person):
                     win.blit(priest,(520,-20))
                     priest_text = base_font.render("  牧師\n血量: 30\n魔力: 3\nDamage: 0\nDefense: 0\nHeal: 2\nMoney: 0", True, WHITE)
                     win.blit(priest_text, (500, 250))
-                    priest_text = base_font.render("健身牧師-甲\n不要問為何血量如此\n一切都是平常的努力\n甚至攻擊都是基於\n血量上限與補血量\n擁有初始專屬卡 - 當頭棒喝\n造成1+生命上限30%傷害", True, WHITE)
+                    priest_text = base_font.render("健身牧師-甲\n不要問為何血量如此\n一切都是平常的努力\n甚至攻擊都是基於\n血量上限與超出的補血量\n擁有初始專屬卡 - 當頭棒喝\n造成1+生命上限30%傷害", True, WHITE)
                     win.blit(priest_text, (625, 250))
 
         for event in pygame.event.get():
