@@ -1,14 +1,9 @@
-import pygame,sys
-import random
+import pygame
 
 from src.objects import *
 from src.card_process import *
 from src.params import *
 from src.shop import *
-
-special_deck = Special_card()
-normal_deck = special_deck.normal_deck
-high_level_deck = special_deck.high_level_deck
 
 def choose_(win,font_list,rounds,person,out_option):
     bg = chose_BG(900, 600)

@@ -66,6 +66,12 @@ def card_effect(target,card,myself):
         case 'absorb':
             target.magic -= card.do_to_other
             myself.magic += card.do_to_other
+        case 'steal':
+            target,myself = attack(target,card,myself,None)
+            myself.money += random.randint(0,30)
+        case 'stick':
+            card.do_to_other = card.do_to_other+math.ceil(myself.max_hp*0.3)
+            target,myself = attack(target,card,myself,None)
     return target,myself
 
 def enemy_init_card_deck():
@@ -95,16 +101,16 @@ def init_card_deck(person):
     match person.main_job:
         case 1:
             pro_card = Special_card.guard_card
-            pro_card.index = len(card_deck)
-            card_deck.extend([pro_card])
         case 2:
             pro_card = Special_card.add_magic
-            pro_card.index = len(card_deck)
-            card_deck.extend([pro_card])
         case 3:
             pro_card = Special_card.broke_shield
-            pro_card.index = len(card_deck)
-            card_deck.extend([pro_card])
+        case 5:
+            pro_card = Special_card.steal_card
+        case 6:
+            pro_card = Special_card.stick_card
+    pro_card.index = len(card_deck)
+    card_deck.extend([pro_card])
     return card_deck
 
 def check_person_buff(person,enemy,card_type=None):
@@ -203,7 +209,7 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
     value = ''
     log_text = main_role.name+' 打出 '+main_card.name+' '
     match main_card.type:
-        case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice':
+        case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice'|'steal'|'stick':
             enemy,main_role = card_effect(enemy,main_card,main_role)
             value = str(main_card.do_to_other+main_role.damage_buff)
             log_text += '造成 ' + value + ' 傷害'
