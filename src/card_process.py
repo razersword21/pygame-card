@@ -5,39 +5,70 @@ logging.basicConfig(level=logging.INFO)
 from src.objects import *
 from src.params import *
 
-def card_effect(target,card,myself):
+def card_effect(target,card,myself,log_text):
     match card.type:
         case 'attack'|'little_knife':
             target,myself = attack(target,card,myself,None)
+            log_text += "造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害"
         case 'brk_shd':
+            log_text += "破甲 : "+str(target.de)+' > 0'
             target.de = 0
         case 'dice':
             dice_point = random.randint(1,6)
+            log_text += "你骰到"+str(dice_point)+' '
             match dice_point:
                 case 6:
                     target,myself = attack(target,card,myself)
+                    log_text +="造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害"
                 case 5:
                     target,myself = attack(target,card,myself,1)
+                    log_text +="造成 " + str(1+myself.damage_buff) + " 傷害"
                 case 4:
                     myself.hp += (3+myself.heal_buff)
+                    log_text +="治癒 "+str((3+myself.heal_buff))
                 case 3:
                     myself.de += (3+myself.defense_buff)
+                    log_text +="獲得護甲 "+str((3+myself.defense_buff))
                 case 2:
                     myself.hp -= 5
+                    log_text +="傷害自己 5 hp"
                 case 1:
                     myself.hp -= 10
+                    log_text +="傷害自己 10 hp"
+            
+        case 'row':
+            dice_point = random.randint(1,4)
+            log_text += "你轉到"+str(dice_point)+' '
+            match dice_point:
+                case 4:
+                    myself.hp -= 4
+                    log_text +="傷害自己 4 hp"
+                case 3:
+                    target,myself = attack(target,card,myself)
+                    log_text +="造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害"
+                case 2:
+                    myself.hp += (2+myself.heal_buff)
+                    log_text +="治癒 "+str((2+myself.heal_buff))
+                case 1:
+                    target.hp += 2
+                    log_text +="治癒敵人 "+str(3)
         case 'sacrifice':
             target,myself = attack(target,card,myself)
             myself.hp = math.floor(0.5*myself.hp)
+            log_text +="造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害\n"+'生命 -'+str(math.floor(0.5*myself.hp))
         case 'add_max_hp':
             target.max_hp += 5
+            log_text +='+5生命上限'
         case 'altar':
             target.hp = math.floor(0.5*target.hp)
             target.damage_buff+=1
+            log_text +='以生命'+str(math.floor(0.5*target.hp))+' 換來damage_buff+1'
         case 'defense':
             target.de+=card.do_for_self+target.defense_buff
+            log_text += '補 ' + str(card.do_for_self+target.defense_buff) + ' 護盾'
         case 'guard':
             target.de+=(target.defense_buff*2)
+            log_text += '補 ' + str(target.defense_buff*2) + ' 護盾'
         case 'shield':
             if target.de > 0:
                target.de -= (myself.de)
@@ -46,8 +77,10 @@ def card_effect(target,card,myself):
                   target.de = 0
             else:
                 target.hp -= (myself.de)
+            log_text +="造成 " + str(myself.de) + " 傷害"
         case 'heal':
             target.hp+=card.do_for_self+target.heal_buff
+            log_text += '補 ' + str(card.do_for_self+target.heal_buff) + ' hp'
         case 'fire':
             target,myself = attack(target,card,myself)
             duoble_buff(card,target)
@@ -63,23 +96,29 @@ def card_effect(target,card,myself):
                 myself.hp += (card.do_to_other+myself.damage_buff)
             if myself.hp > myself.max_hp:
                 myself.hp = myself.max_hp
+            log_text +="造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害\n補 "+str(card.do_to_other+myself.damage_buff)+' hp'
         case 'absorb':
             target.magic -= card.do_to_other
             myself.magic += card.do_to_other
+            log_text += '吸收 ' + str(card.do_to_other) + ' mp'
         case 'steal':
             target,myself = attack(target,card,myself,None)
-            myself.money += random.randint(0,30)
+            k = random.randint(0,30)
+            myself.money += k
+            log_text += "造成 "+str(card.do_to_other+myself.damage_buff) + " 傷害\n偷到 "+str(k)
         case 'stick':
-            card.do_to_other = card.do_to_other+math.ceil(myself.max_hp*0.3)
-            target,myself = attack(target,card,myself,None)
+            da = card.do_to_other+math.ceil(myself.max_hp*0.3)
+            target,myself = attack(target,card,myself,da)
+            log_text += "造成 "+str(da)+ " 傷害"
         case 'penetrate':
             target.hp -= (card.do_to_other+myself.damage_buff)
-    return target,myself
+            log_text += "造成 "+str(card.do_to_other+myself.damage_buff)+ " 真實傷害"
+    return target,myself,log_text
 
 def enemy_init_card_deck():
     card_deck = []
     deck_index = 0
-    card_type_number = [random.randint(9,30),random.randint(3,10),random.randint(3,10)]
+    card_type_number = [random.randint(5,20),random.randint(3,10),random.randint(3,10)]
     for i,card_num in enumerate(card_type_number):
         for _ in range(card_num):
             if i == 0:
@@ -149,6 +188,16 @@ def check_person_buff(person,enemy,card_type=None):
                                 person.buff.pop(i)
                         case 'keep_heal':
                             person.hp+=(person.heal_buff)*2
+                            if person.hp > person.max_hp:
+                                person.hp=person.max_hp
+                                more_hp = person.hp-person.max_hp
+                                if enemy.de > 0:
+                                    enemy.de -= (more_hp)
+                                    if enemy.de < 0:
+                                        enemy.hp += enemy.de
+                                        enemy.de = 0
+                                else:
+                                    enemy.hp -= (more_hp)
                             buff['keep_heal'][0]-=1
                             if buff['keep_heal'][0] == 0:
                                 person.buff.pop(i)
@@ -156,6 +205,11 @@ def check_person_buff(person,enemy,card_type=None):
                             person.magic += 2
                             buff['add_magic'][0]-=1
                             if buff['add_magic'][0] == 0:
+                                person.buff.pop(i)
+                        case 'mud':
+                            person.de += 2 + person.defense_buff
+                            buff['mud'][0]-=1
+                            if buff['mud'][0] == 0:
                                 person.buff.pop(i)
                 else:
                     if card_type == 'turtle':
@@ -176,6 +230,10 @@ def check_person_buff(person,enemy,card_type=None):
                     if card_type == 'add_magic':
                         if buff[card_type][1] > 0:
                             person.magic += 2
+                            buff[card_type][1]-=1
+                    if card_type == 'add_magic':
+                        if buff[card_type][1] > 0:
+                            person.de += 2 + person.defense_buff
                             buff[card_type][1]-=1
     return person
 
@@ -211,21 +269,18 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
     value = ''
     log_text = main_role.name+' 打出 '+main_card.name+' '
     match main_card.type:
-        case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice'|'steal'|'stick'|'penetrate':
-            enemy,main_role = card_effect(enemy,main_card,main_role)
+        case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice'|'steal'|'stick'|'penetrate'|'row':
+            enemy,main_role,log_text = card_effect(enemy,main_card,main_role,log_text)
             value = str(main_card.do_to_other+main_role.damage_buff)
-            log_text += '造成 ' + value + ' 傷害'
             if enemy.hp <= 0:
                 enemy.hp = 0
                 GAME_CONTROL = False
         case 'defense'|'heal'|'guard'|'altar'|'add_max_hp':
             if main_card.type in ['defense','guard']:
                 value = str(main_card.do_for_self+main_role.defense_buff)
-                log_text += '補 ' + value + ' 護盾'
             else:
                 value = str(main_card.do_for_self+main_role.heal_buff)
-                log_text += '補 ' + value + ' 血量'
-            main_role,enemy = card_effect(main_role,main_card,enemy)
+            main_role,enemy,log_text = card_effect(main_role,main_card,enemy,log_text)
             if main_role.hp > main_role.max_hp:
                 if name == 'player':
                     if main_role.main_job == 6:
@@ -238,6 +293,9 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
                         else:
                             enemy.hp -= (more_hp)
                 main_role.hp = main_role.max_hp                           
+            if enemy.hp <= 0:
+                enemy.hp = 0
+                GAME_CONTROL = False
         case 'return':
             current_cards = random.sample(main_remain_deck,main_role.every_drop)
             log_text += '=> 重抽手牌'
@@ -256,11 +314,14 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
             little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'消逝')
             new_drop = [little_knife,little_knife]
             current_cards.extend(new_drop)
-        case 'turtle'|'keep_heal'|'add_magic'|'dragon':
+        case 'turtle'|'keep_heal'|'add_magic'|'dragon'|'mud':
             value = '持續 '+str(main_card.lasting) + ' 回合'
             log_text += value + '效果: ' + (main_card.special.replace('\n',' '))
             duoble_buff(main_card,main_role)
             check_person_buff(main_role,enemy,main_card.type)
+            if enemy.hp <= 0:
+                enemy.hp = 0
+                GAME_CONTROL = False
     logging.info(main_role.name+' 打出 '+main_card.name+' '+value+' | '
             +'剩餘卡牌:'+str(len(main_remain_deck))+' | 用過卡牌:'+str(len(main_used_cards))+'\n'
             +main_role.name+' 狀態: Hp '+str(main_role.hp)+' De '+str(main_role.de)+' mp '+str(main_role.magic)+' Buff '+str(main_role.buff)+'\n'
