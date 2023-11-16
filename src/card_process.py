@@ -150,8 +150,9 @@ def init_card_deck(person):
             pro_card = Special_card.steal_card
         case 6:
             pro_card = Special_card.stick_card
-    pro_card.index = len(card_deck)
-    card_deck.extend([pro_card])
+    if person.main_job != 4:
+        pro_card.index = len(card_deck)
+        card_deck.extend([pro_card])
     return card_deck
 
 def check_person_buff(person,enemy,card_type=None):
