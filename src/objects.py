@@ -175,7 +175,7 @@ class Card(pygame.sprite.Sprite):
         pygame.draw.rect(win,bgcolor,(statr_x+next_card, start_y, 110, 150))
         pygame.draw.rect(win,color,(statr_x+next_card+5, start_y+5, 100, 140))
         card_name_text = FONT.render(str(self.name), True, BLACK)
-        win.blit(card_name_text,(statr_x+20+next_card+5,start_y+30+5))
+        win.blit(card_name_text,(statr_x+next_card+5,start_y+30+5))
         card_cost_text = FONT.render('Cost '+str(self.cost), True, BLACK)
         win.blit(card_cost_text,(statr_x+20+next_card+5,start_y+60+5))
         match self.type:

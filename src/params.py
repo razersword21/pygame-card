@@ -12,12 +12,12 @@ class Special_card():
     sacrifice_card = Card(-1,'捨身','sacrifice',1,10,0,0,'造成10點傷害\n也對自己造成\n當前50%hp傷害')
     normal_deck = [Vampire_card,magic_card,drop_card,return_card,knife_card,turtle_card,shield_bash] 
 
-    max_hp_card = Card(-1,'血量上限+','add_max_hp',2,0,5,0,'增加血量上限\n  +5')
+    max_hp_card = Card(-1,'Hp上限+','add_max_hp',2,0,5,0,'增加血量上限\n  +5')
     altar_card = Card(-1,'獻祭','altar',2,0,0,0,'以目前50%hp\n換來damage+1')
     high_level_deck = [altar_card,max_hp_card]
     
     dragon_card = Card(-1,'化龍','dragon',2,0,0,3,'化龍3回合\n 防禦+4\n 治癒+4\n 傷害+4')
-    guard_card = Card(-1,'神聖之盾','guard',2,0,3,0,'獲得自身\n 防禦增強\n 2倍的盾')
+    guard_card = Card(-1,'神聖之盾','guard',1,0,3,0,'獲得自身\n 防禦增強\n 2倍的盾')
     defense_card = Card(-1,'防禦','defense',1,0,2,0,'獲得 2 護甲')
     knight_deck = [dragon_card,guard_card,defense_card]
     add_magic = Card(-1,'回魔','add_magic',2,0,2,2,'兩回合\n  Mp+2')
@@ -40,7 +40,7 @@ class Special_card():
 
 class params():
     init_max_hp,init_max_de,init_max_magic,money = 20,0,3,0
-    player_value = {1:{'name':'騎士','max_hp':25,'max_de':0,'damage_b':1,'defense_b':1,'heal_b':0,'magic':2,'money':100},
+    player_value = {1:{'name':'騎士','max_hp':25,'max_de':0,'damage_b':1,'defense_b':2,'heal_b':0,'magic':2,'money':100},
                     2:{'name':'魔法師','max_hp':15,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':1,'magic':4,'money':50},
                     3:{'name':'弓箭手','max_hp':20,'max_de':0,'damage_b':1,'defense_b':0,'heal_b':0,'magic':3,'money':0},
                     4:{'name':'凡人','max_hp':10,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':0,'magic':3,'money':0},

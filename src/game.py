@@ -2,6 +2,7 @@ import pygame,sys
 import random
 import time
 import json
+import math
 import logging
 logging.basicConfig(level=logging.INFO)
 
@@ -107,6 +108,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     new_add_enemy_card = []
     
     test,current_card_index,log_text_list,new_card = 0,0,[],None
+    remain_start_y,used_start_y = 5
     while running:
         win.blit(bg.bg_big, bg.rect)
         Rounds_text = font_list[0].render("關卡: "+str(rounds), True, BLACK)
@@ -192,25 +194,19 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             pygame.display.update()
         if show_remain:
             remain_surface = pygame.Surface((500,350))
-            remain_surface.fill(Silver)
-            start_y = 10
+            remain_surface.fill(Bisque)
             for i,card in enumerate(main_remain_deck):
                 card_text = card_font.render(card.name,True,BLACK)
-                if i % 10 == 0 and i != 0:
-                    start_y += 50
-                remain_surface.blit(card_text, (10+(i % 10)*50, start_y))
+                remain_surface.blit(card_text, (5+(i % 9)*50, remain_start_y+math.floor(i/9)*50))
             win.blit(remain_surface, (200, 30))
             pygame.display.update()
 
         if show_used:
             used_surface = pygame.Surface((500,350))
-            used_surface.fill(Wisteria)
-            start_y = 10
+            used_surface.fill(Silver)
             for i,card in enumerate(main_used_cards):
                 card_text = card_font.render(card.name,True,BLACK)
-                if i % 10 == 0 and i != 0:
-                    start_y += 50
-                used_surface.blit(card_text, (10+(i % 10)*50, start_y))
+                used_surface.blit(card_text, (5+(i % 9)*50, used_start_y+math.floor(i/9)*50))
             win.blit(used_surface, (200, 30))
             pygame.display.update()
 
@@ -220,6 +216,16 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_job] + ' 打到 關卡: '+str(rounds))
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 4:
+                if remain_start_y<-5 and show_remain:
+                    remain_start_y+=20
+                if used_start_y<-5 and show_used:
+                    used_start_y+=20
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 5:
+                if math.floor(len(main_remain_deck)/9)*50+remain_start_y > 370 and show_remain:
+                    remain_start_y-=20
+                if math.floor(len(main_used_cards)/9)*50+used_start_y > 370 and show_used:
+                    used_start_y-=20    
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if next_turn_btn.collidepoint(pos):
@@ -233,6 +239,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         show_history = False
                 if remain_btn.collidepoint(pos):
                     if not show_remain:
+                        card_start_y = 5
                         show_remain = True
                         show_history = False
                         show_used = False
@@ -269,8 +276,9 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         GAME_CONTROL,current_cards,log_text_list = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list,'player')
         if GAME_CONTROL:
             if player_turn:
-                turn_index = pygame.image.load('source/mainrole_turn.png')
-                win.blit(turn_index,(280,150))
+                if not show_history and not show_used and not show_remain:
+                    turn_index = pygame.image.load('source/mainrole_turn.png')
+                    win.blit(turn_index,(280,150))
                 for i in range(len(current_cards)):
                     current_cards[i].draw(win,BLACK,WHITE,i,font_list[0])
                     current_card_index += 1
@@ -308,9 +316,10 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     log_text_list = log_text_list[-params.log_text_len:]
                     logging.info('---------------Enemy Turn---------------')
                     test = 0
-                enemy_turn_index = pygame.image.load('source/enemy_turn.png')
-                win.blit(enemy_turn_index,(550,150))
-                pygame.display.update()
+                if not show_history and not show_used and not show_remain:
+                    enemy_turn_index = pygame.image.load('source/enemy_turn.png')
+                    win.blit(enemy_turn_index,(550,150))
+                    pygame.display.update()
                 if enemy.magic > 0:
                     card = enemy.use_cardAI(enemy_current_cards)
                     if (enemy.magic - card.cost) >= 0:
