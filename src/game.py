@@ -41,7 +41,7 @@ def set_enemy(enemy,log_text_list):
     return enemy,log_text_list
 
 def set_player(main_role,choose,add_value,log_text_list,new_card=None):
-    print(choose)
+    
     if choose == 'hp':
         main_role.max_hp += add_value
         log_text = main_role.name+' 對於 Hp 增強了!'
@@ -85,12 +85,12 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     clock = pygame.time.Clock()
     main_role.reset(params.player_value)
     enemy.reset(params.enemy_max_hp,params.enemy_max_de,params.enemy_max_magic)
-    
+    card_font = pygame.font.Font(params.Font, 25)
     chose_buff = ''
     with open('source/rankings.json') as f:
         rank_list = json.load(f)
     running = True 
-    player_turn,show_history = True,False
+    player_turn,show_history,show_remain,show_used = True,False,False,False
 
     init_enemy_card_deck = enemy_init_card_deck()
     init_main_card_deck = init_card_deck(main_role)
@@ -173,6 +173,14 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         pygame.draw.rect(win, Wisteria , history_btn)
         history_text = font_list[0].render("戰鬥\n歷程", True, BLACK)
         win.blit(history_text, (810, 500))
+        remain_btn = pygame.Rect(700, 400, 70, 70) 
+        pygame.draw.rect(win, Bisque , remain_btn)
+        remain_text = font_list[0].render("剩餘\n  "+str(len(main_remain_deck)), True, BLACK)
+        win.blit(remain_text, (710, 400))
+        used_btn = pygame.Rect(700, 500, 70, 70) 
+        pygame.draw.rect(win, Silver , used_btn)
+        used_text = font_list[0].render("用過\n  "+str(len(main_used_cards)), True, BLACK)
+        win.blit(used_text, (710, 500))
 
         if show_history:
             history_surface = pygame.Surface((500,350))
@@ -181,6 +189,29 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 log_text = font_list[0].render(text, True, BLACK)
                 history_surface.blit(log_text, (30, 10+i*30))
             win.blit(history_surface, (200, 30))
+            pygame.display.update()
+        if show_remain:
+            remain_surface = pygame.Surface((500,350))
+            remain_surface.fill(Silver)
+            start_y = 10
+            for i,card in enumerate(main_remain_deck):
+                card_text = card_font.render(card.name,True,BLACK)
+                if i % 10 == 0 and i != 0:
+                    start_y += 50
+                remain_surface.blit(card_text, (10+(i % 10)*50, start_y))
+            win.blit(remain_surface, (200, 30))
+            pygame.display.update()
+
+        if show_used:
+            used_surface = pygame.Surface((500,350))
+            used_surface.fill(Wisteria)
+            start_y = 10
+            for i,card in enumerate(main_used_cards):
+                card_text = card_font.render(card.name,True,BLACK)
+                if i % 10 == 0 and i != 0:
+                    start_y += 50
+                used_surface.blit(card_text, (10+(i % 10)*50, start_y))
+            win.blit(used_surface, (200, 30))
             pygame.display.update()
 
         for event in pygame.event.get():
@@ -196,8 +227,24 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 if history_btn.collidepoint(pos):
                     if not show_history:
                         show_history = True
+                        show_used = False
+                        show_remain = False
                     else:
                         show_history = False
+                if remain_btn.collidepoint(pos):
+                    if not show_remain:
+                        show_remain = True
+                        show_history = False
+                        show_used = False
+                    else:
+                        show_remain = False
+                if used_btn.collidepoint(pos):
+                    if not show_used:
+                        show_used = True
+                        show_remain = False
+                        show_history = False
+                    else:
+                        show_used = False
                 if quit_btn.collidepoint(pos):
                     write_game_records(rank_list,main_role,rounds)
                     logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_job] + ' 打到 關卡: '+str(rounds))
