@@ -45,7 +45,7 @@ class params():
                     3:{'name':'弓箭手','max_hp':20,'max_de':0,'damage_b':1,'defense_b':0,'heal_b':0,'magic':3,'money':0},
                     4:{'name':'凡人','max_hp':10,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':0,'magic':3,'money':0},
                     5:{'name':'盜賊','max_hp':20,'max_de':0,'damage_b':1,'defense_b':-1,'heal_b':0,'magic':3,'money':25},
-                    6:{'name':'牧師','max_hp':30,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':2,'magic':3,'money':0}}
+                    6:{'name':'牧師','max_hp':25,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':2,'magic':3,'money':0}}
     enemy_max_hp,enemy_max_de,enemy_max_magic = 10,0,3
     add_hp = 10
     add_value = 1
