@@ -55,7 +55,7 @@ def card_effect(target,card,myself,log_text):
         case 'sacrifice':
             target,myself = attack(target,card,myself)
             myself.hp = math.floor(0.5*myself.hp)
-            log_text +="造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害\n"+'生命 -'+str(math.floor(0.5*myself.hp))
+            log_text +="造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害 "+'生命 -'+str(math.floor(0.5*myself.hp))
         case 'add_max_hp':
             target.max_hp += 5
             log_text +='+5生命上限'
@@ -96,7 +96,7 @@ def card_effect(target,card,myself,log_text):
                 myself.hp += (card.do_to_other+myself.damage_buff)
             if myself.hp > myself.max_hp:
                 myself.hp = myself.max_hp
-            log_text +="造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害\n補 "+str(card.do_to_other+myself.damage_buff)+' hp'
+            log_text +="造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害 補 "+str(card.do_to_other+myself.damage_buff)+' hp'
         case 'absorb':
             target.magic -= card.do_to_other
             myself.magic += card.do_to_other
@@ -105,7 +105,7 @@ def card_effect(target,card,myself,log_text):
             target,myself = attack(target,card,myself,None)
             k = random.randint(0,30)
             myself.money += k
-            log_text += "造成 "+str(card.do_to_other+myself.damage_buff) + " 傷害\n偷到 "+str(k)
+            log_text += "造成 "+str(card.do_to_other+myself.damage_buff) + " 傷害 偷到 "+str(k)
         case 'stick':
             da = card.do_to_other+math.ceil(myself.max_hp*0.3)
             target,myself = attack(target,card,myself,da)

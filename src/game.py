@@ -108,7 +108,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     new_add_enemy_card = []
     
     test,current_card_index,log_text_list,new_card = 0,0,[],None
-    remain_start_y,used_start_y = 5
+    remain_start_y,used_start_y = 5,5
     while running:
         win.blit(bg.bg_big, bg.rect)
         Rounds_text = font_list[0].render("關卡: "+str(rounds), True, BLACK)
@@ -121,15 +121,18 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         player_de_text = font_list[0].render("Def: "+str(main_role.de), True, BLUE)
         player_mp_text = font_list[0].render("MP: "+str(main_role.magic), True, BLACK)
         player_money_text = font_list[0].render("Money: "+str(main_role.money), True, YELLOW)
-        player_value_text = font_list[0].render("Damage: "+str(main_role.damage_buff)+'\nDef: '
-                                        +str(main_role.defense_buff)+'\nHeal: '+str(main_role.heal_buff), True, PURPLE)
+        player_value_text1 = font_list[0].render("Damage: "+str(main_role.damage_buff), True, PURPLE)
+        player_value_text2 = font_list[0].render('Def: '+str(main_role.defense_buff), True, PURPLE)
+        player_value_text3 = font_list[0].render('Heal: '+str(main_role.heal_buff), True, PURPLE)
         player_name_text = font_list[0].render(main_role.name, True, Coconut_Brown)
         player_job_text = font_list[0].render(job_dict[main_role.main_job], True, Coconut_Brown)
         win.blit(player_hp_text, (200, 10))
         win.blit(player_de_text, (200, 40))
         win.blit(player_mp_text, (200, 70))
         win.blit(player_money_text, (15, 375))
-        win.blit(player_value_text, (10, 200))
+        win.blit(player_value_text1, (10, 200))
+        win.blit(player_value_text2, (10, 240))
+        win.blit(player_value_text3, (10, 280))
         if len(enemy.name) > 10:
             win.blit(player_name_text, (170, 100))
         else:
@@ -145,13 +148,16 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         enemy_hp_text = font_list[0].render("HP: "+str(enemy.hp), True, RED)
         enemy_de_text = font_list[0].render("Def: "+str(enemy.de), True, BLUE)
         enemy_mp_text = font_list[0].render("MP: "+str(enemy.magic), True, BLACK)
-        enemy_value_text = font_list[0].render("Damage: "+str(enemy.damage_buff)+'\nDef: '
-                                        +str(enemy.defense_buff)+'\nHeal: '+str(enemy.heal_buff), True, PURPLE)
+        enemy_value_text1 = font_list[0].render("Damage: "+str(enemy.damage_buff), True, PURPLE)
+        enemy_value_text2 = font_list[0].render('Def: '+str(enemy.defense_buff), True, PURPLE)
+        enemy_value_text3 = font_list[0].render('Heal: '+str(enemy.heal_buff), True, PURPLE)
         enemy_name_text = font_list[0].render(enemy.name, True, Coconut_Brown)
         win.blit(enemy_hp_text, (685, 10))
         win.blit(enemy_de_text, (685, 40))
         win.blit(enemy_mp_text, (685, 70))
-        win.blit(enemy_value_text, (780, 200))
+        win.blit(enemy_value_text1, (780, 200))
+        win.blit(enemy_value_text2, (780, 240))
+        win.blit(enemy_value_text3, (780, 280))
         if len(enemy.name) > 3:
             win.blit(enemy_name_text, (655, 100))
         else:
@@ -173,17 +179,22 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         win.blit(quit_text, (825, 20))
         history_btn = pygame.Rect(800, 500, 70, 70) 
         pygame.draw.rect(win, Wisteria , history_btn)
-        history_text = font_list[0].render("戰鬥\n歷程", True, BLACK)
-        win.blit(history_text, (810, 500))
+        history_text1 = font_list[0].render("戰鬥", True, BLACK)
+        history_text2 = font_list[0].render("歷程", True, BLACK)
+        win.blit(history_text1, (810, 500))
+        win.blit(history_text2, (810, 540))
         remain_btn = pygame.Rect(700, 400, 70, 70) 
         pygame.draw.rect(win, Bisque , remain_btn)
-        remain_text = font_list[0].render("剩餘\n  "+str(len(main_remain_deck)), True, BLACK)
-        win.blit(remain_text, (710, 400))
+        remain_text1 = font_list[0].render("剩餘", True, BLACK)
+        remain_text2 = font_list[0].render(str(len(main_remain_deck)), True, BLACK)
+        win.blit(remain_text1, (710, 400))
+        win.blit(remain_text2, (710, 440))
         used_btn = pygame.Rect(700, 500, 70, 70) 
         pygame.draw.rect(win, Silver , used_btn)
-        used_text = font_list[0].render("用過\n  "+str(len(main_used_cards)), True, BLACK)
-        win.blit(used_text, (710, 500))
-
+        used_text1 = font_list[0].render("用過", True, BLACK)
+        used_text2 = font_list[0].render(str(len(main_used_cards)), True, BLACK)
+        win.blit(used_text1, (710, 500))
+        win.blit(used_text2, (710, 540))
         if show_history:
             history_surface = pygame.Surface((500,350))
             history_surface.fill(Wisteria)
@@ -280,7 +291,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     turn_index = pygame.image.load('source/mainrole_turn.png')
                     win.blit(turn_index,(280,150))
                 for i in range(len(current_cards)):
-                    current_cards[i].draw(win,BLACK,WHITE,i,font_list[0])
+                    current_cards[i].draw(win,i)
                     current_card_index += 1
                 pygame.display.update()
                 current_card_index = 0
@@ -334,7 +345,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
 
                         GAME_CONTROL,enemy_current_cards,log_text_list = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards,log_text_list,'enemy')
                         
-                        card.draw(win,BLACK,WHITE,0,font_list[0],400,100)
+                        card.draw(win,0,400,100)
                         enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)
                         win.blit(enemy_use_card_text, (370, 50))
                         pygame.display.update()

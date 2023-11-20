@@ -47,13 +47,15 @@ def choose_(win,font_list,rounds,person,out_option):
         start_x = [100,400,700]
         for i,op in enumerate(out_option):
             if op == add_hp:
-                choose_text1 = font_list[1].render("血量\n增加", True, BLACK)
+                choose_text1 = font_list[1].render("血量增加", True, BLACK)
                 win.blit(choose_text1, (start_x[i]-10, 280))
                 choose_text1 = font_list[1].render("+"+str(add_hp), True, BLACK)
                 win.blit(choose_text1, (start_x[i]+10, 450))
             elif op == add_value:
-                choose_text2 = font_list[0].render("以下屬性\n隨機增強", True, BLACK)
+                choose_text2 = font_list[0].render("以下屬性", True, BLACK)
+                choose_text22 = font_list[0].render("隨機增強", True, BLACK)
                 win.blit(choose_text2, (start_x[i], 270))
+                win.blit(choose_text22, (start_x[i], 310))
                 choose_text2_1 = font_list[0].render("傷害+1", True, BLACK)
                 win.blit(choose_text2_1, (start_x[i]+10, 350))
                 choose_text2_2 = font_list[0].render("防禦+1", True, BLACK)
@@ -65,12 +67,7 @@ def choose_(win,font_list,rounds,person,out_option):
             else:
                 choose_text3 = font_list[0].render("增加特殊卡", True, BLACK)
                 win.blit(choose_text3, (start_x[i]-20, 250))
-                card_text1 = font_list[0].render(op.name, True, BLACK)
-                win.blit(card_text1, (start_x[i], 290))
-                card_text = font_list[0].render("Cost: "+str(op.cost), True, BLACK)
-                win.blit(card_text, (start_x[i]-10, 330))
-                card_text2 = font_list[0].render(op.special, True, BLACK)
-                win.blit(card_text2, (start_x[i]-25, 370))
+                op.draw(win,0,start_x[i],300,300,450)
                         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

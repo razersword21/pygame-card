@@ -36,8 +36,10 @@ def win_surface(win,font_list,rounds,main_role,new_card_deck):
         win.blit(choose_text, (250, 450))
         next_rounds_btn = pygame.Rect(550, 200, 250, 350)
         pygame.draw.rect(win, RED , next_rounds_btn)
-        choose_text = font_list[1].render("下個\n回合", True, BLACK)
+        choose_text = font_list[1].render("下個", True, BLACK)
+        choose_text2 = font_list[1].render("回合", True, BLACK)
         win.blit(choose_text, (625, 300))
+        win.blit(choose_text2, (625, 350))
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
