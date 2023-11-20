@@ -169,10 +169,12 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 enemy_buff_text = font_list[0].render(list(ebuff.keys())[0], True, Coconut_Brown)
                 win.blit(enemy_buff_text, (550, start_y_e))
 
-        next_turn_btn = pygame.Rect(775, 425, 110, 30) 
+        next_turn_btn = pygame.Rect(800, 400, 70, 70) 
         pygame.draw.rect(win, RED , next_turn_btn)
-        btn_text = font_list[0].render("回合結束", True, BLACK)
-        win.blit(btn_text, (780, 425))
+        btn_text = font_list[0].render("回合", True, BLACK)
+        win.blit(btn_text, (800, 400))
+        btn_text = font_list[0].render("結束", True, BLACK)
+        win.blit(btn_text, (800, 440))
         quit_btn = pygame.Rect(820, 20, 65, 30) 
         pygame.draw.rect(win, BLACK , quit_btn)
         quit_text = font_list[0].render("Quit", True, WHITE)
@@ -268,8 +270,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_job] + ' 打到 關卡: '+str(rounds))
                     running = False
                 end_x = (len(current_cards)+1)*100
-                if GAME_CONTROL and 100<=pos[0]<= end_x and player_turn and 430<=pos[1]<=540:
-                    card_index = pos[0] // 100 -1
+                if GAME_CONTROL and 20<=pos[0]<= end_x and player_turn and 430<=pos[1]<=570:
+                    card_index = pos[0] // 100
                     if len(current_cards)<=5:
                         if card_index>=4:
                             card_index = 4
@@ -345,7 +347,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
 
                         GAME_CONTROL,enemy_current_cards,log_text_list = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards,log_text_list,'enemy')
                         
-                        card.draw(win,0,400,100)
+                        card.draw(win,0,450,200)
                         enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)
                         win.blit(enemy_use_card_text, (370, 50))
                         pygame.display.update()

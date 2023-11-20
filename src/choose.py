@@ -47,8 +47,10 @@ def choose_(win,font_list,rounds,person,out_option):
         start_x = [100,400,700]
         for i,op in enumerate(out_option):
             if op == add_hp:
-                choose_text1 = font_list[1].render("血量增加", True, BLACK)
+                choose_text1 = font_list[1].render("血量", True, BLACK)
+                choose_text2 = font_list[1].render("增加", True, BLACK)
                 win.blit(choose_text1, (start_x[i]-10, 280))
+                win.blit(choose_text2, (start_x[i]-10, 360))
                 choose_text1 = font_list[1].render("+"+str(add_hp), True, BLACK)
                 win.blit(choose_text1, (start_x[i]+10, 450))
             elif op == add_value:
@@ -67,7 +69,7 @@ def choose_(win,font_list,rounds,person,out_option):
             else:
                 choose_text3 = font_list[0].render("增加特殊卡", True, BLACK)
                 win.blit(choose_text3, (start_x[i]-20, 250))
-                op.draw(win,0,start_x[i],300,200,300)
+                op.draw(win,0,start_x[i]+50,380,200,300)
                         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
