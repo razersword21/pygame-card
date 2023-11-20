@@ -67,7 +67,7 @@ def choose_(win,font_list,rounds,person,out_option):
             else:
                 choose_text3 = font_list[0].render("增加特殊卡", True, BLACK)
                 win.blit(choose_text3, (start_x[i]-20, 250))
-                op.draw(win,0,start_x[i],300,300,450)
+                op.draw(win,0,start_x[i],300,200,300)
                         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

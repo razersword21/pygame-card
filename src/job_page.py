@@ -44,42 +44,87 @@ def chose_job(win,person):
                     knight_img = pygame.image.load(job_image[1]).convert_alpha()
                     knight = pygame.transform.scale(knight_img, (250, 250))
                     win.blit(knight,(530,-20))
-                    knight_text = base_font.render("   騎士\n血量: 25\n魔力: 2\nDamage: 1\nDefense: 2\nHeal: 0\nMoney: 100", True, WHITE)
-                    win.blit(knight_text, (500, 250))
-                    knight_text = base_font.render("帝國之盾\n從小接受騎士教育\n因此熟練劍盾使用\n但智力相對較低\n遇到挑戰時的動作單一\n初始專屬卡 - 神聖之盾\n獲得自身防禦buff*2\n的護盾", True, WHITE)
-                    win.blit(knight_text, (625, 250))
+                    st_y = 250
+                    for name,txt in params.player_value[person.main_job].items():
+                        if name == 'name':
+                            name = '職業'
+                        knight_text = base_font.render(name+' : '+txt, True, WHITE)
+                        win.blit(knight_text, (500, st_y))
+                        st_y+=40
+                    knight_t = "帝國之盾\n從小接受騎士教育\n因此熟練劍盾使用\n但智力相對較低\n遇到挑戰時的動作單一\n初始專屬卡 - 神聖之盾\n獲得自身防禦buff*2\n的護盾".split('\n')
+                    start_y = 250
+                    for t in knight_t:
+                        knight_text = base_font.render(t, True, WHITE)
+                        win.blit(knight_text, (625, start_y))
+                        start_y+=40
                 case 2:
                     magic_img = pygame.image.load(job_image[2]).convert_alpha()
                     magic = pygame.transform.scale(magic_img, (200, 250))
                     win.blit(magic,(550,-20))
-                    magic_text = base_font.render("  魔法師\n血量: 15\n魔力: 4\nDamage: 0\nDefense: 0\nHeal: 1\nMoney: 50", True, WHITE)
-                    win.blit(magic_text, (500, 250))
-                    magic_text = base_font.render("賢者之父\n為帝國賢者的父親\n不要妄想有兒子般的能力\n你只是因為兒子而受尊敬\n至少智力比騎士高\n初始專屬卡 - 回魔\n兩回合MP+2", True, WHITE)
-                    win.blit(magic_text, (625, 250))
+                    st_y = 250
+                    for name,txt in params.player_value[person.main_job].items():
+                        if name == 'name':
+                            name = '職業'
+                        knight_text = base_font.render(name+' : '+txt, True, WHITE)
+                        win.blit(knight_text, (500, st_y))
+                        st_y+=40
+                    knight_t = "賢者之父\n為帝國賢者的父親\n不要妄想有兒子般的能力\n你只是因為兒子而受尊敬\n至少智力比騎士高\n初始專屬卡 - 回魔\n兩回合MP+2".split('\n')
+                    start_y = 250
+                    for t in knight_t:
+                        knight_text = base_font.render(t, True, WHITE)
+                        win.blit(knight_text, (625, start_y))
+                        start_y+=40
                 case 3:
                     bow_img = pygame.image.load(job_image[3]).convert_alpha()
                     bow = pygame.transform.scale(bow_img, (300, 300))
                     win.blit(bow,(520,-20))
-                    bow_text = base_font.render("  弓箭手\n血量: 20\n魔力: 3\nDamage: 1\nDefense: 0\nHeal: 0\nMoney: 0", True, WHITE)
-                    win.blit(bow_text, (500, 250))
-                    bow_text = base_font.render("普通的神箭手\n平常一直練習射箭\n帝國內所有人事物\n都是你的目標\n因為得罪太多人\n被趕來挑戰輪迴\n初始專屬卡 - 破甲箭\n無視防禦\n造成真實傷害", True, WHITE)
-                    win.blit(bow_text, (625, 250))
+                    st_y = 250
+                    for name,txt in params.player_value[person.main_job].items():
+                        if name == 'name':
+                            name = '職業'
+                        knight_text = base_font.render(name+' : '+txt, True, WHITE)
+                        win.blit(knight_text, (500, st_y))
+                        st_y+=40
+                    knight_t = "普通的神箭手\n平常一直練習射箭\n帝國內所有人事物\n都是你的目標\n因為得罪太多人\n被趕來挑戰輪迴\n初始專屬卡 - 破甲箭\n無視防禦\n造成真實傷害".split('\n')
+                    start_y = 250
+                    for t in knight_t:
+                        knight_text = base_font.render(t, True, WHITE)
+                        win.blit(knight_text, (625, start_y))
+                        start_y+=40
                 case 5:
                     thief_img = pygame.image.load(job_image[5]).convert_alpha()
                     thief = pygame.transform.scale(thief_img, (250, 300))
                     win.blit(thief,(520,-20))
-                    thief_text = base_font.render("  盜賊\n血量: 20\n魔力: 3\nDamage: 2\nDefense: -1\nHeal: 0\nMoney: 25", True, WHITE)
-                    win.blit(thief_text, (500, 250))
-                    thief_text = base_font.render("沉迷賭博的盜賊\n作為不小心沉迷賭博之人\n同時作為盜賊\n所有動作充滿\n「隨機與竊取」\n初始專屬卡 - 竊取\n造成2傷害並隨機偷取\n0~30 Money", True, WHITE)
-                    win.blit(thief_text, (625, 250))
+                    st_y = 250
+                    for name,txt in params.player_value[person.main_job].items():
+                        if name == 'name':
+                            name = '職業'
+                        knight_text = base_font.render(name+' : '+txt, True, WHITE)
+                        win.blit(knight_text, (500, st_y))
+                        st_y+=40
+                    knight_t = "沉迷賭博的盜賊\n作為不小心沉迷賭博之人\n同時作為盜賊\n所有動作充滿\n「隨機與竊取」\n初始專屬卡 - 竊取\n造成2傷害並隨機偷取\n0~30 Money".split('\n')
+                    start_y = 250
+                    for t in knight_t:
+                        knight_text = base_font.render(t, True, WHITE)
+                        win.blit(knight_text, (625, start_y))
+                        start_y+=40
                 case 6:
                     priest_img = pygame.image.load(job_image[6]).convert_alpha()
                     priest = pygame.transform.scale(priest_img, (300, 300))
                     win.blit(priest,(520,-20))
-                    priest_text = base_font.render("  牧師\n血量: 30\n魔力: 3\nDamage: 0\nDefense: 0\nHeal: 2\nMoney: 0", True, WHITE)
-                    win.blit(priest_text, (500, 250))
-                    priest_text = base_font.render("健身牧師-甲\n不要問為何血量如此\n一切都是平常的努力\n甚至攻擊都是基於\n血量上限與超出的補血量\n初始專屬卡 - 當頭棒喝\n造成1+生命上限30%傷害", True, WHITE)
-                    win.blit(priest_text, (625, 250))
+                    st_y = 250
+                    for name,txt in params.player_value[person.main_job].items():
+                        if name == 'name':
+                            name = '職業'
+                        knight_text = base_font.render(name+' : '+txt, True, WHITE)
+                        win.blit(knight_text, (500, st_y))
+                        st_y+=40
+                    knight_t = "健身牧師-甲\n不要問為何血量如此\n一切都是平常的努力\n甚至攻擊都是基於\n血量上限與超出的補血量\n初始專屬卡 - 當頭棒喝\n造成1+生命上限30%傷害".split('\n')
+                    start_y = 250
+                    for t in knight_t:
+                        knight_text = base_font.render(t, True, WHITE)
+                        win.blit(knight_text, (625, start_y))
+                        start_y+=40
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
