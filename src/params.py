@@ -8,7 +8,7 @@ class Special_card():
     knife_card = Card(-1,'小刀*2','knife',1,0,0,0,'生成2張\n  小刀\n該回合沒用\n 即消失')
     Vampire_card = Card(-1,'壓榨','vampire',2,3,0,0,'造成3傷害\n 治癒自身3hp')
     magic_card = Card(-1,'吸魔','absorb',1,2,0,0,'吸取對方\n  2Mp')
-    shield_bash = Card(-1,"盾擊",'shield',2,0,2,0,'造成自身\n當前防禦值\n的傷害')
+    shield_bash = Card(-1,"盾擊",'shield',1,0,2,0,'造成自身\n當前防禦值\n的傷害')
     sacrifice_card = Card(-1,'捨身','sacrifice',1,10,0,0,'造成10點傷害\n也對自己造成\n當前50%hp傷害')
     normal_deck = [Vampire_card,magic_card,drop_card,return_card,knife_card,turtle_card,shield_bash] 
 
