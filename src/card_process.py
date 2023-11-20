@@ -69,6 +69,9 @@ def card_effect(target,card,myself,log_text):
         case 'defense':
             target.de+=card.do_for_self+target.defense_buff
             log_text += '補 ' + str(card.do_for_self+target.defense_buff) + ' 護盾'
+        case 'double_defense':
+            target.de=target.de*2
+            log_text += '補 ' + str(target.de) + ' 護盾'
         case 'guard':
             target.de+=(target.defense_buff*2)
             log_text += '補 ' + str(target.defense_buff*2) + ' 護盾'
@@ -187,6 +190,12 @@ def check_person_buff(person,enemy,card_type=None):
                             if buff['turtle'][0] == 0:
                                 person.defense_buff-=2
                                 person.heal_buff-=2
+                                person.damage_buff+=2
+                                person.buff.pop(i)
+                        case 'sword':
+                            buff['sword'][0]-=1
+                            if buff['sword'][0] == 0:
+                                person.damage_buff-=2
                                 person.buff.pop(i)
                         case 'dragon':
                             buff['dragon'][0]-=1
@@ -225,6 +234,11 @@ def check_person_buff(person,enemy,card_type=None):
                         if buff[card_type][1] > 0:
                             person.defense_buff+=2
                             person.heal_buff+=2
+                            person.damage_buff-=2
+                            buff[card_type][1]-=1
+                    if card_type == 'sword':
+                        if buff[card_type][1] > 0:
+                            person.damage_buff+=2
                             buff[card_type][1]-=1
                     if card_type == 'dragon':
                         if buff[card_type][1] > 0:
@@ -293,8 +307,8 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
             if enemy.hp <= 0:
                 enemy.hp = 0
                 GAME_CONTROL = False
-        case 'defense'|'heal'|'guard'|'altar'|'add_max_hp':
-            if main_card.type in ['defense','guard']:
+        case 'defense'|'heal'|'guard'|'altar'|'add_max_hp'|'double_defense':
+            if main_card.type in ['defense','guard','double_defense']:
                 value = str(main_card.do_for_self+main_role.defense_buff)
             else:
                 value = str(main_card.do_for_self+main_role.heal_buff)
@@ -332,7 +346,7 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
             little_knife = Card(-1,'小刀','little_knife',0,2,0,0,'消逝')
             new_drop = [little_knife,little_knife]
             current_cards.extend(new_drop)
-        case 'turtle'|'keep_heal'|'add_magic'|'dragon'|'mud'|'poison':
+        case 'turtle'|'keep_heal'|'add_magic'|'dragon'|'mud'|'poison'|'sword':
             value = '持續 '+str(main_card.lasting) + ' 回合'
             log_text += value + '效果: ' + (main_card.special.replace('\n',' '))
             if main_card.type == 'poison':
