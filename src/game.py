@@ -13,7 +13,7 @@ from src.params import *
 from src.win_page import *
 
 def set_enemy(enemy,log_text_list):
-    e_index = random.randint(0,6)
+    e_index = random.randint(0,10)
     enemy.enemy_index = e_index
     enemy.name = enemy_name[enemy.enemy_index]
     x = random.randint(0,100)

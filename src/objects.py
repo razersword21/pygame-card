@@ -13,7 +13,7 @@ Camel = (161,107,71)
 Wisteria = (201,160,220)
 Bisque = (255,228,196)
 Silver = (192,192,192)
-enemy_name = {0:'惡魔',1:'史萊姆-女',2:'史萊姆-男',3:'魷魚監察者',4:'機器人',5:'獵人',6:'猩猩'}
+enemy_name = {0:'惡魔',1:'史萊姆-女',2:'史萊姆-男',3:'魷魚監察者',4:'機器人',5:'獵人',6:'猩猩',7:'雷電球',8:'風鳥',9:'惡魔法師',10:'石怪'}
 job_dict = {1:'騎士',2:'魔法師',3:'弓箭手',4:'凡人',5:'盜賊',6:'牧師'}
 job_image = {1:'source/player/knight.png',2:'source/player/magic.png',3:'source/player/archer.png',4:'source/player/people.png',5:'source/player/thief.png',6:'source/player/priest.png'}
 
