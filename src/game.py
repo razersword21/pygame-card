@@ -91,7 +91,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     with open('source/rankings.json') as f:
         rank_list = json.load(f)
     running = True 
-    player_turn,show_history,show_remain,show_used = True,False,False,False
+    player_turn,show_history,show_remain,show_used,takedown = True,False,False,False,False
 
     init_enemy_card_deck = enemy_init_card_deck()
     init_main_card_deck = init_card_deck(main_role)
@@ -252,7 +252,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         show_history = False
                 if remain_btn.collidepoint(pos):
                     if not show_remain:
-                        card_start_y = 5
+                        remain_start_y = 5
                         show_remain = True
                         show_history = False
                         show_used = False
@@ -260,6 +260,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                         show_remain = False
                 if used_btn.collidepoint(pos):
                     if not show_used:
+                        used_start_y = 5
                         show_used = True
                         show_remain = False
                         show_history = False
@@ -286,7 +287,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             main_used_cards.append(main_card)
                             usedcardindex = [x.index for x in main_remain_deck].index(main_card.index)
                             main_remain_deck.pop(usedcardindex)
-                        GAME_CONTROL,current_cards,log_text_list = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list,'player')
+                        GAME_CONTROL,current_cards,log_text_list,takedown = use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list,'player')
         if GAME_CONTROL:
             if player_turn:
                 if not show_history and not show_used and not show_remain:
@@ -312,6 +313,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 else:
                     enemy_current_cards = random.sample(enemy_remain_deck,5)
             else:
+                if takedown:
+                    player_turn = True
                 # 玩家剩餘牌<5從用過的牌拉回
                 if len(main_remain_deck) < main_role.every_drop:
                     return_cards = random.sample(main_used_cards,main_role.every_drop-len(main_remain_deck))
@@ -345,7 +348,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                             enemy_current_cards.pop(enemy_current_cardindex)
                             enemy_used_cards.append(card)
 
-                        GAME_CONTROL,enemy_current_cards,log_text_list = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards,log_text_list,'enemy')
+                        GAME_CONTROL,enemy_current_cards,log_text_list,_ = use_card_effect(card,main_role,enemy,GAME_CONTROL,enemy_remain_deck,enemy_used_cards,enemy_current_cards,log_text_list,'enemy')
                         
                         card.draw(win,0,450,200)
                         enemy_use_card_text = font_list[0].render("敵人使用了 "+card.name, True, BLACK)

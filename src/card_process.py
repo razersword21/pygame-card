@@ -13,6 +13,9 @@ def card_effect(target,card,myself,log_text):
         case 'brk_shd':
             log_text += "破甲 : "+str(target.de)+' > 0'
             target.de = 0
+        case 'thurder':
+            target,myself = attack(target,card,myself,None)
+            log_text += "造成 " + str(card.do_to_other+myself.damage_buff) + " 傷害"
         case 'dice':
             dice_point = random.randint(1,6)
             log_text += "你骰到"+str(dice_point)+' '
@@ -278,10 +281,15 @@ def attack(target,card,myself,k=None):
 def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list,name):
     value = ''
     log_text = main_role.name+' 打出 '+main_card.name+' '
+    takedown = False
     match main_card.type:
-        case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice'|'steal'|'stick'|'penetrate'|'row':
+        case 'attack'|'fire'|'vampire'|'absorb'|'little_knife'|'shield'|'brk_shd'|'sacrifice'|'dice'|'steal'|'stick'|'penetrate'|'row'|'thurder':
             enemy,main_role,log_text = card_effect(enemy,main_card,main_role,log_text)
             value = str(main_card.do_to_other+main_role.damage_buff)
+            if main_card.type == 'thurder':
+                d = random.randint(1,100)
+                if d <= 30:
+                    takedown = True
             if enemy.hp <= 0:
                 enemy.hp = 0
                 GAME_CONTROL = False
@@ -340,4 +348,4 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
             +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
     log_text_list.append(log_text)
     log_text_list = log_text_list[-params.log_text_len:]
-    return GAME_CONTROL,current_cards,log_text_list
+    return GAME_CONTROL,current_cards,log_text_list,takedown

@@ -23,7 +23,8 @@ class Special_card():
     add_magic = Card(-1,'回魔','add_magic',2,0,2,2,'兩回合\n  Mp+2')
     fire_card = Card(-1,'燃燒','fire',1,2,0,2,'每回合燒\n 敵人2hp\n 持續2回合')
     mud_card = Card(-1,'土盾','mud',1,2,0,3,'每回合獲得\n 2 護甲\n 持續3回合')
-    magic_deck = [fire_card,mud_card]
+    thurder_card = Card(-1,'雷擊','thurder',2,2,0,0,'造成2點傷害\n機率使敵人暫停一回合')
+    magic_deck = [fire_card,mud_card,thurder_card]
     broke_shield = Card(-1,'破盾','brk_shd',2,0,0,0,'消除所有\n  護盾值')
     penetrate = Card(-1,'破甲箭','penetrate',1,2,0,0,'無視防禦\n造成真實傷害')
     poison = Card(-1,'塗毒','poison',1,2,0,2,'造成2傷害\n敵人虛弱2回合\n虛弱:damage-50%')
