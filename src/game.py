@@ -16,21 +16,24 @@ def set_enemy(enemy,log_text_list):
     e_index = random.randint(0,10)
     enemy.enemy_index = e_index
     enemy.name = enemy_name[enemy.enemy_index]
-    x = random.randint(0,100)
+    x = random.randint(1,100)
     if x <= 35:
         enemy.max_hp += params.add_hp
         log_text = enemy.name+' 對於 hp 增強了!'
         logging.info(enemy.name+' 對於 hp 增強了!')
-    if x > 40 and x < 65:
+    if 40< x <=50:
         enemy.damage_buff += params.add_value
         log_text = enemy.name+' 對於 damage 增強了!'
         logging.info(enemy.name+' 對於 damage 增強了!')
-    if x >= 65:
+    if 50< x <=75:
         enemy.defense_buff += params.add_value
+        log_text = enemy.name+' 對於 defense 增強了!'
+        logging.info(enemy.name+' 對於 defense 增強了!')
+    if x > 75:
         enemy.heal_buff += params.add_value
-        log_text = enemy.name+' 對於 defense & heal 增強了!'
-        logging.info(enemy.name+' 對於 defense & heal 增強了!')
-    if x > 35 and x < 40:
+        log_text = enemy.name+' 對於 heal 增強了!'
+        logging.info(enemy.name+' 對於 heal 增強了!')
+    if 35< x <=40:
         enemy.max_magic += params.add_value
         log_text = enemy.name+' 對於 magic 增強了!'
         logging.info(enemy.name+' 對於 magic 增強了!')
@@ -42,7 +45,6 @@ def set_enemy(enemy,log_text_list):
     return enemy,log_text_list
 
 def set_player(main_role,choose,add_value,log_text_list,new_card=None):
-    
     if choose == 'hp':
         main_role.max_hp += add_value
         log_text = main_role.name+' 對於 Hp 增強了!'
@@ -387,10 +389,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             current_cards = random.sample(main_remain_deck,main_role.every_drop)
 
             init_enemy_card_deck = enemy_init_card_deck()
-            if rounds % 5 == 0 and rounds != 0 and rounds % 10 != 0:
+            if rounds % 5 == 0 and rounds != 0:
                 new_add_enemy_card.append(random.choice(enemy_normal_deck))
-            if rounds % 10 == 0 and rounds != 0:
-                new_add_enemy_card.append(random.choice(enemy_normal_deck+enemy_high_level_deck))
             enemy_remain_deck = init_enemy_card_deck.copy()
             for new_e_card in new_add_enemy_card:
                 new_e_card.index = len(init_enemy_card_deck)
@@ -398,7 +398,8 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             enemy_used_cards = []
             enemy_current_cards = random.sample(enemy_remain_deck,5)
 
-            enemy,log_text_list = set_enemy(enemy,log_text_list)
+            if rounds % 5 != 0 or rounds == 0:
+                enemy,log_text_list = set_enemy(enemy,log_text_list)
             main_role,log_text_list = set_player(main_role,chose_buff,add_value,log_text_list,new_card)
             GAME_CONTROL = True
         else:
