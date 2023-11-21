@@ -134,15 +134,21 @@ class Enemy(pygame.sprite.Sprite):
     
   def use_cardAI(self,enemy_current_cards):
     use_cards = random.choice(enemy_current_cards)
-    for card in enemy_current_cards:
+    for i,card in enumerate(enemy_current_cards):
+      if card.cost > self.magic:
+        continue
       if card.cost == 0:
         return card
       elif self.hp <= self.max_hp/3:
         if self.defense_buff+card.do_for_self > self.heal_buff+card.do_for_self:
           if card.type == 'defense':
-              return card
+            return card
+          elif i == (len(enemy_current_cards)-1) and card.type == 'heal':
+            return card
         else:
           if card.type == 'heal':
+            return card
+          elif i == (len(enemy_current_cards)-1) and card.type == 'defense':
             return card
       elif card.type not in ['attack','defense','heal']:
         return card

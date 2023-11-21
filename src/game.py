@@ -338,6 +338,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     enemy_turn_index = pygame.image.load('source/enemy_turn.png')
                     win.blit(enemy_turn_index,(550,150))
                     pygame.display.update()
+                
                 if enemy.magic > 0:
                     card = enemy.use_cardAI(enemy_current_cards)
                     if (enemy.magic - card.cost) >= 0:
@@ -365,6 +366,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                     enemy.magic = enemy.max_magic
                     main_role.magic = main_role.max_magic
                     check_person_buff(main_role,enemy)
+                    
         elif not GAME_CONTROL and enemy.hp == 0:
             mm = random.randint(50,100)
             main_role.money += mm
