@@ -112,6 +112,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     test,current_card_index,log_text_list,new_card = 0,0,[],None
     remain_start_y,used_start_y = 5,5
     while running:
+        show_next = True
         win.blit(bg.bg_big, bg.rect)
         Rounds_text = font_list[0].render("關卡: "+str(rounds), True, BLACK)
         win.blit(Rounds_text, (10, 10))
@@ -199,6 +200,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
         used_text2 = font_list[0].render(str(len(main_used_cards)), True, BLACK)
         win.blit(used_text1, (710, 500))
         win.blit(used_text2, (710, 540))
+        
         if show_history:
             history_surface = pygame.Surface((500,350))
             history_surface.fill(Wisteria)
@@ -206,7 +208,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 log_text = font_list[0].render(text, True, BLACK)
                 history_surface.blit(log_text, (30, 10+i*30))
             win.blit(history_surface, (200, 30))
-            pygame.display.update()
+            # pygame.display.update()
         if show_remain:
             remain_surface = pygame.Surface((500,350))
             remain_surface.fill(Bisque)
@@ -214,7 +216,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 card_text = card_font.render(card.name,True,BLACK)
                 remain_surface.blit(card_text, (5+(i % 9)*50, remain_start_y+math.floor(i/9)*50))
             win.blit(remain_surface, (200, 30))
-            pygame.display.update()
+            # pygame.display.update()
 
         if show_used:
             used_surface = pygame.Surface((500,350))
@@ -223,7 +225,7 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 card_text = card_font.render(card.name,True,BLACK)
                 used_surface.blit(card_text, (5+(i % 9)*50, used_start_y+math.floor(i/9)*50))
             win.blit(used_surface, (200, 30))
-            pygame.display.update()
+            # pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -403,6 +405,15 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
             if rounds % 5 != 0 or rounds == 0:
                 enemy,log_text_list = set_enemy(enemy,log_text_list)
             main_role,log_text_list = set_player(main_role,chose_buff,add_value,log_text_list,new_card)
+            if show_next:
+                background=pygame.Surface((win.get_rect().width, win.get_rect().height))
+                background.fill(BLACK)
+                win.blit(background, background.get_rect())
+                rounds_text1 = font_list[1].render("關卡 : "+str(rounds), True, WHITE)
+                win.blit(rounds_text1, (350, 250))
+                pygame.display.update()
+                time.sleep(2)
+                show_next = False
             GAME_CONTROL = True
         else:
             over_bg = pygame.Rect(200, 225, 500, 150) 

@@ -8,6 +8,7 @@ from src.params import *
 def chose_job(win,person):
     bg = job_BG(900, 600)
     job_chosing,check_job = True,False
+    role_index = 0
     job_font = pygame.font.Font(params.Font, 50)
     base_font = pygame.font.Font(params.Font, 30)
 
@@ -124,6 +125,7 @@ def chose_job(win,person):
                 person.main_job = 4
                 logging.info('恭喜你獲得隱藏職業！接下來的挑戰你成為 '+job_dict[person.main_job]+' 不會獲得任何專屬卡。')
                 job_chosing = False
+            
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
                 pos = pygame.mouse.get_pos()
                 if choose_btn1.collidepoint(pos):
