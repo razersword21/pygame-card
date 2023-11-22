@@ -166,7 +166,8 @@ def chose_job(win,person):
                     check_job = True
                     person.role_index = 0
                 if rerurn_btn1.collidepoint(pos):
-                    job_chosing = False
+                    if out_dict[person.main_job] >= person.role_index*20:
+                        job_chosing = False
         pygame.display.flip()
 
 def check_job_(rank_list):

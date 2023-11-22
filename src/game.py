@@ -39,7 +39,9 @@ def set_enemy(enemy,log_text_list):
         logging.info(enemy.name+' 對於 magic 增強了!')
     enemy.hp = enemy.max_hp
     enemy.magic = enemy.max_magic
-    enemy.buff = []
+    if len(enemy.buff)>0:
+        reset_buff(enemy)
+        enemy.buff = []
     log_text_list.append(log_text)
     log_text_list = log_text_list[-params.log_text_len:]
     return enemy,log_text_list
@@ -77,7 +79,9 @@ def set_player(main_role,choose,add_value,log_text_list,new_card=None):
     main_role.hp = main_role.max_hp
     main_role.magic = main_role.max_magic
     main_role.de = 0
-    main_role.buff = []
+    if len(main_role.buff)>0:
+        reset_buff(main_role)
+        main_role.buff = []
     log_text_list.append(log_text)
     log_text_list = log_text_list[-params.log_text_len:]
     return main_role,log_text_list
@@ -104,7 +108,6 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
     
     enemy_remain_deck = init_enemy_card_deck.copy()
     enemy_normal_deck = Special_card.normal_deck.copy()
-    enemy_high_level_deck = Special_card.high_level_deck.copy()
     enemy_current_cards = random.sample(enemy_remain_deck,5)
     enemy_used_cards = []
     new_add_enemy_card = []

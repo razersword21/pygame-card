@@ -363,3 +363,18 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
     log_text_list.append(log_text)
     log_text_list = log_text_list[-params.log_text_len:]
     return GAME_CONTROL,current_cards,log_text_list,takedown
+
+def reset_buff(target):
+    for i,buff in enumerate(target.buff):
+        key = list(buff.keys())[0]
+        match key:
+            case 'turtle':
+                target.defense_buff-=2
+                target.heal_buff-=2
+                target.damage_buff+=2
+            case 'sword':
+                target.damage_buff-=2
+            case 'dragon':
+                target.defense_buff-=4
+                target.heal_buff-=4
+                target.damage_buff-=4
