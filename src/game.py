@@ -409,8 +409,10 @@ def game_(win,font_list,GAME_CONTROL,main_role,enemy):
                 background=pygame.Surface((win.get_rect().width, win.get_rect().height))
                 background.fill(BLACK)
                 win.blit(background, background.get_rect())
-                rounds_text1 = font_list[1].render("關卡 : "+str(rounds), True, WHITE)
+                rounds_text1 = font_list[1].render("關卡", True, WHITE)
+                rounds_text2 = font_list[1].render(str(rounds-1)+' -> '+str(rounds), True, WHITE)
                 win.blit(rounds_text1, (350, 250))
+                win.blit(rounds_text2, (350, 350))
                 pygame.display.update()
                 time.sleep(2)
                 show_next = False

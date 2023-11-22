@@ -15,7 +15,12 @@ Bisque = (255,228,196)
 Silver = (192,192,192)
 enemy_name = {0:'惡魔',1:'史萊姆-女',2:'史萊姆-男',3:'魷魚監察者',4:'機器人',5:'獵人',6:'猩猩',7:'雷電球',8:'風鳥',9:'惡魔法師',10:'石怪'}
 job_dict = {1:'騎士',2:'魔法師',3:'弓箭手',4:'凡人',5:'盜賊',6:'牧師'}
-job_image = {1:'source/player/knight.png',2:'source/player/magic.png',3:'source/player/archer.png',4:'source/player/people.png',5:'source/player/thief.png',6:'source/player/priest.png'}
+job_image = {1:['source/player/knight.png','source/player/knight2.png','source/player/knight3.png'],
+             2:['source/player/magic.png','source/player/magic2.png','source/player/magic3.png'],
+             3:['source/player/archer.png','source/player/archer2.png','source/player/archer3.png'],
+             4:'source/player/people.png',
+             5:['source/player/thief.png','source/player/thief2.png','source/player/thief3.png'],
+             6:['source/player/priest.png','source/player/priest2.png','source/player/priest3.png']}
 
 class Intro_animation(pygame.sprite.Sprite):
   def __init__(self,x,y):
@@ -87,9 +92,10 @@ class Main_role(pygame.sprite.Sprite):
     self.max_card = 9
     self.buff = []
     self.main_job = 1
+    self.role_index = 0
 
   def draw(self, screen,x,y):
-    role = pygame.image.load(job_image[self.main_job]).convert_alpha()
+    role = pygame.image.load(job_image[self.main_job][self.role_index]).convert_alpha()
     self.mainrole = pygame.transform.scale(role, (300, 350))
     self.rect = self.mainrole.get_rect(center = (x,y))
     screen.blit(self.mainrole,self.rect)
