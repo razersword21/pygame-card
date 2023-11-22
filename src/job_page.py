@@ -131,7 +131,7 @@ def chose_job(win,person):
 
             locker = pygame.image.load('source/locker.png')
             locker = pygame.transform.scale(locker, (200, 200))
-            if len(out_dict)>0:
+            if len(out_dict) > 0:
                 if ((out_dict[person.main_job] < person.role_index*10)):
                     win.blit(locker,(550,0))
             else:
