@@ -16,7 +16,7 @@ def chose_job(win,person):
     with open('source/rankings.json') as f:
         rank_list = json.load(f)
     out_dict = check_job_(rank_list)
-
+    
     while job_chosing:
         win.blit(bg.bg_big, bg.rect)
         choose_btn1 = pygame.Rect(30, 100, 130, 80)
@@ -43,6 +43,8 @@ def chose_job(win,person):
         win.blit(knight_text, (200, 260))
         rerurn_text = base_font.render("前往挑戰", True, BLACK)
         win.blit(rerurn_text, (790, 560))
+
+        
         
         if check_job:
             turn_index = pygame.image.load('source/mainrole_turn.png')
@@ -129,6 +131,15 @@ def chose_job(win,person):
                         win.blit(knight_text, (650, start_y))
                         start_y+=40
 
+            locker = pygame.image.load('source/locker.png')
+            locker = pygame.transform.scale(locker, (200, 200))
+            if len(out_dict)>0:
+                if ((out_dict[person.main_job] < person.role_index*20)):
+                    win.blit(locker,(550,0))
+            else:
+                if person.role_index != 0:
+                    win.blit(locker,(550,0))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 person.main_job = 4
@@ -166,17 +177,22 @@ def chose_job(win,person):
                     check_job = True
                     person.role_index = 0
                 if rerurn_btn1.collidepoint(pos):
-                    if out_dict[person.main_job] >= person.role_index*20:
-                        job_chosing = False
+                    if len(out_dict)>0:
+                        if (out_dict[person.main_job] >= person.role_index*20):
+                            job_chosing = False
+                    else:
+                        if person.role_index == 0:
+                            job_chosing = False
         pygame.display.flip()
 
 def check_job_(rank_list):
     out_dict = {}
     for index,job in job_dict.items():
         if len(rank_list) > 0:
+            max_levels = 0
             for player in rank_list:
                 if player['job'] == job:
-                    if player['score'] > max_levels:
-                        max_levels = player['score']
+                    if int(player['score']) > max_levels:
+                        max_levels = int(player['score'])
             out_dict[index] = max_levels
     return out_dict
