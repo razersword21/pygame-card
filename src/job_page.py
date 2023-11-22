@@ -43,8 +43,6 @@ def chose_job(win,person):
         win.blit(knight_text, (200, 260))
         rerurn_text = base_font.render("前往挑戰", True, BLACK)
         win.blit(rerurn_text, (790, 560))
-
-        
         
         if check_job:
             turn_index = pygame.image.load('source/mainrole_turn.png')
@@ -134,7 +132,7 @@ def chose_job(win,person):
             locker = pygame.image.load('source/locker.png')
             locker = pygame.transform.scale(locker, (200, 200))
             if len(out_dict)>0:
-                if ((out_dict[person.main_job] < person.role_index*20)):
+                if ((out_dict[person.main_job] < person.role_index*10)):
                     win.blit(locker,(550,0))
             else:
                 if person.role_index != 0:
@@ -178,7 +176,7 @@ def chose_job(win,person):
                     person.role_index = 0
                 if rerurn_btn1.collidepoint(pos):
                     if len(out_dict)>0:
-                        if (out_dict[person.main_job] >= person.role_index*20):
+                        if (out_dict[person.main_job] >= person.role_index*10):
                             job_chosing = False
                     else:
                         if person.role_index == 0:
