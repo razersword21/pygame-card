@@ -15,6 +15,10 @@ GAME_CONTROL = False
 def main():
     global GAME_CONTROL
     pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.load("source/bg_music.mp3")
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(loops=-1)
     pygame.display.set_caption('數值-無限輪迴 ( Numerical value-infinite reincarnation )')  # 遊戲標題
     win = pygame.display.set_mode((900, 600))  # 窗口尺寸
     clock = pygame.time.Clock()
