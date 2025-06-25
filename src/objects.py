@@ -18,7 +18,7 @@ job_dict = {1:'騎士',2:'魔法師',3:'弓箭手',4:'凡人',5:'盜賊',6:'牧�
 job_image = {1:['source/player/knight.png','source/player/knight2.png','source/player/knight3.png'],
              2:['source/player/magic.png','source/player/magic2.png','source/player/magic3.png'],
              3:['source/player/archer.png','source/player/archer2.png','source/player/archer3.png'],
-             4:'source/player/people.png',
+             4:['source/player/people.png'],
              5:['source/player/thief.png','source/player/thief2.png','source/player/thief3.png'],
              6:['source/player/priest.png','source/player/priest2.png','source/player/priest3.png']}
 

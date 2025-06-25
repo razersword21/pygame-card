@@ -5,192 +5,186 @@ logging.basicConfig(level=logging.INFO)
 
 from src.objects import *
 from src.params import *
+from src.config import *
 
-def chose_job(win,person):
-    bg = job_BG(900, 600)
-    job_chosing,check_job = True,False
+class JobPage:
+    """職業選擇頁面類"""
+    def __init__(self, window_surface, main_role):
+        self.window = window_surface
+        self.person = main_role
+        self.config = GameConfig()
+        self.colors = Colors()
+        self.bg = job_BG(self.config.WINDOW_WIDTH, self.config.WINDOW_HEIGHT)
+        self.fonts = {
+            'job': pygame.font.Font(params.Font, 50),
+            'base': pygame.font.Font(params.Font, 30)
+        }
 
-    job_font = pygame.font.Font(params.Font, 50)
-    base_font = pygame.font.Font(params.Font, 30)
+        self.job_chosing = True
+        self.check_job = False
+        self.rank_list = self.load_rankings()
 
-    with open('source/rankings.json') as f:
-        rank_list = json.load(f)
-    out_dict = check_job_(rank_list)
+        self.buttons = {
+            'knight': (pygame.Rect(30, 100, 130, 80), '騎士', BLUE, WHITE, 1),
+            'mage': (pygame.Rect(180, 100, 130, 80), '魔法師', PURPLE, WHITE, 2),
+            'archer': (pygame.Rect(330, 100, 130, 80), '弓箭手', GREEN, BLACK, 3),
+            'thief': (pygame.Rect(30, 240, 130, 80), '盜賊', Coconut_Brown, WHITE, 4),
+            'priest': (pygame.Rect(180, 240, 130, 80), '牧師', YELLOW, BLACK, 5),
+            'return': (pygame.Rect(790, 555, 100, 40), '前往挑戰', RED, BLACK, 'return')
+        }
+
+        self.arrow_buttons = {
+            'left': pygame.Rect(500, 100, 50, 50),
+            'right': pygame.Rect(800, 100, 50, 50)
+        }
+
+        self.job_descriptions = params.job_descriptions
+
+    def load_rankings(self):
+        """載入排名列表"""
+        try:
+            with open('source/rankings.json') as f:
+                rank_list = json.load(f)
+            return self.calculate_job_unlocks(rank_list)
+        except FileNotFoundError:
+            logging.error("排名檔案未找到，將返回空解鎖資料")
+            return {}
     
-    while job_chosing:
-        win.blit(bg.bg_big, bg.rect)
-        choose_btn1 = pygame.Rect(30, 100, 130, 80)
-        pygame.draw.rect(win, BLUE , choose_btn1)
-        knight_text = job_font.render("騎士", True, WHITE)
-        win.blit(knight_text, (55, 115))
-        choose_btn2 = pygame.Rect(180, 100, 130, 80)
-        pygame.draw.rect(win, PURPLE , choose_btn2)
-        knight_text = job_font.render("魔法師", True, WHITE)
-        win.blit(knight_text, (180, 115))
-        choose_btn3 = pygame.Rect(330, 100, 130, 80)
-        pygame.draw.rect(win, GREEN , choose_btn3)
-        knight_text = job_font.render("弓箭手", True, BLACK)
-        win.blit(knight_text, (350, 115))
-        rerurn_btn1 = pygame.Rect(790, 555, 100, 40)
-        pygame.draw.rect(win, RED , rerurn_btn1)
-        choose_btn5 = pygame.Rect(30, 240, 130, 80)
-        pygame.draw.rect(win, Coconut_Brown , choose_btn5)
-        knight_text = job_font.render("盜賊", True, WHITE)
-        win.blit(knight_text, (55, 260))
-        choose_btn6 = pygame.Rect(180, 240, 130, 80)
-        pygame.draw.rect(win, YELLOW , choose_btn6)
-        knight_text = job_font.render("牧師", True, BLACK)
-        win.blit(knight_text, (200, 260))
-        rerurn_text = base_font.render("前往挑戰", True, BLACK)
-        win.blit(rerurn_text, (790, 560))
+    def calculate_job_unlocks(self, rank_list):
+        out_dict = {}
+        for index, job in job_dict.items():
+            max_score = max(
+                (int(player['score']) for player in rank_list if player['job'] == job),
+                default=0
+            )
+            out_dict[index] = max_score
+        return out_dict
+
+    def draw_buttons(self):
+        """繪製所有按鈕"""
+        for key, (rect, text, color, text_color, _) in self.buttons.items():
+            pygame.draw.rect(self.window, color, rect)
+            font = self.fonts['base'] if key == 'return' else self.fonts['job']
+            text_surface = font.render(text, True, text_color)
+            text_rect = text_surface.get_rect(center=rect.center)
+            self.window.blit(text_surface, text_rect)
+    
+    def draw_arrow(self, surface, rect, direction):
+        """簡單繪製箭頭"""
+        color = Coconut_Brown
+        if direction == 'left':
+            pygame.draw.polygon(surface, color, [
+                (rect.right, rect.top),
+                (rect.left, rect.centery),
+                (rect.right, rect.bottom)
+            ])
+        else:
+            pygame.draw.polygon(surface, color, [
+                (rect.left, rect.top),
+                (rect.right, rect.centery),
+                (rect.left, rect.bottom)
+            ])
+
+    def display_job_info(self):
+        """顯示選擇職業後的資訊"""
+        if not self.check_job:
+            return
         
-        if check_job:
-            turn_index = pygame.image.load('source/mainrole_turn.png')
-            win.blit(turn_index,(500,150))
-            enemy_turn_index = pygame.image.load('source/enemy_turn.png')
-            win.blit(enemy_turn_index,(800,150))
-            st_y = 250
-            for name,txt in params.player_value[person.main_job].items():
-                match name:
-                    case 'name':
-                        name = '職業'
-                    case 'max_hp':
-                        name = '血量'
-                    case 'max_de':
-                        continue
-                    case 'damage_b':
-                        name = '傷害+'
-                    case 'defense_b':
-                        name = '護甲+'
-                    case 'heal_b':
-                        name = '治癒+'
-                    case 'magic':
-                        name = '魔力'
-                    case 'money':
-                        name = '錢幣'
-                knight_text = base_font.render(name+' : '+str(txt), True, WHITE)
-                win.blit(knight_text, (500, st_y))
-                st_y+=40
+        job_id = self.person.main_job
+        index = self.person.role_index
 
-            match person.main_job:
-                case 1:
-                    knight_img = pygame.image.load(job_image[1][person.role_index]).convert_alpha()
-                    knight = pygame.transform.scale(knight_img, (200, 250))
-                    win.blit(knight,(550,-20))
-                    
-                    knight_t = "帝國之盾\n從小接受騎士教育\n因此熟練劍盾使用\n但智力相對較低\n遇到挑戰動作單一\n初始專屬卡 - 神聖之盾\n獲得自身防禦buff*2\n的護盾".split('\n')
-                    start_y = 250
-                    for t in knight_t:
-                        knight_text = base_font.render(t, True, WHITE)
-                        win.blit(knight_text, (650, start_y))
-                        start_y+=40
-                case 2:
-                    magic_img = pygame.image.load(job_image[2][person.role_index]).convert_alpha()
-                    magic = pygame.transform.scale(magic_img, (200, 250))
-                    win.blit(magic,(570,-20))
-                    
-                    knight_t = "賢者之父\n為帝國賢者的父親\n不要妄想如兒子般\n但至少智力比騎士高\n初始專屬卡 - 回魔\n兩回合MP+2".split('\n')
-                    start_y = 250
-                    for t in knight_t:
-                        knight_text = base_font.render(t, True, WHITE)
-                        win.blit(knight_text, (650, start_y))
-                        start_y+=40
-                case 3:
-                    bow_img = pygame.image.load(job_image[3][person.role_index]).convert_alpha()
-                    bow = pygame.transform.scale(bow_img, (300, 300))
-                    win.blit(bow,(520,-20))
-                    
-                    knight_t = "普通的神箭手\n平常一直練習射箭\n所有人事物都是目標\n因為得罪太多人\n被趕來挑戰輪迴\n初始專屬卡 - 破甲箭\n無視防禦\n造成真實傷害".split('\n')
-                    start_y = 250
-                    for t in knight_t:
-                        knight_text = base_font.render(t, True, WHITE)
-                        win.blit(knight_text, (650, start_y))
-                        start_y+=40
-                case 5:
-                    thief_img = pygame.image.load(job_image[5][person.role_index]).convert_alpha()
-                    thief = pygame.transform.scale(thief_img, (250, 300))
-                    win.blit(thief,(550,-20))
-                    
-                    knight_t = "沉迷賭博的盜賊\n不小心沉迷賭博之人\n所有動作充滿\n「隨機與竊取」\n初始專屬卡 - 竊取\n造成2傷害並隨機偷取\n0~30 Money".split('\n')
-                    start_y = 250
-                    for t in knight_t:
-                        knight_text = base_font.render(t, True, WHITE)
-                        win.blit(knight_text, (650, start_y))
-                        start_y+=40
-                case 6:
-                    priest_img = pygame.image.load(job_image[6][person.role_index]).convert_alpha()
-                    priest = pygame.transform.scale(priest_img, (250, 250))
-                    win.blit(priest,(560,0))
-                    
-                    knight_t = "健身牧師-甲\n不要問為何血量如此\n一切都是平常的努力\n甚至攻擊都是基於\n血量與超出補血量\n初始專屬卡 - 當頭棒喝\n造成1+生命上限30%傷害".split('\n')
-                    start_y = 250
-                    for t in knight_t:
-                        knight_text = base_font.render(t, True, WHITE)
-                        win.blit(knight_text, (650, start_y))
-                        start_y+=40
+        # 顯示屬性資訊
+        y = 250
+        for name, value in params.player_value[job_id].items():
+            display_name = self.translate_attribute(name)
+            if display_name:
+                text = self.fonts['base'].render(f"{display_name} : {value}", True, WHITE)
+                self.window.blit(text, (500, y))
+                y += 40
 
+        # 顯示職業圖片與說明
+        job_img = pygame.image.load(job_image[job_id][index]).convert_alpha()
+        job_img = pygame.transform.scale(job_img, (250, 250))
+        self.window.blit(job_img, (550, 0))
+
+        description_lines = params.job_descriptions[job_id].split('\n')
+        y = 250
+        for line in description_lines:
+            text = self.fonts['base'].render(line, True, WHITE)
+            self.window.blit(text, (650, y))
+            y += 40
+
+        # 箭頭
+        self.draw_arrow(self.window, self.arrow_buttons['left'], 'left')
+        self.draw_arrow(self.window, self.arrow_buttons['right'], 'right')
+
+        hint_text = self.fonts['base'].render("可使用鍵盤方向鍵察看解鎖造型", True, YELLOW)
+        self.window.blit(hint_text, (100, 550))
+
+        # 顯示鎖定圖示
+        if self.is_locked(job_id, index):
             locker = pygame.image.load('source/locker.png')
             locker = pygame.transform.scale(locker, (200, 200))
-            if len(out_dict) > 0:
-                if ((out_dict[person.main_job] < person.role_index*10)):
-                    win.blit(locker,(550,0))
-            else:
-                if person.role_index != 0:
-                    win.blit(locker,(550,0))
+            self.window.blit(locker, (550, 0))
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                person.main_job = 4
-                logging.info('恭喜你獲得隱藏職業！接下來的挑戰你成為 '+job_dict[person.main_job]+' 不會獲得任何專屬卡。')
-                job_chosing = False
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT and check_job and person.role_index<2:
-                person.role_index+=1
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT and check_job and person.role_index>=1:
-                person.role_index-=1
-            if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]==1:
-                pos = pygame.mouse.get_pos()
-                if choose_btn1.collidepoint(pos):
-                    person.main_job = 1                    
-                    logging.info('你選擇成為 '+job_dict[person.main_job])
-                    check_job = True
-                    person.role_index = 0
-                if choose_btn2.collidepoint(pos):
-                    person.main_job = 2
-                    logging.info('你選擇成為 '+job_dict[person.main_job])
-                    check_job = True
-                    person.role_index = 0
-                if choose_btn3.collidepoint(pos):
-                    person.main_job = 3
-                    logging.info('你選擇成為 '+job_dict[person.main_job])
-                    check_job = True
-                    person.role_index = 0
-                if choose_btn5.collidepoint(pos):
-                    person.main_job = 5
-                    logging.info('你選擇成為 '+job_dict[person.main_job])
-                    check_job = True
-                    person.role_index = 0
-                if choose_btn6.collidepoint(pos):
-                    person.main_job = 6
-                    logging.info('你選擇成為 '+job_dict[person.main_job])
-                    check_job = True
-                    person.role_index = 0
-                if rerurn_btn1.collidepoint(pos):
-                    if len(out_dict)>0:
-                        if (out_dict[person.main_job] >= person.role_index*10):
-                            job_chosing = False
-                    else:
-                        if person.role_index == 0:
-                            job_chosing = False
+    def translate_attribute(self, name):
+        """將屬性名稱翻譯為中文"""
+        mapping = {
+            'name': '職業',
+            'max_hp': '血量',
+            'damage_b': '傷害+',
+            'defense_b': '護甲+',
+            'heal_b': '治癒+',
+            'magic': '魔力',
+            'money': '錢幣'
+        }
+        return mapping.get(name)
+    
+    def is_locked(self, job_id, index):
+        """判斷該職業選擇是否鎖定"""
+        if len(self.rank_list) > 0:
+            return self.rank_list.get(job_id, 0) < index * 10
+        else:
+            return index != 0
+
+    def handle_event(self, event):
+        """處理事件"""
+        if event.type == pygame.QUIT:
+            self.person.main_job = 4
+            logging.info(f'恭喜你獲得隱藏職業！接下來的挑戰你成為 {job_dict[self.person.main_job]} 不會獲得任何專屬卡。')
+            self.job_chosing = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT and self.check_job and self.person.role_index < 2:
+                self.person.role_index += 1
+            elif event.key == pygame.K_LEFT and self.check_job and self.person.role_index >= 1:
+                self.person.role_index -= 1
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            self.handle_mouse(pygame.mouse.get_pos())
+
+    def handle_mouse(self, pos):
+        for key, (rect, _, _, _, job_id) in self.buttons.items():
+            if rect.collidepoint(pos):
+                if key == 'return':
+                    if not self.is_locked(self.person.main_job, self.person.role_index):
+                        self.job_chosing = False
+                else:
+                    self.person.main_job = job_id
+                    self.person.role_index = 0
+                    self.check_job = True
+                    logging.info(f'你選擇成為 {job_dict[job_id]}')
+
+    def render(self):
+        """渲染職業選擇頁面"""
+        self.window.blit(self.bg.bg_big, self.bg.rect)
+        self.draw_buttons()
+        self.display_job_info()
         pygame.display.flip()
 
-def check_job_(rank_list):
-    out_dict = {}
-    for index,job in job_dict.items():
-        if len(rank_list) > 0:
-            max_levels = 0
-            for player in rank_list:
-                if player['job'] == job:
-                    if int(player['score']) > max_levels:
-                        max_levels = int(player['score'])
-            out_dict[index] = max_levels
-    return out_dict
+def chose_job(win, person):
+    """職業選擇函數"""
+    job_page = JobPage(win, person)
+    
+    while job_page.job_chosing:
+        for event in pygame.event.get():
+            job_page.handle_event(event)
+        job_page.render()
