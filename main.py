@@ -30,12 +30,12 @@ class GameManager:
         pygame.init()
         pygame.mixer.init()
 
-        try:
-            pygame.mixer.music.load("source/bg_music.mp3")
-            pygame.mixer.music.set_volume(self.config.MUSIC_VOLUME)
-            pygame.mixer.music.play(loops=-1)
-        except pygame.error as e:
-            print(f"Error loading music: {e}")
+        # try:
+        #     pygame.mixer.music.load("source/bg_music.mp3")
+        #     pygame.mixer.music.set_volume(self.config.MUSIC_VOLUME)
+        #     pygame.mixer.music.play(loops=-1)
+        # except pygame.error as e:
+        #     print(f"Error loading music: {e}")
         
         self.screen = pygame.display.set_mode((self.config.WINDOW_WIDTH, self.config.WINDOW_HEIGHT))
         pygame.display.set_caption(self.config.TITLE)
