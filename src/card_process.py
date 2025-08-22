@@ -89,7 +89,7 @@ def card_effect(target, card, myself, log_text):
             log_text += '補 ' + str(card.do_for_self+target.heal_buff) + ' hp'
         case 'fire':
             target,myself = attack(target,card,myself)
-            duoble_buff(card,target)
+            double_buff(card,target)
         case 'vampire':
             if target.de > 0:
                target.de -= (card.do_to_other+myself.damage_buff)
@@ -264,7 +264,7 @@ def check_person_buff(person, enemy, card_type=None):
                             buff[card_type][1]-=1
     return person
 
-def duoble_buff(card,target):
+def double_buff(card, target):
     if any(card.type in b for b in target.buff):
         for buff_ in target.buff:
             try:
@@ -277,7 +277,7 @@ def duoble_buff(card,target):
         else:
             target.buff.append({card.type:[card.lasting,card.do_to_other]})
 
-def attack(target,card,myself,k=None):
+def attack(target, card, myself, k=None):
     if k != None:
         damage = k
     else:
@@ -292,7 +292,7 @@ def attack(target,card,myself,k=None):
     
     return target,myself
 
-def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main_used_cards,current_cards,log_text_list,name):
+def use_card_effect(main_card, enemy, main_role, GAME_CONTROL, main_remain_deck, main_used_cards, current_cards, log_text_list, name):
     value = ''
     log_text = main_role.name+' 打出 '+main_card.name+' '
     takedown = False
@@ -351,7 +351,7 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
             log_text += value + '效果: ' + (main_card.special.replace('\n',' '))
             if main_card.type == 'poison':
                 target,myself = attack(target,main_card,myself,None)
-            duoble_buff(main_card,main_role)
+            double_buff(main_card,main_role)
             check_person_buff(main_role,enemy,main_card.type)
             if enemy.hp <= 0:
                 enemy.hp = 0

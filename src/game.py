@@ -348,10 +348,7 @@ class Gaming:
             return self.GAME_CONTROL, current_cards, self.log_text_list, None
 
         card_index = pos[0] // 100
-        if len(current_cards) <= 5:
-            card_index = min(card_index, 4)
-        else:
-            card_index = min(card_index, len(current_cards) - 1)
+        card_index = min(card_index, len(current_cards) - 1)
 
         # 使用卡牌
         main_card = current_cards[card_index]
@@ -403,7 +400,7 @@ class Gaming:
                         if show_used:
                             show_remain, show_history = False, False
                     elif self.quit_btn.collidepoint(pos):
-                        self.handle_quit(self.main_role, self.rounds, self.rank_list)
+                        self.handle_quit()
 
                     # 卡牌區點擊
                     self.GAME_CONTROL, current_cards, self.log_text_list, takedown = self.handle_card_click(
