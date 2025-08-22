@@ -138,7 +138,7 @@ def init_card_deck(person):
     card_deck = []
     deck_index = 0
     card_type_number = params.card_type_number
-    for i,card_num in enumerate(card_type_number):
+    for i, card_num in enumerate(card_type_number):
         for _ in range(card_num):
             if i == 0:
                 card_deck.extend([Card(deck_index,params.card_name_list[i],params.card_type_list[i],1,params.card_init_damage,0,0,None)])
@@ -161,7 +161,7 @@ def init_card_deck(person):
         card_deck.extend([pro_card])
     return card_deck
 
-def check_person_buff(person,enemy,card_type=None):
+def check_person_buff(person, enemy, card_type=None):
     if len(person.buff) > 0:
         for i,buff in enumerate(person.buff):
             still_have_buff_ = list(buff.values())[0][0]
@@ -362,19 +362,4 @@ def use_card_effect(main_card,enemy,main_role,GAME_CONTROL,main_remain_deck,main
             +enemy.name+' 狀態: Hp '+str(enemy.hp)+' De '+str(enemy.de)+' mp '+str(enemy.magic)+' Buff '+str(enemy.buff))
     log_text_list.append(log_text)
     log_text_list = log_text_list[-params.log_text_len:]
-    return GAME_CONTROL,current_cards,log_text_list,takedown
-
-def reset_buff(target):
-    for i,buff in enumerate(target.buff):
-        key = list(buff.keys())[0]
-        match key:
-            case 'turtle':
-                target.defense_buff-=2
-                target.heal_buff-=2
-                target.damage_buff+=2
-            case 'sword':
-                target.damage_buff-=2
-            case 'dragon':
-                target.defense_buff-=4
-                target.heal_buff-=4
-                target.damage_buff-=4
+    return GAME_CONTROL, current_cards, log_text_list, takedown

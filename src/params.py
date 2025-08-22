@@ -43,13 +43,15 @@ class Special_card():
     pro_job_deck = {1:knight_deck,2:magic_deck,3:archer_deck,4:[],5:theif_card,6:priest_deck}
 
 class params():
-    init_max_hp,init_max_de,init_max_magic,money = 20,0,3,0
-    player_value = {1:{'name':'騎士','max_hp':25,'max_de':0,'damage_b':1,'defense_b':2,'heal_b':0,'magic':2,'money':100},
-                    2:{'name':'魔法師','max_hp':15,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':1,'magic':4,'money':50},
-                    3:{'name':'弓箭手','max_hp':20,'max_de':0,'damage_b':1,'defense_b':0,'heal_b':0,'magic':3,'money':0},
-                    4:{'name':'凡人','max_hp':10,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':0,'magic':3,'money':0},
-                    5:{'name':'盜賊','max_hp':20,'max_de':0,'damage_b':1,'defense_b':-1,'heal_b':0,'magic':3,'money':25},
-                    6:{'name':'牧師','max_hp':25,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':2,'magic':3,'money':0}}
+    init_max_hp, init_max_de, init_max_magic, money = 20, 0, 3, 0
+    player_value = {
+        1:{'name':'騎士','max_hp':25,'max_de':0,'damage_b':1,'defense_b':2,'heal_b':0,'magic':2,'money':100},
+        2:{'name':'魔法師','max_hp':15,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':1,'magic':4,'money':50},
+        3:{'name':'弓箭手','max_hp':20,'max_de':0,'damage_b':1,'defense_b':0,'heal_b':0,'magic':3,'money':0},
+        4:{'name':'凡人','max_hp':10,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':0,'magic':3,'money':0},
+        5:{'name':'盜賊','max_hp':20,'max_de':0,'damage_b':1,'defense_b':-1,'heal_b':0,'magic':3,'money':25},
+        6:{'name':'牧師','max_hp':25,'max_de':0,'damage_b':0,'defense_b':0,'heal_b':2,'magic':3,'money':0}
+    }
     enemy_max_hp,enemy_max_de,enemy_max_magic = 10,0,3
     add_hp = 10
     add_value = 1

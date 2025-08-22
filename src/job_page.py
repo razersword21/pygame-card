@@ -14,7 +14,7 @@ class JobPage:
         self.person = main_role
         self.config = GameConfig()
         self.colors = Colors()
-        self.bg = job_BG(self.config.WINDOW_WIDTH, self.config.WINDOW_HEIGHT)
+        self.bg = Job_BG(self.config.WINDOW_WIDTH, self.config.WINDOW_HEIGHT)
         self.fonts = {
             'job': pygame.font.Font(params.Font, 50),
             'base': pygame.font.Font(params.Font, 30)
@@ -28,8 +28,8 @@ class JobPage:
             'knight': (pygame.Rect(30, 100, 130, 80), '騎士', BLUE, WHITE, 1),
             'mage': (pygame.Rect(180, 100, 130, 80), '魔法師', PURPLE, WHITE, 2),
             'archer': (pygame.Rect(330, 100, 130, 80), '弓箭手', GREEN, BLACK, 3),
-            'thief': (pygame.Rect(30, 240, 130, 80), '盜賊', Coconut_Brown, WHITE, 4),
-            'priest': (pygame.Rect(180, 240, 130, 80), '牧師', YELLOW, BLACK, 5),
+            'thief': (pygame.Rect(30, 240, 130, 80), '盜賊', Coconut_Brown, WHITE, 5),
+            'priest': (pygame.Rect(180, 240, 130, 80), '牧師', YELLOW, BLACK, 6),
             'return': (pygame.Rect(790, 555, 100, 40), '前往挑戰', RED, BLACK, 'return')
         }
 
