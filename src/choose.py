@@ -5,7 +5,7 @@ from src.card_process import *
 from src.params import *
 from src.shop import *
 
-def choose_(win,font_list,rounds,person,out_option):
+def choose_(win, font_list, rounds, person, out_option):
     bg = chose_BG(900, 600)
     choose_buff = ''
     choosing = True
@@ -18,7 +18,7 @@ def choose_(win,font_list,rounds,person,out_option):
         add_value = params.add_value*2
     chose_option = [None]*3
     out_card = []
-    for i,op in enumerate(out_option):
+    for i, op in enumerate(out_option):
         if op == add_hp:
             chose_option[i]='hp'
         elif op == add_value:

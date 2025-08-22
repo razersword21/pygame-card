@@ -128,7 +128,7 @@ class Gaming:
         self.init_enemy_card_deck = enemy_init_card_deck()
         self.enemy_remain_deck = self.init_enemy_card_deck.copy()
         self.enemy_normal_deck = Special_card.normal_deck.copy()
-        self.enemy_current_cards = random.sample(self.enemy_remain_deck,5)
+        self.enemy_current_cards = random.sample(self.enemy_remain_deck, 5)
         self.enemy_used_cards = []
         self.new_add_enemy_card = []
 
@@ -194,7 +194,7 @@ class Gaming:
 
             if self.GAME_CONTROL:
                 if player_turn:
-                    self.log_text_list, turnFlag, self.GAME_CONTROL, player_turn = self.handle_player_turn(
+                    self.log_text_list, turnFlag, self.enemy_current_cards, player_turn = self.handle_player_turn(
                         current_cards, turnFlag, show_history, show_used, show_remain, player_turn
                     )
                 else:
@@ -353,6 +353,7 @@ class Gaming:
         else:
             card_index = min(card_index, len(current_cards) - 1)
 
+        # 使用卡牌
         main_card = current_cards[card_index]
         if (self.main_role.magic - main_card.cost) >= 0:
             current_cards.pop(card_index)
@@ -466,7 +467,7 @@ class Gaming:
             return_cards = random.sample(self.main_used_cards, self.main_role.every_drop - len(self.main_remain_deck))
             self.main_remain_deck.extend(return_cards)
             current_cards = random.sample(self.main_remain_deck, self.main_role.every_drop)
-            self.main_remain_deck.extend(main_used_cards)
+            self.main_remain_deck.extend(self.main_used_cards)
             self.main_used_cards.clear()
         else:
             current_cards = random.sample(self.main_remain_deck, self.main_role.every_drop)
@@ -501,7 +502,7 @@ class Gaming:
 
                 self.GAME_CONTROL, self.enemy_current_cards, self.log_text_list, _ = use_card_effect(
                     card, self.main_role, self.enemy, self.GAME_CONTROL,
-                    self.main_remain_deck, self.main_used_cards, current_cards,
+                    self.enemy_remain_deck, self.enemy_used_cards, self.enemy_current_cards,
                     self.log_text_list, 'enemy'
                 )
 
@@ -591,7 +592,7 @@ def temp_game_(win, font_list, GAME_CONTROL, main_role, enemy):
     gaming = Gaming(win, font_list, GAME_CONTROL, main_role, enemy)
     gaming.run()
 
-def game_(win, font_list, GAME_CONTROL, main_role, enemy):
+"""def game_(win, font_list, GAME_CONTROL, main_role, enemy):
     bg = BG(900, 600)
     rounds = 0
     clock = pygame.time.Clock()
@@ -937,7 +938,7 @@ def game_(win, font_list, GAME_CONTROL, main_role, enemy):
             write_game_records(rank_list,main_role,rounds)
             logging.warning(main_role.name+' 用 '+ job_dict[main_role.main_job] + ' 打到 關卡: '+str(rounds))
         pygame.display.flip()
-        clock.tick(40)
+        clock.tick(40)"""
 
 def write_game_records(rank_list, main_role, rounds):
     if not any(player['name'] == main_role.name for player in rank_list) or not any(player['job'] == main_role.main_job for player in rank_list):

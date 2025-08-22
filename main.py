@@ -141,7 +141,7 @@ class GameManager:
         all_fonts = [self.fonts['base'], self.fonts['title']]
 
         try:
-            game_(self.screen, all_fonts, True, main_role, self.game_objects['enemy'])
+            temp_game_(self.screen, all_fonts, True, main_role, self.game_objects['enemy'])
         except Exception as e:
             print(f"Error game: {e}")
             print("Detailed traceback:")

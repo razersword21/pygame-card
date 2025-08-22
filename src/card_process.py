@@ -5,7 +5,7 @@ logging.basicConfig(level=logging.INFO)
 from src.objects import *
 from src.params import *
 
-def card_effect(target,card,myself,log_text):
+def card_effect(target, card, myself, log_text):
     match card.type:
         case 'attack'|'little_knife':
             target,myself = attack(target,card,myself,None)
@@ -272,8 +272,8 @@ def duoble_buff(card,target):
             except:
                 pass
     else:
-        if card.type != 'fire'|'poison':
-            target.buff.append({card.type:[card.lasting,1]})
+        if card.type != 'fire' or card.type != 'poison':
+            target.buff.append({card.type:[card.lasting, 1]})
         else:
             target.buff.append({card.type:[card.lasting,card.do_to_other]})
 
