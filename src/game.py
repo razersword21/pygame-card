@@ -148,7 +148,7 @@ class Gaming:
         """遊戲主循環"""
 
         # 初始化遊戲狀態
-        player_turn, show_history, show_remain, show_used, takedown = True, False, False, False, False
+        player_turn, show_history, show_remain, show_used, takedown, show_next = True, False, False, False, False, True
         chose_buff = ''
         turnFlag, current_card_index, new_card = 0, 0, None
         remain_start_y, used_start_y = 5, 5
@@ -198,10 +198,10 @@ class Gaming:
                         current_cards, turnFlag, show_history, show_used, show_remain, player_turn
                     )
                 else:
-                    self.log_text_list, turnFlag, self.GAME_CONTROL, player_turn = self.handle_enemy_turn(
+                    self.log_text_list, turnFlag, self.GAME_CONTROL, player_turn, current_cards = self.handle_enemy_turn(
                         player_turn, takedown, turnFlag, show_history, show_used, show_remain
                     )
-            elif self.GAME_CONTROL and self.enemy.hp == 0:
+            elif not self.GAME_CONTROL and self.enemy.hp == 0:
                 current_cards = self.handel_round(show_next)
             else:
                 over_bg = pygame.Rect(200, 225, 500, 150) 
@@ -493,7 +493,6 @@ class Gaming:
                 time.sleep(0.5)
                 self.enemy.magic -= card.cost
                 if card.index != -1:
-                    print(card.index, [x.index for x in self.enemy_current_cards], [x.index for x in self.enemy_remain_deck])
                     enemy_cardindex = [x.index for x in self.enemy_remain_deck].index(card.index)
                     self.enemy_remain_deck.pop(enemy_cardindex)
                     enemy_current_cardindex = [x.index for x in self.enemy_current_cards].index(card.index)
@@ -521,7 +520,7 @@ class Gaming:
             self.main_role.magic = self.main_role.max_magic
             check_person_buff(self.main_role, self.enemy)
         
-        return self.log_text_list, turnFlag, self.GAME_CONTROL, player_turn
+        return self.log_text_list, turnFlag, self.GAME_CONTROL, player_turn, current_cards
 
     def handel_round(self, show_next):
         """處理勝利結算與新回合初始化"""
@@ -534,14 +533,13 @@ class Gaming:
         if self.rounds % 5 == 0:
             new_card_deck = random.sample(
             Special_card.normal_deck + Special_card.high_level_deck +
-            Special_card.pro_job_deck[main_role.main_job], k=3)
+            Special_card.pro_job_deck[self.main_role.main_job], k=3)
 
-            self.new_add_enemy_card.append(random.choice(enemy_normal_deck))
-            self.enemy, self.log_text_list = set_enemy(self.enemy, self.log_text_list)
+            self.new_add_enemy_card.append(random.choice(self.enemy_normal_deck))
 
         else:
             new_card_deck = random.sample(
-            Special_card.normal_deck + Special_card.pro_job_deck[main_role.main_job], k=3)
+            Special_card.normal_deck + Special_card.pro_job_deck[self.main_role.main_job], k=3)
 
         chose_buff, add_value, new_card, self.main_role = win_surface(
             self.win, self.font_list, self.rounds, self.main_role, new_card_deck)
@@ -570,6 +568,8 @@ class Gaming:
         self.enemy_used_cards.clear()
         self.enemy_current_cards = random.sample(self.enemy_remain_deck, 5)
 
+        if self.rounds % 5 != 0 or self.rounds == 0:
+            self.enemy, self.log_text_list = set_enemy(self.enemy, self.log_text_list)
         self.main_role, self.log_text_list = set_player(self.main_role, chose_buff, add_value, self.log_text_list, new_card)
 
         if show_next:
@@ -589,7 +589,6 @@ class Gaming:
 
 def temp_game_(win, font_list, GAME_CONTROL, main_role, enemy):
     gaming = Gaming(win, font_list, GAME_CONTROL, main_role, enemy)
-
     gaming.run()
 
 def game_(win, font_list, GAME_CONTROL, main_role, enemy):
